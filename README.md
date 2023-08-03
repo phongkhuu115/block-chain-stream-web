@@ -14,8 +14,13 @@ Actually, if we're not using our real name on social platform, everything is ano
 But with **BlockChain**, we made this even better. User can donate complete **anonymous** using **Metamask**
 without worrying conceal their real information using fake names,...
 
-# <div>**That's not everything**</div>
-## <div>**But we would like to invite you to test this on your own. Have fun :smile:**</div>
+
+<hr>
+
+**<div align="center">That's not everything</div>**
+**<div align="center">But we would like to invite you to test this on your own. Have fun :smile:</div>**
+
+<hr>
 
 ## Contributor
 
