@@ -12,10 +12,12 @@
   "dependencies": {
     "@radix-ui/react-dialog": "^1.0.5",
     "@radix-ui/react-slot": "^1.0.2",
+    "@rainbow-me/rainbowkit": "^1.0.11",
     "@reduxjs/toolkit": "^1.9.6",
     "@types/node": "20.6.0",
     "@types/react": "18.2.21",
     "@types/react-dom": "18.2.7",
+    "@wagmi/core": "^1.4.2",
     "autoprefixer": "10.4.15",
     "axios": "^1.5.1",
     "class-variance-authority": "^0.7.0",
@@ -33,7 +35,9 @@
     "tailwindcss": "3.3.3",
     "tailwindcss-animate": "^1.0.7",
     "typescript": "5.2.2",
-    "video.js": "^8.5.2"
+    "video.js": "^8.5.2",
+    "viem": "^1.12.2",
+    "wagmi": "^1.4.2"
   },
   "devDependencies": {
     "@types/video.js": "^7.3.53"
