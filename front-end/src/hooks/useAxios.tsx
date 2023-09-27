@@ -3,7 +3,7 @@ import axios, { AxiosError, AxiosRequestConfig, AxiosResponse } from 'axios';
 
 axios.defaults.baseURL = '';
 
-const useAxios = (axiosParams: AxiosRequestConfig) => {
+export const useAxios = (axiosParams: AxiosRequestConfig) => {
   const [response, setResponse] = useState<AxiosResponse>();
   const [error, setError] = useState<AxiosError>();
   const [loading, setLoading] = useState(true);

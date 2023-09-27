@@ -1,9 +1,10 @@
+"use client"
+import { useAxios } from '../hooks/useAxios';
+import { getAxiosParam } from '../helpers/api';
 const MainPage = () => {
-  return (
-    <main>
-      Hello World
-    </main>
-  )
-}
+  console.log(useAxios(getAxiosParam("https://provinces.open-api.vn/api/?depth=2")));
 
-export default MainPage
+  return <main>Hello World</main>;
+};
+
+export default MainPage;

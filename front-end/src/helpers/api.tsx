@@ -4,8 +4,8 @@ import { AxiosRequestConfig } from 'axios';
 //todo: add header base on api requirement
 const getAxiosParam = (
   url: string,
-  token: string,
-  data: any
+  token: string = '',
+  data: any = ''
 ): AxiosRequestConfig => {
   return {
     url: url,
