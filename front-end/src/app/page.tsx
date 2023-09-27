@@ -1,10 +1,35 @@
-"use client"
+'use client';
 import { useAxios } from '../hooks/useAxios';
 import { getAxiosParam } from '../helpers/api';
-const MainPage = () => {
-  console.log(useAxios(getAxiosParam("https://provinces.open-api.vn/api/?depth=2")));
+import React, { useEffect, useRef } from 'react';
+import videojs from "video.js";
+import "video.js/dist/video-js.css";
 
-  return <main>Hello World</main>;
+const MainPage = () => {
+  const videoRef = useRef(null);
+
+  useEffect(() => {
+    if (videoRef.current) {
+      videojs(videoRef.current, {
+        sources: [
+          {
+            src: "https://stream.mux.com/GJjLF93MGEmq4VfidIdZ4oMMAJRhEjSQ.m3u8",
+            type: "application/x-mpegURL"
+          }
+        ]
+      });
+    }
+  });
+
+  console.log(
+    useAxios(getAxiosParam('https://provinces.open-api.vn/api/?depth=2'))
+  );
+
+  return (
+    <main>
+      <video controls ref={videoRef} className="video-js" />
+    </main>
+  );
 };
 
 export default MainPage;
