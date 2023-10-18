@@ -1,13 +1,12 @@
-'use client';
-import { useAxios } from '../hooks/useAxios';
-import { getAxiosParam } from '../helpers/api';
-import React, { useEffect, useRef } from 'react';
-import videojs from 'video.js';
-import 'video.js/dist/video-js.css';
-import { ConnectButton } from '@rainbow-me/rainbowkit';
-import '@rainbow-me/rainbowkit/styles.css';
+"use client";
+import "@rainbow-me/rainbowkit/styles.css";
+import { useEffect, useRef } from "react";
+import videojs from "video.js";
+import "video.js/dist/video-js.css";
+import { getAxiosParam } from "../helpers/api";
+import { useAxios } from "../hooks/useAxios";
 
-const MainPage = () => {
+const Home = () => {
   const videoRef = useRef(null);
 
   useEffect(() => {
@@ -15,8 +14,8 @@ const MainPage = () => {
       videojs(videoRef.current, {
         sources: [
           {
-            src: 'https://stream.mux.com/GJjLF93MGEmq4VfidIdZ4oMMAJRhEjSQ.m3u8',
-            type: 'application/x-mpegURL',
+            src: "https://stream.mux.com/GJjLF93MGEmq4VfidIdZ4oMMAJRhEjSQ.m3u8",
+            type: "application/x-mpegURL",
           },
         ],
       });
@@ -24,15 +23,17 @@ const MainPage = () => {
   });
 
   console.log(
-    useAxios(getAxiosParam('https://provinces.open-api.vn/api/?depth=2'))
+    useAxios(getAxiosParam("https://provinces.open-api.vn/api/?depth=2"))
   );
 
+  //   <main>
+  //   <video controls ref={videoRef} className='video-js' />
+  //   <ConnectButton />
+  // </main>
+
   return (
-    <main>
-      <video controls ref={videoRef} className='video-js' />
-      <ConnectButton />
-    </main>
+    <main className="flex items-start gap-2.5 flex-[1_0_0] self-stretch"></main>
   );
 };
 
-export default MainPage;
+export default Home;

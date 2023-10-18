@@ -22,9 +22,9 @@ export default function RootLayout({
     <html lang="en">
       <body className={inter.className}>
         <WagmiComponent>
-          <Header></Header>
+          <Header />
           {children}
-          <Footer></Footer>
+          <Footer />
         </WagmiComponent>
       </body>
     </html>
