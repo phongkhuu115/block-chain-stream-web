@@ -21,11 +21,11 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
-        <WagmiComponent>
-          <Header />
-          {children}
-          <Footer />
-        </WagmiComponent>
+        {/* <WagmiComponent> */}
+        <Header />
+        {children}
+        <Footer />
+        {/* </WagmiComponent> */}
       </body>
     </html>
   );

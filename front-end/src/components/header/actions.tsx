@@ -1,6 +1,5 @@
 import { actionsLinks } from "@lib/constant/action-links";
-import { Link } from "lucide-react";
-import React from "react";
+import Link from "next/link";import React from "react";
 
 type Props = {};
 

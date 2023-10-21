@@ -1,10 +1,9 @@
 import { navLinks } from "@lib/constant/nav-links";
-import { Link } from "lucide-react";
-import React from "react";
+import Link from "next/link";import React from "react";
 
 type Props = {};
 
-const Navigator = (props: Props) => {
+const NavigatorLinks = (props: Props) => {
   return (
     <div className="flex justify-center items-center ">
       {navLinks.map((link, index) => (
@@ -22,4 +21,4 @@ const Navigator = (props: Props) => {
   );
 };
 
-export default Navigator;
+export default NavigatorLinks;

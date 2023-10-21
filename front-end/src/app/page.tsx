@@ -1,38 +1,22 @@
 "use client";
-import "@rainbow-me/rainbowkit/styles.css";
-import { useEffect, useRef } from "react";
-import videojs from "video.js";
-import "video.js/dist/video-js.css";
-import { getAxiosParam } from "../helpers/api";
-import { useAxios } from "../hooks/useAxios";
+import LeftSideBarTemplate from "@modules/left-sidebar/left-sidebar-template";
+import GroupMainTemplate from "@modules/stream-view/group-main/group-main-template";
 
 const Home = () => {
-  const videoRef = useRef(null);
-
-  useEffect(() => {
-    if (videoRef.current) {
-      videojs(videoRef.current, {
-        sources: [
-          {
-            src: "https://stream.mux.com/GJjLF93MGEmq4VfidIdZ4oMMAJRhEjSQ.m3u8",
-            type: "application/x-mpegURL",
-          },
-        ],
-      });
-    }
-  });
-
-  console.log(
-    useAxios(getAxiosParam("https://provinces.open-api.vn/api/?depth=2"))
-  );
-
-  //   <main>
-  //   <video controls ref={videoRef} className='video-js' />
-  //   <ConnectButton />
-  // </main>
-
   return (
-    <main className="flex items-start gap-2.5 flex-[1_0_0] self-stretch"></main>
+    <main className="flex items-center justify-center flex-row w-full h-full p-5">
+      <div className="flex items-center justify-center  w-full h-full p-2.5">
+        <LeftSideBarTemplate />
+      </div>
+      <div className="flex w-full h-full justify-between items-center">
+        <div className="flex w-full h-full justify-center items-center text-center">
+          <GroupMainTemplate />
+        </div>
+        <div className="flex w-full h-full justify-center items-center text-center">
+          Poppolar
+        </div>
+      </div>
+    </main>
   );
 };
 
