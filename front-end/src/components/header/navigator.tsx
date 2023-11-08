@@ -1,22 +1,64 @@
+"use client";
+
+import { Button } from "@components/ui/button";
 import { navLinks } from "@lib/constant/nav-links";
-import Link from "next/link";import React from "react";
+import PageIcon from "common/icons/page-icon";
+import Underline from "common/icons/underline";
+import Link from "next/link";
+import React, { useState } from "react";
 
 type Props = {};
 
+const DropDownMenu = () => {
+  return (
+    <div className="group relative">
+      <div className="flex justify-center items-center h-fit w-fit hover:bg-[#9b5d5d]  p-5  ">
+        <PageIcon className="h-10 w-10 large::h-5 large::w-5" />
+      </div>
+
+      <ul className="absolute opacity-0 invisible bg-[#9b5d5d] child-transform transition-all transform delay-150 ease-in-out group-hover:opacity-100 group-hover:visible mt-2 rounded-[20px] shadow-xl z-50 p-2">
+        {navLinks.map((link, index) => (
+          <Button
+            key={index}
+            variant={"link"}
+            className="flex flex-col items-center justify-center gap-[5px] min-w-[150px] hover:bg-secondary group  p-4 rounded-[20px]"
+          >
+            <div className="relative font-bold flex items-center justify-center w-full">
+              {link.name}
+            </div>
+          </Button>
+        ))}
+      </ul>
+    </div>
+  );
+};
+
+const VerticalMenu = () => {
+  return (
+    <div className="flex flex-row w-fit h-full items-center justify-start text-navigate md:text-sm">
+      {navLinks.map((link, index) => (
+        <Button
+          variant={"link"}
+          key={index}
+          className="relative text-inherit flex flex-col items-center justify-center min-w-[5vw] hover:text-[#9b5d5d] group h-full "
+        >
+          <Link
+            href={link.href}
+            className="w-full font-bold flex items-center justify-center "
+          >
+            {link.name}
+          </Link>
+        </Button>
+      ))}
+    </div>
+  );
+};
+
 const NavigatorLinks = (props: Props) => {
   return (
-    <div className="flex justify-center items-center ">
-      {navLinks.map((link, index) => (
-        <Link
-          href={link.href}
-          key={index}
-          className="flex w-[150px]  h-full flex-col justify-center items-center gap-2.5 hover:bg-[#9b5d5d]"
-        >
-          <div className="flex w-[150px] h-full flex-col justify-center text-white text-center text-2xl font-extrabold leading-[normal]">
-            {link.name}
-          </div>
-        </Link>
-      ))}
+    <div className="flex flex-row items-center justify-center gap-[20px]">
+      {/* <DropDownMenu /> */}
+      <VerticalMenu />
     </div>
   );
 };

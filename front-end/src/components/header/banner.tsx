@@ -5,14 +5,12 @@ type Props = {};
 
 const Banner = (props: Props) => {
   return (
-    <div>
-      <Link
-        href={"/"}
-        className="flex  w-[150px] flex-col justify-center  text-white text-center text-4xl font-extrabold leading-[normal]"
-      >
-        ZiZi TV
-      </Link>
-    </div>
+    <Link
+      href={"/"}
+      className="flex flex-row w-fit h-full items-center justify-start text-base md:text-banner px-4"
+    >
+      <div className="relative font-black whitespace-nowrap">ZiZi TV</div>
+    </Link>
   );
 };
 

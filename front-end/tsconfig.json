@@ -20,7 +20,7 @@
     "incremental": true,
     "types": [
       "node",
-      "jest"
+      // "jest"
     ],
     "baseUrl": "./src",
     "paths": {

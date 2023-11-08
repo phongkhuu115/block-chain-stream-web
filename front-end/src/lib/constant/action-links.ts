@@ -1,3 +1,5 @@
+import { TvIcon, BellDotIcon, WalletIcon, UserIcon } from "lucide-react";
+
 export const actionsLinks = [
   {
     name: "Live TV",

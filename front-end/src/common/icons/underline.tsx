@@ -1,21 +1,25 @@
 import React from "react";
 
-type Props = {};
+type Props = {
+  className?: string;
+};
 
 const Underline = (props: Props) => {
+  const { className } = props;
   return (
     <svg
-      width="74"
-      height="6"
-      viewBox="0 0 74 6"
+      width="50"
+      height="3"
+      viewBox="0 0 74 5"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
+      className={className}
     >
       <path
-        d="M3 3L71.25 3"
+        d="M2.875 2.5L71.125 2.5"
         stroke="white"
-        stroke-width="5"
-        stroke-linecap="round"
+        strokeWidth="5"
+        strokeLinecap="round"
       />
     </svg>
   );
