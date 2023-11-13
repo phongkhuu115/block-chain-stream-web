@@ -10,7 +10,9 @@ const Header = () => {
       className="bg-secondary flex flex-row items-center justify-between h-[50px] "
     >
       <div className="flex flex-row h-full">
-        <Banner />
+        <div className="flex h-full justify-center items-center">
+          <Banner />
+        </div>
         <NavigatorLinks />
       </div>
 

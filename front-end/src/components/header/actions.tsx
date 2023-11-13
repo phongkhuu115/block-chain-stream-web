@@ -1,6 +1,11 @@
+"use client";
+
 import { Button } from "@components/ui/button";
+import WagmiComponent from "@components/wagmiComponent/wagmi";
 import { actionsLinks } from "@lib/constant/action-links";
-import { PanelTopOpen } from "lucide-react";
+import { ConnectButton } from "@rainbow-me/rainbowkit";
+import { ConnectButtonRenderer } from "@rainbow-me/rainbowkit/dist/components/ConnectButton/ConnectButtonRenderer";
+import { LucideIcon, PanelTopOpen } from "lucide-react";
 import Link from "next/link";
 import React from "react";
 
@@ -34,6 +39,60 @@ const DropDownAction = (props: Props) => {
   );
 };
 
+type CustomRainbowConnectButtonProps = {
+  icon: LucideIcon;
+};
+
+const CustomRainbowConnectButton = (props: CustomRainbowConnectButtonProps) => {
+  return (
+    <WagmiComponent>
+      <ConnectButton.Custom>
+        {({
+          account,
+          chain,
+          openAccountModal,
+          openChainModal,
+          openConnectModal,
+          authenticationStatus,
+          mounted,
+        }) => {
+          type AuthenticationStatus =
+            | "connected"
+            | "connecting"
+            | "disconnected";
+
+          const isWalletConnected =
+            (authenticationStatus as AuthenticationStatus) === "connected";
+          const isWalletConnecting =
+            (authenticationStatus as AuthenticationStatus) === "connecting";
+          const isWalletDisconnected =
+            (authenticationStatus as AuthenticationStatus) === "disconnected" ||
+            !authenticationStatus;
+
+          const handleConnectWallet = () => {
+            if (isWalletDisconnected) {
+              openConnectModal();
+            } else if (isWalletConnecting) {
+              return;
+            } else if (isWalletConnected) {
+              openAccountModal();
+            }
+          };
+
+          return (
+            <div
+              className="flex justify-center items-center h-full  "
+              onClick={handleConnectWallet}
+            >
+              <props.icon className="text-white w-4 h-4 " strokeWidth={3} />
+            </div>
+          );
+        }}
+      </ConnectButton.Custom>
+    </WagmiComponent>
+  );
+};
+
 const VerticalAction = () => {
   return (
     <div className="self-stretch flex flex-row items-center justify-end ">
@@ -43,11 +102,17 @@ const VerticalAction = () => {
           variant="link"
           className="flex justify-center items-center h-fit w-fit hover:bg-[#9b5d5d] rounded-[20px] p-3"
         >
-          <Link href={action.href}>
-            <div className="flex justify-center items-center h-full  ">
-              <action.icon className="text-white w-4 h-4 " strokeWidth={3} />
-            </div>
-          </Link>
+          {action.name === "Wallet" ? (
+            <CustomRainbowConnectButton
+              icon={action.icon as LucideIcon}
+            ></CustomRainbowConnectButton>
+          ) : (
+            <Link href={action.href}>
+              <div className="flex justify-center items-center h-full  ">
+                <action.icon className="text-white w-4 h-4 " strokeWidth={3} />
+              </div>
+            </Link>
+          )}
         </Button>
       ))}
     </div>
