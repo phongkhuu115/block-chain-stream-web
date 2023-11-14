@@ -1,11 +1,15 @@
+"use client";
+
+import { Card } from "@components/ui/card";
+import WagmiComponent from "@components/wagmiComponent/wagmi";
+import { ConnectButton } from "@rainbow-me/rainbowkit";
 import { useEffect, useRef } from "react";
 import videojs from "video.js";
-import "video.js/dist/video-js.css";
+import "./css/video-js.scss";
 type Props = {};
 
 const UnitStreamView = (props: Props) => {
   const videoRef = useRef<HTMLVideoElement>(null);
-
   useEffect(() => {
     // Check if the videoRef exists before initializing video.js
     if (videoRef.current) {
@@ -18,26 +22,16 @@ const UnitStreamView = (props: Props) => {
           },
         ],
       });
-
-      // Clean up the video player when the component unmounts
-      // return () => {
-      //   if (player) {
-      //     player.dispose();
-      //   }
-      // };
     }
   }, []);
 
   return (
-    <div className="flex w-full h-full justify-center items-center relative">
-      {/* The video element with controls */}
+    <div className="flex flex-col w-full h-[400px] justify-center items-center relative">
       <video
         ref={videoRef}
-        className="video-js vjs-default-skin flex w-full h-full"
+        className="video-js vjs-default-skin w-full h-full flex flex-col justify-center items-center rounded-xl"
         controls
       />
-      {/* You can add any additional components or content here */}
-      {/* <ConnectButton /> */}
     </div>
   );
 };
