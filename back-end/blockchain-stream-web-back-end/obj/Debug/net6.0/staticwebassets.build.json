@@ -1,0 +1,11 @@
+{
+  "Version": 1,
+  "Hash": "jqLBJS01rWGdVk0mkCOx6woxB03f7F6NxS9DW+j1U7E=",
+  "Source": "blockchain-stream-web-back-end",
+  "BasePath": "_content/blockchain-stream-web-back-end",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [],
+  "Assets": []
+}
