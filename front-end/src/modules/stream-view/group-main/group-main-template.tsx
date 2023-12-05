@@ -12,8 +12,8 @@ type Props = {};
 
 const GroupMainTemplate = (props: Props) => {
   return (
-    <Card className="flex flex-col rounded-xl shadow-xl bg-secondary pt-3">
-      <CardContent className="flex w-full h-full items-center justify-center">
+    <Card className="flex flex-col rounded-xl shadow-xl bg-secondary pt-3 border-none">
+      <CardContent className="flex w-full h-full items-center justify-center p-2">
         <UnitStreamView />
       </CardContent>
       <CardFooter className="mt-[3em] flex flex-col justify-start items-start">

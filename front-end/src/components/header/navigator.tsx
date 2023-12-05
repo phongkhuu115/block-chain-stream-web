@@ -3,9 +3,7 @@
 import { Button } from "@components/ui/button";
 import { navLinks } from "@lib/constant/nav-links";
 import PageIcon from "common/icons/page-icon";
-import Underline from "common/icons/underline";
 import Link from "next/link";
-import React, { useState } from "react";
 
 type Props = {};
 

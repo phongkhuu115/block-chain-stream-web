@@ -37,10 +37,14 @@
     "tailwindcss-animate": "^1.0.7",
     "typescript": "5.2.2",
     "video.js": "^8.5.2",
+    "videojs-contrib-quality-levels": "^4.0.0",
     "viem": "^1.12.2",
     "wagmi": "^1.4.2"
   },
   "devDependencies": {
-    "@types/video.js": "^7.3.53"
+    "@types/video.js": "^7.3.56",
+    "@types/videojs-contrib-quality-levels": "^2.0.4",
+    "@types/videojs-errors": "^4.5.3",
+    "videojs-quality-selector-hls": "^1.1.1"
   }
 }

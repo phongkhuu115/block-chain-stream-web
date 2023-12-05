@@ -80,12 +80,13 @@ const CustomRainbowConnectButton = (props: CustomRainbowConnectButtonProps) => {
           };
 
           return (
-            <div
-              className="flex justify-center items-center h-full  "
+            <Button
+              className="flex justify-center items-center h-fit w-fit hover:bg-[#9b5d5d] rounded-[20px] p-3"
+              variant="link"
               onClick={handleConnectWallet}
             >
               <props.icon className="text-white w-4 h-4 " strokeWidth={3} />
-            </div>
+            </Button>
           );
         }}
       </ConnectButton.Custom>
@@ -97,23 +98,27 @@ const VerticalAction = () => {
   return (
     <div className="self-stretch flex flex-row items-center justify-end ">
       {actionsLinks.map((action, index) => (
-        <Button
-          key={index}
-          variant="link"
-          className="flex justify-center items-center h-fit w-fit hover:bg-[#9b5d5d] rounded-[20px] p-3"
-        >
+        <div key={`action-${index}`}>
           {action.name === "Wallet" ? (
             <CustomRainbowConnectButton
               icon={action.icon as LucideIcon}
             ></CustomRainbowConnectButton>
           ) : (
-            <Link href={action.href}>
-              <div className="flex justify-center items-center h-full  ">
-                <action.icon className="text-white w-4 h-4 " strokeWidth={3} />
-              </div>
-            </Link>
+            <Button
+              variant="link"
+              className="flex justify-center items-center h-fit w-fit hover:bg-[#9b5d5d] rounded-[20px] p-3"
+            >
+              <Link href={action.href}>
+                <div className="flex justify-center items-center h-full  ">
+                  <action.icon
+                    className="text-white w-4 h-4 "
+                    strokeWidth={3}
+                  />
+                </div>
+              </Link>
+            </Button>
           )}
-        </Button>
+        </div>
       ))}
     </div>
   );
