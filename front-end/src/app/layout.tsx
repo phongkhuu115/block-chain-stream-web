@@ -1,8 +1,11 @@
 import Footer from "@components/footer/footer";
 import Header from "@components/header/header";
-import type { Metadata } from "next";
-import "./globals.css";
+import { cn } from "@lib/utils";
 import "@rainbow-me/rainbowkit/styles.css";
+import type { Metadata } from "next";
+import { Inter } from "next/font/google";
+import "./globals.css";
+export const inter = Inter({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
   title: "BCSW",
@@ -17,7 +20,12 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className="relative bg-primary">
+      <body
+        className={cn(
+          "min-h-screen bg-background font-sans antialiased relative bg-primary",
+          inter.className
+        )}
+      >
         <Header />
         {children}
         <Footer />

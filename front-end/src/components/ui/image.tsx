@@ -6,12 +6,12 @@ type Props = {
   alt: string;
 };
 
-const ImageComponent = (props: Props) => {
+const Avatar = (props: Props) => {
   const { src, alt } = props;
   return (
     <div>
       <Image
-        className="rounded-full border border-white "
+        className="rounded-full border border-white"
         loading="lazy"
         width={50}
         height={50}
@@ -22,4 +22,4 @@ const ImageComponent = (props: Props) => {
   );
 };
 
-export default ImageComponent;
+export default Avatar;

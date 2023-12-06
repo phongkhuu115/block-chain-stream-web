@@ -9,7 +9,7 @@ import "./css/video-js.scss";
 import "./css/quality-selector.scss";
 
 type Props = {
-  streamKey: string;
+  streamKey?: string;
 };
 
 const UnitStreamView: FC<Props> = ({
@@ -18,7 +18,7 @@ const UnitStreamView: FC<Props> = ({
 }: Props) => {
   const streamLiveUrl = `${STREAM_SERVER}/live/${streamKey}.m3u8`;
   const streamVODUrl = `https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8`;
-  const videoRef = useRef<HTMLVideoElement>();
+  const videoRef = useRef<HTMLVideoElement>(null);
 
   useEffect(() => {
     const videoJsOptions = {

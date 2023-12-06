@@ -1,4 +1,4 @@
-import GroupMainTemplate from "@modules/stream-view/group-main/group-main-template";
+import GroupMainTemplate from "@modules/stream-view/group-main";
 
 const Home = () => {
   return (

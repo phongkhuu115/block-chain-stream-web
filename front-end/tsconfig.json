@@ -51,9 +51,10 @@
   ],
   "exclude": [
     "node_modules",
+    "node_modules/pino-pretty/**",
     ".next",
     ".nyc_output",
     "coverage",
-    "jest-coverage"
+    "jest-coverage",
   ]
 }

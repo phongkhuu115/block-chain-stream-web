@@ -1,7 +1,7 @@
 import { streamInfoData } from "@lib/constant/stream-json";
+import ViewInfomation from "@modules/stream-view/view-infomation";
 import { List } from "lucide-react";
 import React from "react";
-import StreamInfomation from "./stream-infomation";
 
 type Props = {};
 
@@ -18,7 +18,7 @@ const LeftSideBarTemplate = (props: Props) => {
 
         <div className="flex gap-5 mt-10 w-max flex-col">
           {streamInfoData.map((userInfo, index) => (
-            <StreamInfomation key={index} {...userInfo} />
+            <ViewInfomation key={index} {...userInfo} />
           ))}
         </div>
       </div>

@@ -1,5 +1,12 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+    experimental: {
+        serverActions: true,
+        serverComponentsExternalPackages: [
+            "@medusajs/product",
+            "@medusajs/modules-sdk",
+        ],
+    },
     reactStrictMode: false,
     images: {
         domains: ['localhost', 'via.placeholder.com', 'cdn.builder.io', 'i1.sndcdn.com'],
@@ -7,8 +14,10 @@ const nextConfig = {
     publicRuntimeConfig:
     {
         public_stream_server: process.env.PUBLIC_STREAM_SERVER,
+    },
+    compiler: {
+        styledComponents: true
     }
-
 }
 
 console.log('nextConfig: ', nextConfig);
