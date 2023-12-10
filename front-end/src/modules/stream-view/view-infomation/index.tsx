@@ -1,4 +1,4 @@
-import Avatar from "@components/ui/image";
+import Avatar from "@components/ui/avatar";
 import { StaticImageData } from "next/image";
 import React from "react";
 

@@ -1,20 +1,28 @@
-export interface content {
-    videoId: string;
-    title: string;
-    thumbnails: { height: number; width: number; url: string }[];
-    badges: string[];
-    author: { avatar: { url: string }[]; title: string };
-    movingThumbnails: { height: number; width: number; url: string }[];
-    descriptionSnippet?: string;
-    stats?: { viewers: string };
-    isLiveNow?: boolean;
-}
-
-export type videointerface = {
+interface Content {
     type: string;
-    video: content;
-};
-
-export type videodetail = {
-    formats: { url: string };
-};
+    video: Video;
+}
+interface Video {
+    author: Author;
+    descriptionSnippet: string;
+    stats: Stats;
+    thumbnails: Avatar[];
+    title: string;
+    videoId: string;
+}
+interface Stats {
+    viewers: number;
+}
+interface Author {
+    avatar: Avatar[];
+    badges: Badge[];
+    channelId: string;
+    title: string;
+}
+interface Badge {
+    text: string;
+    type: string;
+}
+interface Avatar {
+    url: string;
+}

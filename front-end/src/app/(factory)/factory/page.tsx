@@ -1,5 +1,5 @@
+import LiveChannels from "@components/video-list";
 import VideoPreview from "@components/video-preview";
-import GroupMainTemplate from "@modules/stream-view/group-main";
 import type { Metadata, NextPage } from "next";
 
 export const metadata: Metadata = {
@@ -14,14 +14,15 @@ const video = {
     title: "Test",
     thumbnails: [
       {
-        url: "https://i.ytimg.com/vi/1/0.jpg",
+        "url": "https://yt3.ggpht.com/GjDLYFGF4IQaUobUK-6q3nOsU4o8fRMl4XgVipPWRqdRVt61s2LqgnbBXu3-qYL4Ab2xsfVo=s68-c-k-c0x00ffffff-no-rj",
+
       },
     ],
     author: {
       title: "Test",
       avatar: [
         {
-          url: "https://i.ytimg.com/vi/1/0.jpg",
+          "url": "https://yt3.ggpht.com/GjDLYFGF4IQaUobUK-6q3nOsU4o8fRMl4XgVipPWRqdRVt61s2LqgnbBXu3-qYL4Ab2xsfVo=s68-c-k-c0x00ffffff-no-rj",
         },
       ],
     },
@@ -29,20 +30,27 @@ const video = {
   }
 };
 
-const FactoryComponent: NextPage = () => {
+async function getContents() {
+  const res = await fetch(`https://youtube138.p.rapidapi.com/search/?q=live&hl=en&gl=VN`, {
+    "method": "GET",
+    "headers": {
+      "x-rapidapi-host": "youtube138.p.rapidapi.com",
+      "x-rapidapi-key": "ab831ce861mshd08491a9042f0d6p14def1jsnf6a56bd43f78",
+      "useQueryString": true
+    }
+  })
+  return res.json()
+}
+
+const FactoryComponent: NextPage = async () => {
+  const data = (await Promise.resolve(getContents()));
+
+  const content = data?.contents as Content[];
+
   return (
     <>
       <main className="container">
-        <VideoPreview
-          id={video.video?.videoId}
-          image={video.video?.thumbnails[0]?.url}
-          title={video.video?.title}
-          viewers={''}
-          channelImage={video.video?.author?.avatar[0].url}
-          channelName={video.video?.author?.title}
-          tag1={''}
-          isLiveNow={video.video?.isLiveNow}
-        />
+        <LiveChannels videos={content.slice(0, 4)} />
       </main>
     </>
   );

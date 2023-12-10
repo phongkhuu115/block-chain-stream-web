@@ -41,6 +41,7 @@ const UnitStreamView: FC<Props> = ({
         qualityLevels: {},
       },
     };
+
     // Check if the videoRef exists before initializing video.js
     if (videoRef.current) {
       const player = videojs(videoRef.current, { ...videoJsOptions });

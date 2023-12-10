@@ -9,7 +9,7 @@ const nextConfig = {
     },
     reactStrictMode: false,
     images: {
-        domains: ['localhost', 'via.placeholder.com', 'cdn.builder.io', 'i1.sndcdn.com'],
+        domains: ['localhost', 'via.placeholder.com', 'cdn.builder.io', 'i1.sndcdn.com', "i.ytimg.com", "yt3.ggpht.com"],
     },
     publicRuntimeConfig:
     {
