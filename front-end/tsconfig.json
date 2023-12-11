@@ -34,7 +34,7 @@
         "pages/*"
       ],
       "@components/*": [
-        "components/*"
+        "modules/common/components/*"
       ]
     },
     "plugins": [

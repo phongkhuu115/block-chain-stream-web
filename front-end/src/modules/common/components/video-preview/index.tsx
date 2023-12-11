@@ -1,10 +1,12 @@
-"use client";
 
-import { CustomImage } from '@components/ui/image';
-import Image from 'next/image';
+"use client";
+import './index.scss';
+import { LoaderIcon } from 'lucide-react';
 import Link from 'next/link';
 import { useEffect, useRef } from 'react';
+import HoverVideoPlayer from 'react-hover-video-player';
 import videojs from 'video.js';
+import { CustomImage } from '@components/ui/image';
 
 interface Props {
     id: string;
@@ -25,6 +27,8 @@ const VideoPreview = ({
 
     useEffect(() => {
         const videoJsOptions = {
+            liveui: true,
+            liveTracker: true,
             autoplay: true,
             controls: true,
             sources: [
@@ -33,51 +37,46 @@ const VideoPreview = ({
                     type: "application/x-mpegURL",
                 },
             ],
-            liveui: true,
             lowLatency: true,
-            enableWorker: true,
             lowLatencyMode: true,
-            backBufferLength: 90,
-            liveTracker: true,
         };
-
         // Check if the videoRef exists before initializing video.js
         if (videoRef.current) {
             videojs(videoRef.current, { ...videoJsOptions });
         }
     }, []);
 
-
     return (
         <div className="relative p-2 cursor-pointer">
             <Link href={`/video/${props.id}`}>
                 <div className='max-w-[300px]'>
-                    {props.image && (
-                        <Image
+                    {/* {props.image && (
+                        <CustomImage
                             src={props.image}
                             alt="/"
                             width={300}
                             height={200}
                             className="object-cover videopreview"
                         />
-                    )}
+                    )} */}
 
-                    {/* <HoverVideoPlayer
-                        videoSrc={""}
-                        videoRef={videoRef}
-                        pausedOverlay={
-                            <Image
-                                src={props.image}
-                                alt=""
-                                width={300}
-                                height={200}
-                                className="object-cover videopreview"
-                            />
-                        }
-                        loadingOverlay={
-                            <Loader className="w-10 h-10 text-white" />
-                        }
-                    /> */}
+                    {videoRef && (
+                        <HoverVideoPlayer
+                            videoRef={videoRef}
+                            videoClassName='videopreview'
+                            videoSrc={props.image}
+                            pausedOverlay={
+                                <>
+                                    ahihi
+                                </>
+                            }
+                            loadingOverlay={
+                                <div className="loading-overlay flex w-full h-full justify-center items-center">
+                                    <LoaderIcon className="animate-spin" />
+                                </div>
+                            }
+                        />
+                    )}
 
                     {props.isLiveNow && (
                         <div className="absolute text-xs px-1 py-0.5 font-semibold bg-red-600 rounded top-4 text-white left-4">
@@ -89,9 +88,6 @@ const VideoPreview = ({
                     <p className="text-sm text-gray-500 py-[2px]">{props.viewers}</p>
                     <div className="flex">
                         <div>
-
-                        </div>
-                        <div>
                             <div className="flex items-center space-x-2">
                                 {props.channelImage && (
                                     <CustomImage
@@ -102,7 +98,6 @@ const VideoPreview = ({
                                         className="object-cover rounded-[50%]"
                                     />
                                 )}
-
                                 <p className="text-xs">{props.channelName}</p>
                             </div>
                             {tags?.length !== 0 && (

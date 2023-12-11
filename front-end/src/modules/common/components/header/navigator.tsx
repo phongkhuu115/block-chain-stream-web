@@ -1,9 +1,9 @@
 "use client";
 
-import { Button } from "@components/ui/button";
 import { navLinks } from "@lib/constant/nav-links";
-import PageIcon from "common/icons/page-icon";
+import PageIcon from "@modules/common/icons/page-icon";
 import Link from "next/link";
+import { Button } from "../ui/button";
 
 type Props = {};
 

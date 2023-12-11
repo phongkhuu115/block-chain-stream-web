@@ -1,6 +1,6 @@
-import Banner from "@components/header/banner";
 import clsx from "clsx";
 import React from "react";
+import Banner from "../header/banner";
 
 
 const TextComponent: React.FC<React.HTMLAttributes<HTMLDivElement>> = ({ children, className }) => {

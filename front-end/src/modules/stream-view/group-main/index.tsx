@@ -1,10 +1,10 @@
-import { Button } from "@components/ui/button";
-import { Card, CardContent, CardFooter } from "@components/ui/card";
 import favicon from "app/favicon.ico";
 import { MoreHorizontal, Share2 } from "lucide-react";
 import ViewInfomation from "../view-infomation";
-import UnitStreamView from "../view-videojs";
+import View from "../view-videojs";
 import ViewersCount from "../viewer-count";
+import { Button } from "@modules/common/components/ui/button";
+import { Card, CardContent, CardFooter } from "@modules/common/components/ui/card";
 
 type Props = {};
 
@@ -26,7 +26,7 @@ const GroupMainTemplate = (props: Props) => {
   return (
     <Card className="flex flex-col rounded-xl shadow-xl bg-secondary border-none">
       <CardContent className="flex w-full h-full items-center justify-center p-2">
-        <UnitStreamView />
+        <View />
       </CardContent>
       <CardFooter className="mt-[2.5em] flex flex-col justify-start items-start">
         <h2 className="stream-watch-metadata font-bold text-[20px] text-left">

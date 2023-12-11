@@ -1,6 +1,6 @@
 "use client";
 
-import InputSearch from "@components/ui/input-search";
+import InputSearch from "../ui/input-search";
 import Actions from "./actions";
 import Banner from "./banner";
 import NavigatorLinks from "./navigator";
