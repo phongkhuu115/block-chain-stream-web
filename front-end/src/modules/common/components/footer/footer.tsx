@@ -52,7 +52,7 @@ const Footer: React.FC = () => {
   ];
 
   return (
-    <div className="flex bg-secondary flex-col md:flex-row-reverse h-full items-center justify-between  w-full">
+    <div className="flex bg-secondary flex-col md:flex-row-reverse items-center justify-between w-full fixed bottom-0">
       <div className="flex flex-row md:gap-10 items-start justify-between w-full px-[20vw] py-[50px] md:px-[10vw]">
         <LinksColumn title="Account" links={accountLinks} />
         <LinksColumn title="Useful Links" links={usefulLinks} />

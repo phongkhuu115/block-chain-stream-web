@@ -9,7 +9,7 @@ export const inter = Inter({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
   title: "BCSW",
-  description: "BCSW",
+  description: "Streaming platform with crypto currencies donation supported",
   themeColor: "#0C102E",
 };
 
