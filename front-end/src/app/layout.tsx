@@ -1,16 +1,15 @@
-import { cn } from "@lib/utils";
-import "@rainbow-me/rainbowkit/styles.css";
-import type { Metadata } from "next";
-import { Inter } from "next/font/google";
-import "./globals.css";
-import Header from "@modules/common/components/header/header";
-import Footer from "@modules/common/components/footer/footer";
-export const inter = Inter({ subsets: ['latin'] })
+import { cn } from '@lib/utils';
+import '@rainbow-me/rainbowkit/styles.css';
+import type { Metadata } from 'next';
+import { Inter } from 'next/font/google';
+import './globals.css';
+import RootWrapper from '@modules/common/components/wrapper/wrapper';
+export const inter = Inter({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
-  title: "BCSW",
-  description: "Streaming platform with crypto currencies donation supported",
-  themeColor: "#0C102E",
+  title: 'BCSW',
+  description: 'Streaming platform with crypto currencies donation supported',
+  themeColor: '#0C102E',
 };
 
 export default function RootLayout({
@@ -19,16 +18,15 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
+    <html lang='en'>
       <body
         className={cn(
-          "min-h-screen bg-background font-sans antialiased relative bg-primary",
+          'min-h-screen bg-background font-sans antialiased relative bg-primary',
           inter.className
-        )}
-      >
-        <Header />
-        {children}
-        <Footer />
+        )}>
+        <RootWrapper>
+          {children}
+        </RootWrapper>
       </body>
     </html>
   );

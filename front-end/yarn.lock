@@ -335,6 +335,14 @@
   dependencies:
     "@babel/runtime" "^7.13.10"
 
+"@radix-ui/react-aspect-ratio@^1.0.3":
+  version "1.0.3"
+  resolved "https://registry.npmjs.org/@radix-ui/react-aspect-ratio/-/react-aspect-ratio-1.0.3.tgz"
+  integrity sha512-fXR5kbMan9oQqMuacfzlGG/SQMcmMlZ4wrvpckv8SgUulD0MMpspxJrxg/Gp/ISV3JfV1AeSWTYK9GvxA4ySwA==
+  dependencies:
+    "@babel/runtime" "^7.13.10"
+    "@radix-ui/react-primitive" "1.0.3"
+
 "@radix-ui/react-compose-refs@1.0.1":
   version "1.0.1"
   resolved "https://registry.npmjs.org/@radix-ui/react-compose-refs/-/react-compose-refs-1.0.1.tgz"
@@ -406,6 +414,14 @@
   dependencies:
     "@babel/runtime" "^7.13.10"
     "@radix-ui/react-use-layout-effect" "1.0.1"
+
+"@radix-ui/react-label@^2.0.2":
+  version "2.0.2"
+  resolved "https://registry.npmjs.org/@radix-ui/react-label/-/react-label-2.0.2.tgz"
+  integrity sha512-N5ehvlM7qoTLx7nWPodsPYPgMzA5WM8zZChQg8nyFJKnDO5WHdba1vv5/H6IO5LtJMfD2Q3wh1qHFGNtK0w3bQ==
+  dependencies:
+    "@babel/runtime" "^7.13.10"
+    "@radix-ui/react-primitive" "1.0.3"
 
 "@radix-ui/react-portal@1.0.4":
   version "1.0.4"
