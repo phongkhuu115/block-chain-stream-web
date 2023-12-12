@@ -1,28 +1,30 @@
 const Sequelize = require('sequelize');
 module.exports = function(sequelize, DataTypes) {
-  return sequelize.define('Channels', {
-    channel_id: {
+  return sequelize.define('Subscribes', {
+    subscribe_id: {
       type: DataTypes.STRING(255),
       allowNull: false,
       primaryKey: true
     },
-    channel_owner: {
+    subscribe_user: {
       type: DataTypes.STRING(255),
       allowNull: false,
       references: {
         model: 'Users',
         key: 'user_id'
-      },
-      unique: "fk_channel_owner"
+      }
     },
-    channel_name: {
+    subscribe_channel: {
       type: DataTypes.STRING(255),
       allowNull: false,
-      unique: "name_unique"
+      references: {
+        model: 'Channels',
+        key: 'channel_id'
+      }
     }
   }, {
     sequelize,
-    tableName: 'Channels',
+    tableName: 'Subscribes',
     timestamps: false,
     indexes: [
       {
@@ -30,23 +32,21 @@ module.exports = function(sequelize, DataTypes) {
         unique: true,
         using: "BTREE",
         fields: [
-          { name: "channel_id" },
+          { name: "subscribe_id" },
         ]
       },
       {
-        name: "owner_unique",
-        unique: true,
+        name: "fk_subscriber",
         using: "BTREE",
         fields: [
-          { name: "channel_owner" },
+          { name: "subscribe_user" },
         ]
       },
       {
-        name: "name_unique",
-        unique: true,
+        name: "fk_sub_channel",
         using: "BTREE",
         fields: [
-          { name: "channel_name" },
+          { name: "subscribe_channel" },
         ]
       },
     ]

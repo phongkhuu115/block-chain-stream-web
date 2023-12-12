@@ -1,28 +1,30 @@
 const Sequelize = require('sequelize');
 module.exports = function(sequelize, DataTypes) {
-  return sequelize.define('Channels', {
-    channel_id: {
+  return sequelize.define('Shares', {
+    share_id: {
       type: DataTypes.STRING(255),
       allowNull: false,
       primaryKey: true
     },
-    channel_owner: {
+    share_user: {
       type: DataTypes.STRING(255),
       allowNull: false,
       references: {
         model: 'Users',
         key: 'user_id'
-      },
-      unique: "fk_channel_owner"
+      }
     },
-    channel_name: {
+    share_video: {
       type: DataTypes.STRING(255),
       allowNull: false,
-      unique: "name_unique"
+      references: {
+        model: 'Videos',
+        key: 'video_id'
+      }
     }
   }, {
     sequelize,
-    tableName: 'Channels',
+    tableName: 'Shares',
     timestamps: false,
     indexes: [
       {
@@ -30,23 +32,21 @@ module.exports = function(sequelize, DataTypes) {
         unique: true,
         using: "BTREE",
         fields: [
-          { name: "channel_id" },
+          { name: "share_id" },
         ]
       },
       {
-        name: "owner_unique",
-        unique: true,
+        name: "fk_share_user",
         using: "BTREE",
         fields: [
-          { name: "channel_owner" },
+          { name: "share_user" },
         ]
       },
       {
-        name: "name_unique",
-        unique: true,
+        name: "fk_share_video",
         using: "BTREE",
         fields: [
-          { name: "channel_name" },
+          { name: "share_video" },
         ]
       },
     ]

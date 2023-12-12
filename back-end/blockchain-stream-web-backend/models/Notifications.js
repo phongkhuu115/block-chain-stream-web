@@ -1,28 +1,30 @@
 const Sequelize = require('sequelize');
 module.exports = function(sequelize, DataTypes) {
-  return sequelize.define('Channels', {
-    channel_id: {
+  return sequelize.define('Notifications', {
+    notification_id: {
       type: DataTypes.STRING(255),
       allowNull: false,
       primaryKey: true
     },
-    channel_owner: {
+    notification_content: {
+      type: DataTypes.STRING(255),
+      allowNull: false
+    },
+    notification_redirect: {
+      type: DataTypes.STRING(255),
+      allowNull: false
+    },
+    notification_user: {
       type: DataTypes.STRING(255),
       allowNull: false,
       references: {
         model: 'Users',
         key: 'user_id'
-      },
-      unique: "fk_channel_owner"
-    },
-    channel_name: {
-      type: DataTypes.STRING(255),
-      allowNull: false,
-      unique: "name_unique"
+      }
     }
   }, {
     sequelize,
-    tableName: 'Channels',
+    tableName: 'Notifications',
     timestamps: false,
     indexes: [
       {
@@ -30,23 +32,14 @@ module.exports = function(sequelize, DataTypes) {
         unique: true,
         using: "BTREE",
         fields: [
-          { name: "channel_id" },
+          { name: "notification_id" },
         ]
       },
       {
-        name: "owner_unique",
-        unique: true,
+        name: "fk_notify_user",
         using: "BTREE",
         fields: [
-          { name: "channel_owner" },
-        ]
-      },
-      {
-        name: "name_unique",
-        unique: true,
-        using: "BTREE",
-        fields: [
-          { name: "channel_name" },
+          { name: "notification_user" },
         ]
       },
     ]

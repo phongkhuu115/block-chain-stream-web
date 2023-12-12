@@ -30,6 +30,10 @@ module.exports = function(sequelize, DataTypes) {
     user_role: {
       type: DataTypes.STRING(10),
       allowNull: false
+    },
+    user_avatar: {
+      type: DataTypes.STRING(255),
+      allowNull: true
     }
   }, {
     sequelize,

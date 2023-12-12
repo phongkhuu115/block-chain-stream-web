@@ -8,8 +8,7 @@ module.exports = function(sequelize, DataTypes) {
     },
     video_name: {
       type: DataTypes.STRING(255),
-      allowNull: false,
-      primaryKey: true
+      allowNull: false
     },
     video_type: {
       type: DataTypes.STRING(15),
@@ -27,23 +26,19 @@ module.exports = function(sequelize, DataTypes) {
         key: 'user_id'
       }
     },
-    video_like: {
-      type: DataTypes.INTEGER,
-      allowNull: true
-    },
-    video_share: {
-      type: DataTypes.INTEGER,
-      allowNull: true
-    },
-    video_comments: {
-      type: DataTypes.STRING(255),
-      allowNull: true
-    },
     video_views: {
       type: DataTypes.INTEGER,
       allowNull: false
     },
     video_status: {
+      type: DataTypes.STRING(255),
+      allowNull: false
+    },
+    video_thumbnail: {
+      type: DataTypes.STRING(255),
+      allowNull: true
+    },
+    video_urls: {
       type: DataTypes.STRING(255),
       allowNull: false
     }
@@ -58,14 +53,6 @@ module.exports = function(sequelize, DataTypes) {
         using: "BTREE",
         fields: [
           { name: "video_id" },
-          { name: "video_name" },
-        ]
-      },
-      {
-        name: "fk_vd_comment",
-        using: "BTREE",
-        fields: [
-          { name: "video_comments" },
         ]
       },
       {

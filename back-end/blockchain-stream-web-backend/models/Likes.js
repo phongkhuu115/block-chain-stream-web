@@ -1,28 +1,30 @@
 const Sequelize = require('sequelize');
 module.exports = function(sequelize, DataTypes) {
-  return sequelize.define('Channels', {
-    channel_id: {
+  return sequelize.define('Likes', {
+    like_id: {
       type: DataTypes.STRING(255),
       allowNull: false,
       primaryKey: true
     },
-    channel_owner: {
+    like_user: {
       type: DataTypes.STRING(255),
       allowNull: false,
       references: {
         model: 'Users',
         key: 'user_id'
-      },
-      unique: "fk_channel_owner"
+      }
     },
-    channel_name: {
+    like_video: {
       type: DataTypes.STRING(255),
       allowNull: false,
-      unique: "name_unique"
+      references: {
+        model: 'Videos',
+        key: 'video_id'
+      }
     }
   }, {
     sequelize,
-    tableName: 'Channels',
+    tableName: 'Likes',
     timestamps: false,
     indexes: [
       {
@@ -30,23 +32,21 @@ module.exports = function(sequelize, DataTypes) {
         unique: true,
         using: "BTREE",
         fields: [
-          { name: "channel_id" },
+          { name: "like_id" },
         ]
       },
       {
-        name: "owner_unique",
-        unique: true,
+        name: "fk_like_user",
         using: "BTREE",
         fields: [
-          { name: "channel_owner" },
+          { name: "like_user" },
         ]
       },
       {
-        name: "name_unique",
-        unique: true,
+        name: "fk_like_video",
         using: "BTREE",
         fields: [
-          { name: "channel_name" },
+          { name: "like_video" },
         ]
       },
     ]
