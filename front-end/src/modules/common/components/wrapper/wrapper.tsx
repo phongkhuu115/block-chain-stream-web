@@ -14,7 +14,7 @@ export default function RootWrapper({
     <>
       <Header />
       {children}
-      {pathName !== '/login' && pathName !== '/register' && <Footer />}
+      {pathName !== '/auth' && <Footer />}
     </>
   );
 }

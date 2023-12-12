@@ -5,15 +5,22 @@ import { AxiosRequestConfig } from 'axios';
 const getAxiosParam = (
   url: string,
   token: string = '',
-  data: any = ''
+  data: any = {},
+  props: any = {}
 ): AxiosRequestConfig => {
   return {
     url: url,
-    method: data ? 'POST' : 'GET',
-    headers: {
-      ...(token && { Authorization: 'Bearer ' + token }),
-    },
-    ...(data && { data: data }),
+    method: Object.keys(data).length !== 0 ? 'POST' : 'GET',
+    //   ...(token && headers: {
+    //     ...(token && { Authorization: 'Bearer ' + token }),
+    //   },)
+    //   ...(token && {
+    // headers: {
+    //     { Authorization: 'Bearer ' + token }
+    //   }})
+    ...(token && { headers: { Authorization: 'Bearer ' + token } }),
+    ...(Object.keys(data).length !== 0 && { data: data }),
+    ...(props && { ...props }),
   };
 };
 

@@ -1,49 +1,171 @@
+'use client';
+
 import { Button } from '@components/ui/button';
 import {
   Card,
   CardContent,
   CardDescription,
   CardFooter,
-  CardHeader,
-  CardTitle,
 } from '@components/ui/card';
 import { Input } from '@components/ui/input';
 import { Label } from '@components/ui/label';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@components/ui/tabs';
 import { AspectRatio } from '@components/ui/aspect-ratio';
+import { Checkbox } from '@components/ui/checkbox';
 import Image from 'next/image';
+import authPic from '../public/auth-pic.png';
+import Link from 'next/link';
+import { useState } from 'react';
+import { getAxiosParam } from 'helpers/api';
+import axios from 'axios';
 
 export default function AuthPage() {
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+  const [confirm, setConfirm] = useState('');
+  const [email, setEmail] = useState('');
+  const [fullName, setFullname] = useState('');
+
+  let baseURL = 'http://nt532-iot.site:3000/v1/api';
+
+  let paramsLogin = getAxiosParam(
+    baseURL + '/login',
+    '',
+    {
+      username: username,
+      password: password,
+    },
+    {
+      withCredentials: true,
+    }
+  );
+  let handleLogin = async () => {
+    console.log(paramsLogin);
+    let res = await axios.request(paramsLogin)
+    console.log(res)
+  };
+  // let paramsLogin = getAxiosParam('http://nt532-iot.site:3000/v1/api/login');
+
   return (
     <main className='bg-primary flex'>
-      <Card className=''>
-        <CardHeader>
-          <CardTitle>Create project</CardTitle>
-          <CardDescription>
-            Deploy your new project in one-click.
-          </CardDescription>
-        </CardHeader>
-        <CardContent>
-          <form>
-            <div className='grid w-full items-center gap-4'>
-              <div className='flex flex-col space-y-1.5'>
-                <Label htmlFor='name'>Name</Label>
-                <Input id='name' placeholder='Name of your project' />
+      <Tabs defaultValue='login' className='w-[400px]'>
+        <TabsList className='grid w-full grid-cols-2'>
+          <TabsTrigger value='login'>Login</TabsTrigger>
+          <TabsTrigger value='signup'>Sign Up</TabsTrigger>
+        </TabsList>
+        <TabsContent value='login'>
+          <Card>
+            <CardContent className='space-y-2'>
+              <div className='space-y-1'>
+                <Label htmlFor='username'>Username</Label>
+                <Input
+                  id='username'
+                  placeholder='fkmdev115'
+                  onChange={(e) => setUsername(e.target.value)}
+                />
               </div>
-            </div>
-          </form>
-        </CardContent>
-        <CardFooter className='flex justify-between'>
-          <Button variant='outline'>Cancel</Button>
-          <Button>Deploy</Button>
-        </CardFooter>
-      </Card>
-      <AspectRatio ratio={16 / 9} className=''>
-        <Image
-          src='https://images.unsplash.com/photo-1588345921523-c2dcdb7f1dcd?w=800&dpr=2&q=80'
-          alt='Photo by Drew Beamer'
-          fill
-          className='rounded-md object-cover'
-        />
+              <div className='space-y-1'>
+                <Label htmlFor='password'>password</Label>
+                <Input
+                  id='password'
+                  placeholder='••••••••••••'
+                  onChange={(e) => setPassword(e.target.value)}
+                />
+              </div>
+              <CardDescription>
+                <Link href='/'>Forgot password?</Link>
+              </CardDescription>
+              <div className='flex items-center space-x-2'>
+                <Checkbox id='remember' />
+                <label
+                  htmlFor='terms'
+                  className='text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70'>
+                  Remember me
+                </label>
+              </div>
+              <Button onClick={handleLogin}>Login</Button>
+            </CardContent>
+            <CardFooter>
+              <div className='relative flex py-5 items-center w-full'>
+                <div className='flex-grow border-t border-white'></div>
+                <span className='flex-shrink mx-4 text-white'>
+                  Or Login With
+                </span>
+                <div className='flex-grow border-t border-white'></div>
+              </div>
+              {/* Google, etc button */}
+            </CardFooter>
+          </Card>
+        </TabsContent>
+        <TabsContent value='signup'>
+          <Card>
+            <CardContent className='space-y-2'>
+              <div className='space-y-1'>
+                <Label htmlFor='username'>Username</Label>
+                <Input
+                  id='username'
+                  placeholder='fkmdev115'
+                  onChange={(e) => setUsername(e.target.value)}
+                />
+              </div>
+              <div className='space-y-1'>
+                <Label htmlFor='password'>password</Label>
+                <Input
+                  id='password'
+                  type='password'
+                  onChange={(e) => setPassword(e.target.value)}
+                />
+              </div>
+              <div className='space-y-1'>
+                <Label htmlFor='confirm'>Confirm password</Label>
+                <Input
+                  id='confirm'
+                  type='password'
+                  onChange={(e) => setConfirm(e.target.value)}
+                />
+              </div>
+              <div className='space-y-1'>
+                <Label htmlFor='username'>Email</Label>
+                <Input
+                  type='email'
+                  id='username'
+                  placeholder='fkmdev115@gmail.com'
+                  onChange={(e) => setEmail(e.target.value)}
+                />
+              </div>
+              <div className='space-y-1'>
+                <Label htmlFor='fullname'>Full Name</Label>
+                <Input
+                  id='fullname'
+                  placeholder='Khuu Minh Phong'
+                  onChange={(e) => setFullname(e.target.value)}
+                />
+              </div>
+              <div className='flex items-center space-x-2'>
+                <Checkbox id='remember' />
+                <label
+                  htmlFor='terms'
+                  className='text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70'>
+                  I agree to all the Terms and Privacy policy.
+                </label>
+              </div>
+              <Button>Sign up</Button>
+            </CardContent>
+            <CardFooter>
+              <div className='relative flex py-5 items-center w-full'>
+                <div className='flex-grow border-t border-white'></div>
+                <span className='flex-shrink mx-4 text-white'>
+                  Or Login With
+                </span>
+                <div className='flex-grow border-t border-white'></div>
+              </div>
+              {/* Google, etc button */}
+            </CardFooter>
+          </Card>
+        </TabsContent>
+      </Tabs>
+      <AspectRatio className=''>
+        <Image src={authPic} alt='authpic' fill className='rounded-md' />
       </AspectRatio>
     </main>
   );
