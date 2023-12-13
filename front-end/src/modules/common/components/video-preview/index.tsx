@@ -3,12 +3,14 @@
 import './index.scss';
 import { LoaderIcon } from 'lucide-react';
 import Link from 'next/link';
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import HoverVideoPlayer from 'react-hover-video-player';
 import videojs from 'video.js';
 import { CustomImage } from '@components/ui/image';
+import { abbreviateNumber } from '@lib/utils';
+import useStreamDetector from '../../../../lib/hook/use-strean-detector';
 
-interface Props {
+type Props = {
     id: string;
     image: string;
     title: string;
@@ -17,23 +19,29 @@ interface Props {
     channelImage: string;
     channelName: string;
     isLiveNow?: boolean;
-}
+} & React.HTMLAttributes<HTMLDivElement>;
+
+const video_src = "https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8";
+// const video_src = "https://stream.mux.com/v69RSHhFelSm4701snP22dYz2jICy4E4FUyk02rW4gxRM.m3u8";
+
 
 const VideoPreview = ({
     tags = ["game", "music"],
     ...props
 }: Props) => {
+
+    const isLive = useStreamDetector(video_src);
     const videoRef = useRef<HTMLVideoElement>(null);
 
     useEffect(() => {
         const videoJsOptions = {
             liveui: true,
             liveTracker: true,
-            autoplay: true,
+            autoplay: false,
             controls: true,
             sources: [
                 {
-                    src: "https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8",
+                    src: video_src,
                     type: "application/x-mpegURL",
                 },
             ],
@@ -42,33 +50,28 @@ const VideoPreview = ({
         };
         // Check if the videoRef exists before initializing video.js
         if (videoRef.current) {
-            videojs(videoRef.current, { ...videoJsOptions });
+            videojs(videoRef.current, { ...videoJsOptions }).addClass("video-js");
         }
     }, []);
 
     return (
-        <div className="relative p-2 cursor-pointer">
-            <Link href={`/video/${props.id}`}>
+        <div className="relative p-2 ">
+            <div >
                 <div className='max-w-[300px]'>
-                    {/* {props.image && (
-                        <CustomImage
-                            src={props.image}
-                            alt="/"
-                            width={300}
-                            height={200}
-                            className="object-cover videopreview"
-                        />
-                    )} */}
-
                     {videoRef && (
                         <HoverVideoPlayer
                             videoRef={videoRef}
                             videoClassName='videopreview'
                             videoSrc={props.image}
                             pausedOverlay={
-                                <>
-                                    ahihi
-                                </>
+                                <CustomImage
+                                    src={props.image}
+                                    alt="/"
+                                    width={300}
+                                    height={200}
+                                    className="object-cover w-full h-full "
+                                />
+
                             }
                             loadingOverlay={
                                 <div className="loading-overlay flex w-full h-full justify-center items-center">
@@ -78,14 +81,17 @@ const VideoPreview = ({
                         />
                     )}
 
-                    {props.isLiveNow && (
-                        <div className="absolute text-xs px-1 py-0.5 font-semibold bg-red-600 rounded top-4 text-white left-4">
+
+                    {isLive && (
+                        <div className="absolute text-xs px-1 py-0.5 font-semibold bg-red-600 rounded top-4 text-white left-4 z-50">
                             <p className="uppercase"> Live</p>
                         </div>
                     )}
 
-                    <p className="font-bold truncate">{props.title}</p>
-                    <p className="text-sm text-gray-500 py-[2px]">{props.viewers}</p>
+                    <Link href={`/video/${props.id}`}>
+                        <p className="font-bold truncate">{props.title}</p>
+                    </Link>
+                    <p className="text-sm text-gray-500 py-[2px]">{abbreviateNumber(props.viewers)} viewers</p>
                     <div className="flex">
                         <div>
                             <div className="flex items-center space-x-2">
@@ -114,7 +120,7 @@ const VideoPreview = ({
                         </div>
                     </div>
                 </div>
-            </Link>
+            </div>
         </div>
     );
 };

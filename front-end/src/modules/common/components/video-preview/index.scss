@@ -1,32 +1,18 @@
-@tailwind components;
 @import url("https://vjs.zencdn.net/8.5.2/video-js.min.css");
 
 .video-js .vjs-control-bar {
   display: none;
+  position: absolute !important;
   width: 100%;
-  position: absolute;
   bottom: 0;
-  left: 0;
-  right: 0;
-  height: 3em;
+  z-index: 999;
 }
 
-@layer components {
-  .video-js .vjs-control-bar {
-    @apply bg-beta  mt-2 justify-center items-center shadow-lg;
-  }
-}
-
-.vjs-has-started.vjs-user-inactive.vjs-playing .vjs-control-bar {
-  visibility: visible;
-  opacity: 0;
-  pointer-events: none;
+.video-js.videopreview {
+  margin: 0;
 }
 
 .video-js .vjs-tech {
-  position: absolute;
-  top: 0;
-  left: 0;
+  position: relative !important;
   width: 100%;
-  height: 100%;
 }

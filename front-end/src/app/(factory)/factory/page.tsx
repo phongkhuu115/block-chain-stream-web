@@ -1,3 +1,4 @@
+import LiveChannels from "@modules/common/components/video-list";
 import VideoPreview from "@modules/common/components/video-preview";
 import type { Metadata, NextPage } from "next";
 
@@ -49,15 +50,15 @@ const FactoryComponent: NextPage = async () => {
   return (
     <>
       <main className="container">
-        {/* <LiveChannels videos={content.slice(0, 4)} /> */}
-        <VideoPreview 
+        <LiveChannels videos={content.slice(0, 4)} />
+        {/* <VideoPreview 
         id={content[0].video.videoId} 
         image={content[0].video.thumbnails[0].url} 
         title={content[0].video.title} 
         viewers={content[0].video.stats.viewers} 
         tags={[]} 
         channelImage={content[0].video.author.avatar[0].url} 
-        channelName={content[0].video.author.title} />
+        channelName={content[0].video.author.title} /> */}
       </main>
     </>
   );
