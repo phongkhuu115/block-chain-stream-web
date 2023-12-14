@@ -1,10 +1,11 @@
 'use client';
 
-import Header from '@modules/common/components/header/header';
 import Footer from '@modules/common/components/footer/footer';
+import Header from '@modules/common/components/header/header';
+import Providers from '@modules/providers';
+import { usePathname } from 'next/navigation';
 import { Provider } from 'react-redux';
 import { store } from '../../../../redux/store';
-import { usePathname } from 'next/navigation';
 
 export default function RootWrapper({
   children,
@@ -13,10 +14,10 @@ export default function RootWrapper({
 }) {
   const pathName = usePathname();
   return (
-    <>
+    <Providers>
       <Header />
       <Provider store={store}>{children}</Provider>
       {pathName !== '/auth' && <Footer />}
-    </>
+    </Providers>
   );
 }
