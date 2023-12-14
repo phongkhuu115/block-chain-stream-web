@@ -78,9 +78,9 @@ module.exports = {
         );
         res.cookie('accessToken', access_token, {
           httpOnly: true,
-          secure: false,
+          secure: true,
           path: '/',
-          sameSite: 'strict',
+          sameSite: 'none',
         });
         res.status(200).json({
           user: {

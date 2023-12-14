@@ -1,6 +1,7 @@
 const routes = require('express').Router();
 const UserController = require('../controllers/Users');
 const ChannelController = require('../controllers/Channels');
+const VideoController = require('../controllers/Video')
 const Validation = require('../middleware/Validation');
 const validation = require('../helpers/validation');
 const GeneralAuth = require('../middleware/GeneralAuth');
