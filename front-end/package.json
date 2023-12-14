@@ -37,6 +37,7 @@
     "postcss": "8.4.29",
     "react": "18.2.0",
     "react-dom": "18.2.0",
+    "react-hover-video-player": "^10.0.1",
     "react-redux": "^8.1.2",
     "sass": "^1.69.5",
     "tailwind-merge": "^1.14.0",

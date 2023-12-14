@@ -1,7 +1,7 @@
 "use client";
 
 import { STREAM_SERVER } from "helpers/env-provider";
-import { FC, useEffect, useRef } from "react";
+import { FC, useEffect, useRef, useState } from "react";
 import videojs from "video.js";
 import "videojs-quality-selector-hls";
 import "./index.scss";
@@ -16,8 +16,13 @@ const View: FC<Props> = ({
 }: Props) => {
   const streamLiveUrl = `${STREAM_SERVER}/live/${streamKey}.m3u8`;
   const streamVODUrl = `https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8`;
-  const streamBuckVODUrl = `https://stream.mux.com/v69RSHhFelSm4701snP22dYz2jICy4E4FUyk02rW4gxRM.m3u8`;
+  const streamBuckLiveUrl = `https://stream.mux.com/v69RSHhFelSm4701snP22dYz2jICy4E4FUyk02rW4gxRM.m3u8`;
+
+
   const videoRef = useRef<HTMLVideoElement>(null);
+  const [isLive, setIsLive] = useState<boolean>(false)
+  const [player, setPlayer] = useState<any>(null)
+
 
   useEffect(() => {
     const videoJsOptions = {
@@ -28,7 +33,7 @@ const View: FC<Props> = ({
       controls: true,
       sources: [
         {
-          src: streamBuckVODUrl,
+          src: streamBuckLiveUrl,
           type: "application/x-mpegURL",
         },
       ],
@@ -44,8 +49,8 @@ const View: FC<Props> = ({
 
     // Check if the videoRef exists before initializing video.js
     if (videoRef.current) {
-      const player = videojs(videoRef.current, { ...videoJsOptions });
-      player.qualitySelectorHls();
+      videojs(videoRef.current, { ...videoJsOptions }).qualitySelectorHls();
+       
     }
   }, []);
 
