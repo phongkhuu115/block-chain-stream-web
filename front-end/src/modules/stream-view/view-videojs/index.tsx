@@ -50,8 +50,7 @@ const View: FC<Props> = ({
     // Check if the videoRef exists before initializing video.js
     if (videoRef.current) {
       videojs(videoRef.current, { ...videoJsOptions }).qualitySelectorHls();
-      const player = videojs.getPlayer(videoRef.current);
-
+       
     }
   }, []);
 

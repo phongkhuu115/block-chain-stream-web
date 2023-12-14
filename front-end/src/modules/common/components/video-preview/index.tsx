@@ -8,7 +8,7 @@ import HoverVideoPlayer from 'react-hover-video-player';
 import videojs from 'video.js';
 import { CustomImage } from '@components/ui/image';
 import { abbreviateNumber } from '@lib/utils';
-import useStreamDetector from '../../../../lib/hook/use-strean-detector';
+import useStreamDetector from '../../../../lib/hook/use-stream-detector';
 
 type Props = {
     id: string;
@@ -21,8 +21,8 @@ type Props = {
     isLiveNow?: boolean;
 } & React.HTMLAttributes<HTMLDivElement>;
 
-const video_src = "https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8";
-// const video_src = "https://stream.mux.com/v69RSHhFelSm4701snP22dYz2jICy4E4FUyk02rW4gxRM.m3u8";
+// const video_src = "https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8";
+const video_src = "https://stream.mux.com/v69RSHhFelSm4701snP22dYz2jICy4E4FUyk02rW4gxRM.m3u8";
 
 
 const VideoPreview = ({
@@ -32,6 +32,7 @@ const VideoPreview = ({
 
     const isLive = useStreamDetector(video_src);
     const videoRef = useRef<HTMLVideoElement>(null);
+    console.log('isLive: ', isLive);
 
     useEffect(() => {
         const videoJsOptions = {
@@ -46,11 +47,18 @@ const VideoPreview = ({
                 },
             ],
             lowLatency: true,
+            playbackRates: [0.5, 1, 1.5, 2],
+            backBufferLength: 90,
+
             lowLatencyMode: true,
         };
         // Check if the videoRef exists before initializing video.js
         if (videoRef.current) {
             videojs(videoRef.current, { ...videoJsOptions }).addClass("video-js");
+            const playerInstance = videojs.getPlayer(videoRef.current);
+            playerInstance.on("ready", () => {
+                console.log("ready");
+            });
         }
     }, []);
 

@@ -50,7 +50,7 @@ const FactoryComponent: NextPage = async () => {
   return (
     <>
       <main className="container">
-        <LiveChannels videos={content.slice(0, 4)} />
+        <LiveChannels videos={content.slice(0, 1)} />
         {/* <VideoPreview 
         id={content[0].video.videoId} 
         image={content[0].video.thumbnails[0].url} 
