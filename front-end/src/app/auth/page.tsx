@@ -17,7 +17,10 @@ import authPic from '../public/auth-pic.png';
 import Link from 'next/link';
 import { useState } from 'react';
 import { getAxiosParam } from 'helpers/api';
+import { useDispatch } from 'react-redux';
 import axios from 'axios';
+import { storeUserData } from 'redux/slices/userSlices';
+import { useRouter } from 'next/navigation'
 
 export default function AuthPage() {
   const [username, setUsername] = useState('');
@@ -25,8 +28,10 @@ export default function AuthPage() {
   const [confirm, setConfirm] = useState('');
   const [email, setEmail] = useState('');
   const [fullName, setFullname] = useState('');
+  const dispatch = useDispatch();
+  const router = useRouter()
 
-  let baseURL = 'http://nt532-iot.site:3000/v1/api';
+  let baseURL = 'https://nt208-g4.site/v1/api';
 
   let paramsLogin = getAxiosParam(
     baseURL + '/login',
@@ -40,11 +45,15 @@ export default function AuthPage() {
     }
   );
   let handleLogin = async () => {
-    console.log(paramsLogin);
-    let res = await axios.request(paramsLogin)
-    console.log(res)
+    let res = await axios.request(paramsLogin);
+    if (res.status === 200) {
+      let userData = res.data.user;
+      if (userData) {
+        dispatch(storeUserData(userData))
+        router.push("/")
+      }
+    }
   };
-  // let paramsLogin = getAxiosParam('http://nt532-iot.site:3000/v1/api/login');
 
   return (
     <main className='bg-primary flex'>
@@ -62,6 +71,7 @@ export default function AuthPage() {
                   id='username'
                   placeholder='fkmdev115'
                   onChange={(e) => setUsername(e.target.value)}
+                  className='text-black'
                 />
               </div>
               <div className='space-y-1'>
@@ -70,6 +80,7 @@ export default function AuthPage() {
                   id='password'
                   placeholder='••••••••••••'
                   onChange={(e) => setPassword(e.target.value)}
+                  className='text-black'
                 />
               </div>
               <CardDescription>
