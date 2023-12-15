@@ -1,5 +1,4 @@
 import { Metadata, NextPage } from 'next';
-import { useState } from 'react';
 
 export const metadata: Metadata = {
   title: 'Preview Page',
@@ -17,12 +16,8 @@ export const metadata: Metadata = {
   },
 };
 
-const AuthPage: NextPage = () => {
-  const [url, setURL] = useState<string>('');
-
-  return <>
-    
-  </>;
+const PreviewPage: NextPage = () => {
+  return <></>;
 };
 
-export default AuthPage;
+export default PreviewPage;

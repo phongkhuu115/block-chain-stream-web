@@ -1,4 +1,4 @@
-import AuthenticationPageTempalate from '@modules/authentication/templates';
+import AuthenticationPageTempalate from '@modules/authentication/templates/auth';
 import { Metadata, NextPage } from 'next';
 
 export const metadata: Metadata = {

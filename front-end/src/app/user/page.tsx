@@ -14,6 +14,7 @@ import { useSelector } from 'react-redux';
 import { Label } from '@modules/common/components/ui/label';
 import { Input } from '@modules/common/components/ui/input';
 import { Button } from '@modules/common/components/ui/button';
+import Link from 'next/link';
 
 export default function UserPage() {
   const user = useSelector((state: any) => state.user.user);
@@ -69,16 +70,14 @@ export default function UserPage() {
           <div className='space-y-1'>
             <Label htmlFor='stream-key'>Stream key</Label>
             <div className='flex'>
-              <Input id='stream-key' defaultValue={user_stream_key} readOnly/>
+              <Input id='stream-key' defaultValue={user_stream_key} readOnly />
               <Button>Change</Button>
             </div>
           </div>
           <div className='flex'>
+            <Button>Create Channel</Button>
             <Button>
-              Create Channel
-            </Button>
-            <Button>
-              Create A Stream
+              <Link href={'/preview'}>Create A Stream</Link>
             </Button>
           </div>
         </Card>
