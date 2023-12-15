@@ -36,5 +36,7 @@ routes.post(
   GeneralAuth.VerifyJWT,
   ChannelController.createChannels
 );
+// Videos
+routes.post('/previewUp', VideoController.PreviewUpdate)
 
 module.exports = routes;

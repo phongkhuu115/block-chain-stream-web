@@ -1,24 +1,20 @@
 const sequelize = require('../config/database');
 const initModels = require('../models/init-models');
 const models = initModels(sequelize);
-const fs = require('fs')
-
-let user = models.Users.findAll({ raw: true, attributes: ['user_id'] }).then(users => {
-  const directoryPath = '../live/';
-  setInterval(() => {
-    users.forEach(user => {
-      let streamDirectory = directoryPath + user.user_id + ".m3u8"
-      if (fs.existsSync(streamDirectory)) {
-        global.io.emit(`preview-${user.user_id}`, () => {
-
-        })
-      }
-    })
-  }, 3000)
-})
+const dotenv = require('dotenv')
+dotenv.config()
 
 module.exports = {
-  CreateStream: async (req, res) => {
-    
-  }
-}
+  CreateStream: async (req, res) => {},
+  PreviewUpdate: async (req, res) => {
+    let user_id = req.body.user_id;
+    let user = await models.Users.findOne({
+      where: {
+        user_id: user_id,
+      },
+    });
+    if (user) {
+      global.io.emit(`preview_${user_id}`, `https://nt532-iot.site/live/${user_id}.m3u8`)
+    }
+  },
+};

@@ -12,7 +12,7 @@ const fs = require('fs');
 // This line is from the Node.js HTTPS documentation.
 const options = {
   cert: fs.readFileSync('/etc/letsencrypt/live/nt208-g4.site/fullchain.pem'),
-  key: fs.readFileSync('/etc/letsencrypt/live/nt208-g4.site/privkey.pem')
+  key: fs.readFileSync('/etc/letsencrypt/live/nt208-g4.site/privkey.pem'),
 };
 
 dotenv.config();
@@ -24,7 +24,6 @@ app.use(
   cors({
     credentials: true,
     origin: true,
-    credentials: true,
   })
 );
 // parse application/x-www-form-urlencoded
@@ -35,8 +34,16 @@ app.use(bodyParser.json());
 app.use('/v1/api', routes);
 
 const httpServer = https.createServer(options, app).listen(port, () => {
-  console.log("Server listen at port " + port)
+  console.log('Server listen at port ' + port);
 });
 
-const io = new Server(httpServer);
+const io = new Server(httpServer, {
+  cors: {
+    credentials: true,
+    origin: true,
+  },
+});
 global.io = io;
+io.on('connection', (socket) => {
+  console.log(socket.id); // x8WIv7-mJelg7on_ALbx
+});
