@@ -1,9 +1,9 @@
-import AuthenticationPageTempalate from '@modules/authentication/templates';
 import { Metadata, NextPage } from 'next';
+import { useState } from 'react';
 
 export const metadata: Metadata = {
-  title: 'Auth Page',
-  description: 'Auth Page',
+  title: 'Preview Page',
+  description: 'Preview Page',
   metadataBase: new URL('https://acme.com'),
   alternates: {
     canonical: '/',
@@ -15,11 +15,14 @@ export const metadata: Metadata = {
   openGraph: {
     images: '/og-image.png',
   },
-}
-
+};
 
 const AuthPage: NextPage = () => {
-  return <AuthenticationPageTempalate />
-}
+  const [url, setURL] = useState<string>('');
+
+  return <>
+    
+  </>;
+};
 
 export default AuthPage;
