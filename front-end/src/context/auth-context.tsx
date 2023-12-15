@@ -38,7 +38,7 @@ export const useAuth = () => {
 
 export const AuthProvider = ({ children }: AccountProviderProps) => {
     const baseURL = 'https://nt208-g4.site/v1/api';
-    // const dispatch = useDispatch();
+    const dispatch = useDispatch();
     const router = useRouter()
 
     const handleAuth = async (values: any) => {
@@ -57,7 +57,7 @@ export const AuthProvider = ({ children }: AccountProviderProps) => {
         if (res.status === 200) {
             let userData = res.data.user;
             if (userData) {
-                // dispatch(storeUserData(userData))
+                dispatch(storeUserData(userData))
                 router.push("/")
             }
         }
