@@ -40,8 +40,7 @@ module.exports = {
         user_fullname: user_fullname,
         password: passwordHashed,
         user_email: user_email,
-        user_stream_key:
-          `rtmp://${process.env.DATABASE_HOST}:1935/live/` + user_id,
+        user_stream_key: `rtmp://${process.env.DOMAIN}:1935/live/` + user_id,
         user_role: 1,
       });
 
@@ -65,6 +64,7 @@ module.exports = {
           user_email,
           user_stream_key,
           user_role,
+          user_avatar,
         } = user;
         let access_token = jwt.sign(
           {
@@ -90,6 +90,7 @@ module.exports = {
             user_email: user_email,
             user_stream_key: user_stream_key,
             user_role: user_role,
+            user_avatar: user_avatar,
           },
         });
       }
