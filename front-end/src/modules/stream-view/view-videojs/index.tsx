@@ -11,10 +11,6 @@ type Props = {
 };
 
 const View: FC<Props> = (props: Props) => {
-  // const streamLiveUrl = `${STREAM_SERVER}/live/${streamKey}.m3u8`;
-  // const streamVODUrl = `https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8`;
-  // const streamBuckLiveUrl = `https://stream.mux.com/v69RSHhFelSm4701snP22dYz2jICy4E4FUyk02rW4gxRM.m3u8`;
-
   const { url } = props;
 
   const videoRef = useRef<HTMLVideoElement>(null);

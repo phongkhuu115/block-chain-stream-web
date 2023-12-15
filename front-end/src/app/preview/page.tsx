@@ -1,4 +1,5 @@
 import { Metadata, NextPage } from 'next';
+import PreviewPageTempalate from '@modules/authentication/templates/preview';
 
 export const metadata: Metadata = {
   title: 'Preview Page',
@@ -17,7 +18,7 @@ export const metadata: Metadata = {
 };
 
 const PreviewPage: NextPage = () => {
-  return <></>;
+  return <PreviewPageTempalate />;
 };
 
 export default PreviewPage;
