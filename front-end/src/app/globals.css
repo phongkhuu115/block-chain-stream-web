@@ -2,13 +2,21 @@
 @tailwind components;
 @tailwind utilities;
 
+
+/* poppins-regular - latin */
+@font-face {
+  font-family: 'Poppins';
+  src: url('https://fonts.googleapis.com/css?family=Poppins');
+}
+
+
 :root {
   --text-white: #fff;
 }
 
+
 html {
-  font-family: 'Inter', sans-serif;
-  font-family: 'Libre Franklin', sans-serif;
+  font-family: 'Poppins', sans-serif;
 }
 
 body {

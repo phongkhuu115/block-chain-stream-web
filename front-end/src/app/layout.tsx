@@ -1,10 +1,12 @@
 import { cn } from '@lib/utils';
+import RootWrapper from '@modules/common/components/wrapper/wrapper';
 import '@rainbow-me/rainbowkit/styles.css';
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
+import { ToastContainer } from 'react-toastify';
 import './globals.css';
-import RootWrapper from '@modules/common/components/wrapper/wrapper';
 export const inter = Inter({ subsets: ['latin'] });
+import 'react-toastify/dist/ReactToastify.css';
 
 export const metadata: Metadata = {
   title: 'BCSW',
@@ -27,6 +29,7 @@ export default function RootLayout({
         <RootWrapper>
           {children}
         </RootWrapper>
+        <ToastContainer position="bottom-right" newestOnTop />
       </body>
     </html>
   );

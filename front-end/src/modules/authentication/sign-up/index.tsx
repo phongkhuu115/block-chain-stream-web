@@ -11,7 +11,7 @@ import {
 import React from "react";
 import { Button } from "../../common/components/ui/button";
 import { Card, CardContent, CardFooter } from "../../common/components/ui/card";
-import { FormikInput, FormikCheckBox } from "../formik-fields";
+import { FormikInput, FormikCheckBox, FormikErrorMessage } from "../formik-comps";
 
 type Props = {
 
@@ -37,39 +37,40 @@ const SignUp: React.FC<Props> = ({ className, ...props }: Props) => {
 
     return (
         <Card className={clsx(className, "border-none")}  {...props}>
-            <CardContent className='space-y-2'>
-                <Formik
-                    initialValues={initSignUp}
-                    onSubmit={(values) => handleAuth(values)}
-                    validationSchema={SignupSchema}
-                >
+            <Formik
+                initialValues={initSignUp}
+                onSubmit={(values) => handleAuth(values)}
+                validationSchema={SignupSchema}
+            >
+                <CardContent className='space-y-2 pt-6 pb-0 flex flex-col gap-2'>
+
                     <Form>
-                        <div className='space-y-1'>
+                        <div className='space-y-1 py-2'>
                             <Label htmlFor='username'>Username</Label>
-                            <Field name="username" component={FormikInput} />
-                            <ErrorMessage component="div" name="username" />
+                            <Field name="username" component={FormikInput} className="rounded-2xl" />
+                            <FormikErrorMessage name="username" />
                         </div>
-                        <div className='space-y-1'>
-                            <Label htmlFor='user_password'>password</Label>
-                            <Field name="user_password" component={FormikInput} type="password" />
-                            <ErrorMessage component="div" name="user_password" />
+                        <div className='space-y-1 py-2'>
+                            <Label htmlFor='user_password'>Password</Label>
+                            <Field name="user_password" component={FormikInput} className="rounded-2xl" type="password" />
+                            <FormikErrorMessage name="user_password" />
                         </div>
-                        <div className='space-y-1'>
+                        <div className='space-y-1 py-2'>
                             <Label htmlFor='confirm_password'>Confirm password</Label>
-                            <Field name="confirm_password" component={FormikInput} type="password" />
-                            <ErrorMessage component="div" name="confirm_password" />
+                            <Field name="confirm_password" component={FormikInput} className="rounded-2xl" type="password" />
+                            <FormikErrorMessage name="confirm_password" />
                         </div>
-                        <div className='space-y-1'>
+                        <div className='space-y-1 py-2'>
                             <Label htmlFor='user_email'>Email</Label>
-                            <Field name="user_email" component={FormikInput} />
-                            <ErrorMessage component="div" name="user_email" />
+                            <Field name="user_email" component={FormikInput} className="rounded-2xl" />
+                            <FormikErrorMessage name="user_email" />
                         </div>
-                        <div className='space-y-1'>
+                        <div className='space-y-1 py-2'>
                             <Label htmlFor='user_fullname'>Full Name</Label>
-                            <Field name="user_fullname" component={FormikInput} />
-                            <ErrorMessage component="div" name="user_fullname" />
+                            <Field name="user_fullname" component={FormikInput} className="rounded-2xl" />
+                            <FormikErrorMessage name="user_fullname" />
                         </div>
-                        <div className='flex items-center space-x-2'>
+                        <div className='flex flex-row gap-2 space-y-1 py-2'>
                             <Field name="user_agree" component={FormikCheckBox} />
                             <label
                                 htmlFor='user_agree'
@@ -77,10 +78,10 @@ const SignUp: React.FC<Props> = ({ className, ...props }: Props) => {
                                 I agree to all the Terms and Privacy policy.
                             </label>
                         </div>
-                        <Button>Sign up</Button>
                     </Form>
-                </Formik>
-            </CardContent>
+                    <Button>Sign up</Button>
+                </CardContent>
+            </Formik>
 
             <CardFooter>
                 <div className='relative flex py-5 items-center w-full'>
@@ -93,6 +94,8 @@ const SignUp: React.FC<Props> = ({ className, ...props }: Props) => {
                 {/* Google, etc button */}
             </CardFooter>
         </Card >
+
+
     );
 };
 

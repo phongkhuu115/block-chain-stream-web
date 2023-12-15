@@ -2,10 +2,7 @@
 const nextConfig = {
   experimental: {
     serverActions: true,
-    serverComponentsExternalPackages: [
-      '@medusajs/product',
-      '@medusajs/modules-sdk',
-    ],
+
   },
   reactStrictMode: false,
   images: {
@@ -34,8 +31,8 @@ const nextConfig = {
         protocol: 'https',
         hostname: 'cdn.pixabay.com',
       },
-      ],
-      domains: ['localhost', 'via.placeholder.com', 'cdn.builder.io', 'i1.sndcdn.com', "i.ytimg.com", "yt3.ggpht.com"],
+    ],
+    domains: ['localhost', 'via.placeholder.com', 'cdn.builder.io', 'i1.sndcdn.com', "i.ytimg.com", "yt3.ggpht.com"],
   },
 };
 

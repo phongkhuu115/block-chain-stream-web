@@ -1,7 +1,9 @@
 "use client";
 
+import { notifyError, notifySuccess } from '@modules/common/components/toast-comps';
 import axios from 'axios';
 import { getAxiosParam } from 'helpers/api';
+import { url } from 'inspector';
 import { useRouter } from 'next/navigation';
 import { createContext, useContext } from 'react';
 import { useDispatch } from 'react-redux';
@@ -25,6 +27,8 @@ interface AccountProviderProps {
     children?: React.ReactNode
 }
 
+
+
 const AuthContext = createContext<AuthContextType | null>(null);
 
 export const useAuth = () => {
@@ -37,13 +41,13 @@ export const useAuth = () => {
 
 
 export const AuthProvider = ({ children }: AccountProviderProps) => {
-    const baseURL = 'https://nt208-g4.site/v1/api';
     const dispatch = useDispatch();
     const router = useRouter()
-
     const handleAuth = async (values: any) => {
+        console.log('values: ', values);
+
         const paramsLogin = getAxiosParam(
-            baseURL + '/login',
+            process.env.NEXT_PUBLIC_API_URL + '/login',
             '',
             {
                 username: values.username,
@@ -53,14 +57,21 @@ export const AuthProvider = ({ children }: AccountProviderProps) => {
                 withCredentials: true,
             }
         );
-        let res = await axios.request(paramsLogin);
-        if (res.status === 200) {
-            let userData = res.data.user;
-            if (userData) {
-                dispatch(storeUserData(userData))
-                router.push("/")
+        try {
+            const res = await axios.request(paramsLogin);
+            if (res.status === 200) {
+                notifySuccess("Login success");
+                const userData = res.data.user;
+                if (userData) {
+                    dispatch(storeUserData(userData))
+                    router.push("/")
+                }
             }
         }
+        catch (err) {
+            notifyError("Login failed");
+        }
+
     };
 
     return (
