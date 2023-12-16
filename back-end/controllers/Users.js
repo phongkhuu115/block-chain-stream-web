@@ -21,7 +21,7 @@ module.exports = {
       }
     } catch (err) {
       res.status(500).json({
-        message: err,
+        message: err.errors[0].message,
       });
     }
   },
@@ -47,7 +47,7 @@ module.exports = {
       res.status(201).json({ message: 'user created' });
     } catch (err) {
       res.status(500).json({
-        message: err,
+        message: err.errors[0].message,
       });
     }
   },
@@ -108,7 +108,7 @@ module.exports = {
       });
     } catch (err) {
       res.status(500).json({
-        message: err,
+        message: err.errors[0].message,
       });
     }
   },
@@ -125,7 +125,7 @@ module.exports = {
       });
     } catch (err) {
       res.status(500).json({
-        message: err,
+        message: err.errors[0].message,
       });
     }
   },
@@ -144,7 +144,7 @@ module.exports = {
       });
     } catch (err) {
       res.status(500).json({
-        message: err,
+        message: err.errors[0].message,
       });
     }
   },
