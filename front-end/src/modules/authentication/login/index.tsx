@@ -10,6 +10,7 @@ import { Button } from "../../common/components/ui/button";
 import { Card, CardContent, CardDescription, CardFooter } from "../../common/components/ui/card";
 import { FormikCheckBox, FormikErrorMessage, FormikInput } from "../formik-comps";
 import "./index.scss";
+import { ConnectedFocusError } from 'focus-formik-error'
 
 type Props = {} & React.HTMLAttributes<HTMLDivElement>;
 
@@ -32,6 +33,7 @@ const Login: React.FC<Props> = ({ className, ...prop }: Props) => {
       >
         {({ submitForm, isSubmitting }) => (
           <CardContent className='space-y-2 pt-6 pb-0 flex flex-col gap-2'>
+            <ConnectedFocusError />
             <Form onKeyDown={(e) => {
               if (e.key === 'Enter') {
                 submitForm();
@@ -40,12 +42,12 @@ const Login: React.FC<Props> = ({ className, ...prop }: Props) => {
             >
               <div className='space-y-1 py-2'>
                 <Label htmlFor='username'>Username</Label>
-                <Field name="username" type="text" className="rounded-2xl" as={FormikInput} />
+                <Field name="username" type="text" className="rounded-2xl" as={FormikInput} autoFocus autoComplete="username" />
                 <FormikErrorMessage name="username" />
               </div>
               <div className='space-y-1 py-2'>
                 <Label htmlFor='user_password'>Password</Label>
-                <Field name="user_password" type="password" className="rounded-2xl" as={FormikInput} />
+                <Field name="user_password" type="password" className="rounded-2xl" as={FormikInput} autoFocus autoComplete="password webauthn" />
                 <FormikErrorMessage name="user_password" />
               </div>
 

@@ -9,7 +9,7 @@ import "./index.scss"
 const AuthenticationPageTempalate = () => {
 
     return (
-        <main className='container center-item h-[90vh] '>
+        <main className='container center-item h-auto '>
             <Tabs defaultValue='login' className='w-[80vw] medium:w-[400px] bg-secondary rounded-3xl transition-all' aria-label="Login your account">
                 <TabsList className='flex justify-between items-center w-full'>
                     <TabsTrigger className={clsx("w-full", "rounded-tl-3xl tab-trigger")} value='login'>Login</TabsTrigger>
