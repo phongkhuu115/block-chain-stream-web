@@ -33,7 +33,7 @@ module.exports = {
   },
   RemoveLike: async (req, res) => {
     let id = req.params.id;
-    if (ValidatePriviledge(like_user, req)) {
+    if (ValidatePriviledge(id, req)) {
       try {
         await models.Likes.destroy({
           where: {
