@@ -10,15 +10,13 @@ import {
     Form,
     Formik
 } from 'formik';
+import { Loader2Icon } from "lucide-react";
 import React from "react";
 import { Button } from "../../common/components/ui/button";
 import { Card, CardContent, CardFooter } from "../../common/components/ui/card";
-import { FormikCheckBox, FormikErrorMessage, FormikInput } from "../formik-comps";
-import { Loader2Icon } from "lucide-react";
+import { FormikCheckBox, FormikInput } from "../formik-comps";
 
-type Props = {
-
-} & React.HTMLAttributes<HTMLDivElement>;
+type Props = {} & React.HTMLAttributes<HTMLDivElement>;
 
 const initSignUp = {
     user_id: '',
@@ -34,64 +32,59 @@ const initSignUp = {
 };
 
 const SignUp: React.FC<Props> = ({ className, ...props }: Props) => {
-    const { handleAuth } = useAuth();
+    const { handleSignUp } = useAuth();
 
     return (
         <Card className={clsx(className, "border-none")}  {...props}>
             <Formik
                 initialValues={initSignUp}
-                onSubmit={(values) => handleAuth(values)}
+                onSubmit={(values) => handleSignUp(values)}
                 validationSchema={SignupSchema}
             >
                 {({ submitForm, isSubmitting }) => (
                     <CardContent className='space-y-2 pt-6 pb-0 flex flex-col gap-2'>
                         <ConnectedFocusError />
                         <Form>
-                            <div className='space-y-1 py-2'>
-                                <Label htmlFor='username'>Username</Label>
+                            <div>
                                 <Field
+                                    label="Username"
                                     name="username"
                                     className="rounded-2xl"
                                     autoComplete="username"
                                     component={FormikInput} />
-                                <FormikErrorMessage name="username" />
                             </div>
-                            <div className='space-y-1 py-2'>
-                                <Label htmlFor='user_password'>Password</Label>
+                            <div>
                                 <Field
+                                    label="Password"
                                     name="user_password"
                                     className="rounded-2xl"
                                     type="password"
                                     autoComplete="password webauthn"
                                     component={FormikInput} />
-                                <FormikErrorMessage name="user_password" />
                             </div>
-                            <div className='space-y-1 py-2'>
-                                <Label htmlFor='confirm_password'>Confirm password</Label>
+                            <div>
                                 <Field
+                                    label="Confirm Password"
                                     name="confirm_password"
                                     className="rounded-2xl"
                                     type="password"
                                     autoComplete="password webauthn"
                                     component={FormikInput} />
-                                <FormikErrorMessage name="confirm_password" />
                             </div>
-                            <div className='space-y-1 py-2'>
+                            <div>
                                 <Label htmlFor='user_email'>Email</Label>
                                 <Field
                                     name="user_email"
                                     className="rounded-2xl"
                                     autoComplete="email"
                                     component={FormikInput} />
-                                <FormikErrorMessage name="user_email" />
                             </div>
-                            <div className='space-y-1 py-2'>
-                                <Label htmlFor='user_fullname'>Full Name</Label>
+                            <div>
+                                <Label htmlFor='user_fullname'>Fullname</Label>
                                 <Field name="user_fullname"
                                     className="rounded-2xl"
                                     autoComplete="name"
                                     component={FormikInput} />
-                                <FormikErrorMessage name="user_fullname" />
                             </div>
                             <div className='flex flex-row gap-2 space-y-1 py-2'>
                                 <Field

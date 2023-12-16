@@ -2,15 +2,15 @@ import { LoginSchema } from "@lib/constant/validation";
 import { Label } from "@radix-ui/react-label";
 import clsx from "clsx";
 import { useAuth } from "context/auth-context";
+import { ConnectedFocusError } from 'focus-formik-error';
 import { Field, Form, Formik } from "formik";
 import { Loader2Icon } from "lucide-react";
 import Link from "next/link";
 import React from "react";
 import { Button } from "../../common/components/ui/button";
 import { Card, CardContent, CardDescription, CardFooter } from "../../common/components/ui/card";
-import { FormikCheckBox, FormikErrorMessage, FormikInput } from "../formik-comps";
+import { FormikCheckBox, FormikInput } from "../formik-comps";
 import "./index.scss";
-import { ConnectedFocusError } from 'focus-formik-error'
 
 type Props = {} & React.HTMLAttributes<HTMLDivElement>;
 
@@ -20,16 +20,15 @@ const initLogin = {
   user_remember: false,
 };
 
-const Login: React.FC<Props> = ({ className, ...prop }: Props) => {
-  const { handleAuth } = useAuth();
+const Login: React.FC<Props> = ({ className, ...props }: Props) => {
+  const { handleLogin } = useAuth();
 
   return (
-    <Card className={clsx('border-none', className)}  {...prop}>
+    <Card className={clsx('border-none', className)}  {...props}>
       <Formik
         initialValues={initLogin}
-        onSubmit={(values) => handleAuth(values)}
+        onSubmit={(values) => handleLogin(values)}
         validationSchema={LoginSchema}
-
       >
         {({ submitForm, isSubmitting }) => (
           <CardContent className='space-y-2 pt-6 pb-0 flex flex-col gap-2'>
@@ -40,15 +39,23 @@ const Login: React.FC<Props> = ({ className, ...prop }: Props) => {
               }
             }}
             >
-              <div className='space-y-1 py-2'>
-                <Label htmlFor='username'>Username</Label>
-                <Field name="username" type="text" className="rounded-2xl" as={FormikInput} autoFocus autoComplete="username" />
-                <FormikErrorMessage name="username" />
+              <div >
+                <Field
+                  label="Username"
+                  name="username"
+                  className="rounded-2xl"
+                  autoComplete="username"
+                  component={FormikInput} />
               </div>
-              <div className='space-y-1 py-2'>
-                <Label htmlFor='user_password'>Password</Label>
-                <Field name="user_password" type="password" className="rounded-2xl" as={FormikInput} autoFocus autoComplete="password webauthn" />
-                <FormikErrorMessage name="user_password" />
+
+              <div>
+                <Field
+                  label="Password"
+                  name="user_password"
+                  type="password"
+                  className="rounded-2xl"
+                  autoComplete="password webauthn"
+                  component={FormikInput} />
               </div>
 
               <CardDescription className="!m-0">
@@ -65,10 +72,10 @@ const Login: React.FC<Props> = ({ className, ...prop }: Props) => {
             <Button disabled={isSubmitting ? true : false} className="!bg-primary hover:!bg-primary-100" onClick={submitForm} type='submit'>
               {isSubmitting ? <Loader2Icon className="animate-spin" /> : 'Login'}
             </Button>
-
           </CardContent>
         )}
       </Formik >
+
       <CardFooter>
         <div className='relative flex py-5 items-center w-full'>
           <div className='flex-grow border-t border-white'></div>

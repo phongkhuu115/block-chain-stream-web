@@ -20,14 +20,13 @@ export type User = {
 } | undefined;
 
 type AuthContextType = {
-    handleAuth: (values: any) => void;
+    handleLogin: (values: any) => void;
+    handleSignUp: (values: any) => void;
 };
 
 interface AccountProviderProps {
     children?: React.ReactNode
 }
-
-
 
 const AuthContext = createContext<AuthContextType | null>(null);
 
@@ -43,7 +42,9 @@ export const useAuth = () => {
 export const AuthProvider = ({ children }: AccountProviderProps) => {
     const dispatch = useDispatch();
     const router = useRouter()
-    const handleAuth = async (values: any) => {
+
+
+    const handleLogin = async (values: any) => {
         console.log('values: ', values);
 
         const paramsLogin = getAxiosParam(
@@ -71,11 +72,42 @@ export const AuthProvider = ({ children }: AccountProviderProps) => {
         catch (err) {
             notifyError("Login failed");
         }
+    };
 
+    const handleSignUp = async (values: any) => {
+        const paramsSignUp = getAxiosParam(
+            process.env.NEXT_PUBLIC_API_URL + '/register',
+            '',
+            {
+                username: values.username,
+                password: values.user_password,
+                confirmed_password: values.confirm_password,
+                user_email: values.user_email,
+                user_fullname: values.user_fullname,
+            },
+            {
+                withCredentials: true,
+            }
+        );
+        try {
+            const res = await axios.request(paramsSignUp);
+            if (res.status === 201) {
+                notifySuccess(`Welcome to the club!}`);
+                const userData = res.data.user;
+                if (userData) {
+                    dispatch(storeUserData(userData))
+                    router.push("/")
+                }
+            }
+        }
+        catch (err: any) {
+            console.log('err: ', err);
+            notifyError(`Sign up failed \n ${err?.response.data.message.name}`);
+        }
     };
 
     return (
-        <AuthContext.Provider value={{ handleAuth }}>
+        <AuthContext.Provider value={{ handleLogin, handleSignUp }}>
             {children}
         </AuthContext.Provider>
     );
