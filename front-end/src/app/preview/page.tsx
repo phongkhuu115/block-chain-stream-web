@@ -1,5 +1,5 @@
 import { Metadata, NextPage } from 'next';
-import PreviewPageTempalate from '@modules/authentication/templates/preview';
+import PreviewPageTempalate from '@modules/preview/templates';
 
 export const metadata: Metadata = {
   title: 'Preview Page',
@@ -9,11 +9,11 @@ export const metadata: Metadata = {
     canonical: '/',
     languages: {
       'en-US': '/en-US',
-      'de-DE': '/de-DE',
+      'vi-VN': '/vi-VN',
     },
   },
   openGraph: {
-    images: '/og-image.png',
+    images: '/image/stream-web.png',
   },
 };
 

@@ -15,6 +15,7 @@ import React from "react";
 import { Button } from "../../common/components/ui/button";
 import { Card, CardContent, CardFooter } from "../../common/components/ui/card";
 import { FormikCheckBox, FormikInput } from "../formik-comps";
+import ThirdPartyAuth from "../third-party-auth";
 
 type Props = {} & React.HTMLAttributes<HTMLDivElement>;
 
@@ -105,14 +106,16 @@ const SignUp: React.FC<Props> = ({ className, ...props }: Props) => {
             </Formik>
 
             <CardFooter>
-                <div className='relative flex py-5 items-center w-full'>
-                    <div className='flex-grow border-t border-white'></div>
-                    <span className='flex-shrink mx-4 text-white'>
-                        Or Login With
-                    </span>
-                    <div className='flex-grow border-t border-white'></div>
+                <div className="flex flex-col w-full justify-center items-center">
+                    <div className='relative flex py-5 items-center w-full'>
+                        <div className='flex-grow border-t border-white'></div>
+                        <span className='flex-shrink mx-4 text-white'>
+                            Or Sign Up With
+                        </span>
+                        <div className='flex-grow border-t border-white'></div>
+                    </div>
+                    <ThirdPartyAuth className="flex  w-full" />
                 </div>
-                {/* Google, etc button */}
             </CardFooter>
         </Card >
 

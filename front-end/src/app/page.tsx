@@ -1,7 +1,6 @@
 "use client"
 
 import GroupMainTemplate from "@modules/stream-view/group-main";
-import { useSelector, useDispatch } from 'react-redux'
 
 const Home = () => {
   return (

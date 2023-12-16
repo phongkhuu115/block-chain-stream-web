@@ -25,7 +25,7 @@
     "baseUrl": "./src",
     "paths": {
       "@public/*": [
-        "app/public/*"
+        "public/*"
       ],
       "@lib/*": [
         "lib/*"

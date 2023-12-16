@@ -28,7 +28,7 @@ export default function UserPage() {
   } = user;
 
   return (
-    <main className='flex'>
+    <main className='container'>
       <UserSideBar />
       <section>
         <Card className='border-0'>
