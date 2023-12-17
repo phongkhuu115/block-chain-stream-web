@@ -35,12 +35,17 @@ module.exports = {
   UpdateValidation: () => {
     return [
       body('username', 'Invalid username')
+        .optional()
         .matches(/[A-Za-z0-9\s]+$/)
         .withMessage('Must not contain special characters'),
-      body('user_email', 'Must be a correct email format').isEmail(),
-      body('user_fullname', 'Must not contain special characters').matches(
-        /[A-Za-z0-9\s]+$/
-      ),
+      body('user_email', 'Must be a correct email format').optional().isEmail(),
+      body('user_fullname', 'Must not contain special characters')
+        .optional()
+        .matches(/[A-Za-z0-9\s]+$/),
+      body('user_avatar', 'Invalid username')
+        .optional()
+        .isURL()
+        .withMessage('Must be an URL'),
     ];
   },
   // CreateVideoValidation: () => {
@@ -52,7 +57,7 @@ module.exports = {
   //     body('user_fullname', 'Must not contain special characters').matches(
   //       /[A-Za-z0-9\s]+$/
   //     ),
-  //   ] 
+  //   ]
   // },
   // ! DO NOT MODIFY THIS FUNCTION
   Validation: (req, res, next) => {
