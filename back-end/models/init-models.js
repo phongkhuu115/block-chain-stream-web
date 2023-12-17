@@ -36,7 +36,7 @@ function initModels(sequelize) {
   Labels.hasMany(User_Favorites, { as: "User_Favorites", foreignKey: "label_id"});
   Video_Labels.belongsTo(Labels, { as: "label", foreignKey: "label_id"});
   Labels.hasMany(Video_Labels, { as: "Video_Labels", foreignKey: "label_id"});
-  Channels.belongsTo(Users, { as: "channel_owner_User", foreignKey: "channel_owner"});
+  Channels.belongsTo(Users, { as: "Owners", foreignKey: "channel_owner"});
   Users.hasOne(Channels, { as: "Channel", foreignKey: "channel_owner"});
   Comments.belongsTo(Users, { as: "comment_user_User", foreignKey: "comment_user"});
   Users.hasMany(Comments, { as: "Comments", foreignKey: "comment_user"});

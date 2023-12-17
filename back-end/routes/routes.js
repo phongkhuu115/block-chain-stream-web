@@ -30,11 +30,22 @@ routes.put(
 routes.get('/user/:id', UserController.GetUser);
 routes.delete('/user/:id', UserController.DeleteUser);
 // Channels
-routes.get('/channels', ChannelController.getChannels);
+routes.get('/channels', GeneralAuth.VerifyJWT, ChannelController.getChannels);
+routes.get('/channels/:id', GeneralAuth.VerifyJWT, ChannelController.getChannel);
 routes.post(
   '/channels',
   GeneralAuth.VerifyJWT,
   ChannelController.createChannels
+);
+routes.put(
+  '/channels/:id',
+  GeneralAuth.VerifyJWT,
+  ChannelController.updateChannels
+);
+routes.delete(
+  '/channels/:id',
+  GeneralAuth.VerifyJWT,
+  ChannelController.updateChannels
 );
 // Videos
 routes.post('/previewUp', VideoController.PreviewUpdate);

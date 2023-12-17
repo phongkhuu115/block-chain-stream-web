@@ -4,7 +4,7 @@ function ValidateEmail(email) {
   return regex.test(email);
 }
 
-function ValidatePriviledge(req, key) {
+function ValidatePriviledge(req, key = '') {
   console.log(req.caller)
   return key === req.caller || req.privilege === 'admin'
 }

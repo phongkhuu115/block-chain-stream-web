@@ -68,7 +68,7 @@ module.exports = {
         } = user;
         let access_token = jwt.sign(
           {
-            privilege: user_role === 2 ? 'admin' : 'user',
+            privilege: user_role === '2' ? 'admin' : 'user',
             user_id: user_id,
           },
           process.env.JWT_SECRET_KEY,

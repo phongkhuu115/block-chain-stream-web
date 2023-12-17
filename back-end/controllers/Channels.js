@@ -6,21 +6,61 @@ const models = initModels(sequelize);
 
 module.exports = {
   getChannels: async (req, res) => {
-    try {
-      let channels = await models.Channels.findAll({ raw: true });
-      if (channels) {
-        res.status(200).json({
-          channels: channels,
-        });
-      } else {
-        res.status(404).json({
-          message: 'No channel found',
+    console.log(ValidatePriviledge(req));
+    if (ValidatePriviledge(req)) {
+      try {
+        let channels = await models.Channels.findAll({ raw: true });
+        if (channels) {
+          res.status(200).json({
+            channels: channels,
+          });
+        } else {
+          res.status(404).json({
+            message: 'No channel found',
+          });
+        }
+      } catch (err) {
+        res.status(500).json({
+          message: err,
         });
       }
-    } catch (err) {
-      res.status(500).json({
-        message: err,
+    } else {
+      res.status(401).json({
+        message: 'Unauthorized',
       });
+    }
+  },
+  getChannel: async (req, res) => {
+    let id = req.params.id;
+    let { channel_owner } = req.body;
+    if (ValidatePriviledge(req, channel_owner)) {
+      try {
+        let channel = await models.Channels.findOne({
+          where: {
+            channel_id: id,
+          },
+          include: {
+            model: models.Users,
+            as: 'Owners',
+            attributes: {
+              exclude: ['password'],
+            },
+          },
+        });
+        if (channel) {
+          res.status(200).json({
+            channel: channel,
+          });
+        } else {
+          res.status(404).json({
+            message: 'No channel found',
+          });
+        }
+      } catch (err) {
+        res.status(500).json({
+          message: err,
+        });
+      }
     }
   },
   createChannels: async (req, res) => {
@@ -47,29 +87,43 @@ module.exports = {
     }
   },
   updateChannels: async (req, res) => {
-    try {
-      let myVar = req.body.myVar;
-      res.status().json({
-        message: 'success',
-        //other field here
-      });
-    } catch (error) {
-      res.status(500).json({
-        message: error + '',
-      });
+    let id = req.params.id;
+    let { channel_owner } = req.body;
+    if (ValidatePriviledge(req, channel_owner)) {
+      try {
+        const updatedRows = await models.Channels.update(req.body, {
+          where: { channel_id: id },
+        });
+
+        res.status(204).json({
+          user: updatedRows,
+        });
+      } catch (err) {
+        res.status(500).json({
+          message: err.errors[0].message,
+        });
+      }
     }
   },
   deleteChannels: async (req, res) => {
-    try {
-      let myVar = req.body.myVar;
-      res.status().json({
-        message: 'success',
-        //other field here
-      });
-    } catch (error) {
-      res.status(500).json({
-        message: error + '',
-      });
+    let id = req.params.id;
+    let { channel_owner } = req.body;
+    if (ValidatePriviledge(req, channel_owner)) {
+      try {
+        let query = {
+          where: { channel_id: id },
+        };
+
+        await models.Channels.destroy(query);
+
+        res.status(200).json({
+          message: 'video deleted',
+        });
+      } catch (err) {
+        res.status(500).json({
+          message: err.errors[0].message,
+        });
+      }
     }
   },
 };
