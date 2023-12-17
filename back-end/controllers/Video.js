@@ -22,8 +22,6 @@ module.exports = {
       method: 'get',
       url: `http://${STREAM_DOMAIN}:3333/liveUp/${video_owner}`,
     });
-    console.log(checkStatus.data.status);
-    console.log(ValidatePriviledge(req, video_owner));
     if (ValidatePriviledge(req, video_owner) && checkStatus.data.status) {
       try {
         let video_id = crypto.randomUUID();
@@ -84,8 +82,6 @@ module.exports = {
         },
       });
 
-      console.log(video);
-
       res.status(200).json({
         message: 'success',
         video: video,
@@ -95,6 +91,81 @@ module.exports = {
       res.status(500).json({
         message: err,
       });
+    }
+  },
+  IncreaseView: async (req, res) => {
+    let id = req.params.id;
+    try {
+      const updatedRows = await models.Videos.increment('video_views', {
+        where: { video_id: id },
+        by: 1,
+      });
+
+      res.status(204).json({
+        user: updatedRows,
+      });
+    } catch (err) {
+      res.status(500).json({
+        message: err.errors[0].message,
+      });
+    }
+  },
+  UpdateVideo: async (req, res) => {
+    let id = req.params.id;
+    let { video_owner } = req.body;
+    if (ValidatePriviledge(req, video_owner)) {
+      try {
+        const updatedRows = await models.Videos.update(req.body, {
+          where: { video_id: id },
+        });
+
+        res.status(204).json({
+          user: updatedRows,
+        });
+      } catch (err) {
+        res.status(500).json({
+          message: err.errors[0].message,
+        });
+      }
+    }
+  },
+  SuddenTerminate: async (req, res) => {
+    let id = req.params.id;
+    try {
+      await models.Videos.destroy({
+        where: { video_id: id },
+      });
+
+      res.status(200).json({
+        message: 'live stream crashed',
+      });
+    } catch (err) {
+      res.status(500).json({
+        message: err.errors[0].message,
+      });
+    }
+  },
+  DeleteVideo: async (req, res) => {
+    let id = req.params.id;
+    let { video_owner } = req.body;
+    if (ValidatePriviledge(req, video_owner)) {
+      try {
+        let query = {
+          where: { video_id: id },
+        };
+        const video = await models.Videos.findOne(query);
+        if (video.video_type !== 'stream') {
+          await models.Videos.destroy(query);
+        }
+
+        res.status(200).json({
+          message: 'video deleted',
+        });
+      } catch (err) {
+        res.status(500).json({
+          message: err.errors[0].message,
+        });
+      }
     }
   },
 };

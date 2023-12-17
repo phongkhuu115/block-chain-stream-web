@@ -40,5 +40,9 @@ routes.post(
 routes.post('/previewUp', VideoController.PreviewUpdate);
 routes.post('/videos', GeneralAuth.VerifyJWT, VideoController.CreateVideo);
 routes.get('/videos/:id', VideoController.GetVideo);
+routes.put('/videos/:id', VideoController.UpdateVideo);
+routes.put('/videos/:id/views', VideoController.IncreaseView);
+routes.delete('/videos/:id/terminate', VideoController.SuddenTerminate);
+routes.delete('/videos/:id', VideoController.DeleteVideo);
 
 module.exports = routes;
