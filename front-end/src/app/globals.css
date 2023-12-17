@@ -19,10 +19,6 @@ html {
   font-family: 'Poppins', sans-serif;
 }
 
-body {
-  color: var(--text-white);
-}
-
 .center-item {
   display: flex;
   justify-content: center;

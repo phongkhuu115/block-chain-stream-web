@@ -55,6 +55,13 @@ module.exports = {
                 beta: {
                     DEFAULT: "#D9D9D966",
                 },
+                "papaya-whip": {
+                    DEFAULT: "#FFEFD5",
+                },
+                "ash-gray": {
+                    DEFAULT: "#C6D8D3",
+                },
+
 
             },
             borderRadius: {

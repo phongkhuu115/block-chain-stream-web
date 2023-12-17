@@ -7,7 +7,7 @@ import NavigatorLinks from "./navigator";
 
 const Header = () => {
   return (
-    <div id="header" className="bg-secondary flex flex-row items-center justify-between h-12">
+    <div id="header" className="bg-secondary text-white flex flex-row items-center justify-between h-12">
       <div className="flex flex-row h-full">
         <div className="flex h-full justify-center items-center">
           <Banner />

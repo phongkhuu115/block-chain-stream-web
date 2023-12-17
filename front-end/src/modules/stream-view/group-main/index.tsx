@@ -27,7 +27,7 @@ const StreamData = {
 
 const GroupMainTemplate = (props: Props) => {
   return (
-    <Card className='flex flex-col rounded-xl shadow-xl bg-secondary border-none'>
+    <Card className='flex text-white flex-col rounded-xl shadow-xl bg-secondary border-none'>
       <CardContent className='flex w-full h-full items-center justify-center p-2'>
         <View url='https://stream.mux.com/v69RSHhFelSm4701snP22dYz2jICy4E4FUyk02rW4gxRM.m3u8' />
       </CardContent>
