@@ -28,7 +28,7 @@ export const FormikInput: React.FC<FormikInputProps> = ({ field, form, type, lab
 
     return (
         <>
-            <Label htmlFor={field?.name}>{label}</Label>
+            <Label className="" htmlFor={field?.name}>{label}</Label>
             <div className={clsx("flex relative z-0 w-full pt-2 ", { "pb-0": hasError, "pb-2": !hasError })}>
                 <Input className={clsx({ "!rounded-r-none": type === 'password' }, className)} type={inputType}
                     {...field}
@@ -38,7 +38,7 @@ export const FormikInput: React.FC<FormikInputProps> = ({ field, form, type, lab
                     <button
                         type="button"
                         onClick={() => setShowPassword(!showPassword)}
-                        className="transition-all duration-150 text-primary-100"
+                        className="transition-all duration-150"
                     >
                         <div className="px-1 bg-white rounded-r-[10px] border border-beta border-l-0 h-full ">
                             {showPassword ? <Eye className="relative object-cover h-full" /> : <EyeOff className="relative object-cover  h-full" />}

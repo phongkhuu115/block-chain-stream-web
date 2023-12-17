@@ -18,7 +18,8 @@ export const metadata: Metadata = {
 }
 
 
-const ProfilePage: NextPage = () => {
+const ProfilePage: NextPage = async () => {
+  await new Promise((resolve) => setTimeout(resolve, 1000));
   return <ProfilePageTemplate />
 }
 

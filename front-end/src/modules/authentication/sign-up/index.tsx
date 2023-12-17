@@ -36,7 +36,7 @@ const SignUp: React.FC<Props> = ({ className, ...props }: Props) => {
     const { handleSignUp } = useAuth();
 
     return (
-        <Card className={clsx(className, "border-none")}  {...props}>
+        <Card className={clsx(className, "border-none rounded-t-none bg-secondary text-white")}  {...props}>
             <Formik
                 initialValues={initSignUp}
                 onSubmit={(values) => handleSignUp(values)}
@@ -73,16 +73,16 @@ const SignUp: React.FC<Props> = ({ className, ...props }: Props) => {
                                     component={FormikInput} />
                             </div>
                             <div>
-                                <Label htmlFor='user_email'>Email</Label>
                                 <Field
+                                    label="Email"
                                     name="user_email"
                                     className="rounded-2xl"
                                     autoComplete="email"
                                     component={FormikInput} />
                             </div>
                             <div>
-                                <Label htmlFor='user_fullname'>Fullname</Label>
                                 <Field name="user_fullname"
+                                    label="Full Name"
                                     className="rounded-2xl"
                                     autoComplete="name"
                                     component={FormikInput} />
@@ -98,7 +98,7 @@ const SignUp: React.FC<Props> = ({ className, ...props }: Props) => {
                                 </label>
                             </div>
                         </Form>
-                        <Button disabled={isSubmitting ? true : false} className="!bg-primary hover:!bg-primary-100" onClick={submitForm} type='submit'>
+                        <Button disabled={isSubmitting ? true : false} className="!bg-primary hover:!bg-primary-100 text-white" onClick={submitForm} type='submit'>
                             {isSubmitting ? <Loader2Icon className="animate-spin" /> : 'Sign Up'}
                         </Button>
                     </CardContent>
@@ -108,11 +108,11 @@ const SignUp: React.FC<Props> = ({ className, ...props }: Props) => {
             <CardFooter>
                 <div className="flex flex-col w-full justify-center items-center">
                     <div className='relative flex py-5 items-center w-full'>
-                        <div className='flex-grow border-t border-white'></div>
-                        <span className='flex-shrink mx-4 text-white'>
+                        <div className='flex-grow border-t border-current'></div>
+                        <span className='flex-shrink mx-4 '>
                             Or Sign Up With
                         </span>
-                        <div className='flex-grow border-t border-white'></div>
+                        <div className='flex-grow border-t border-current'></div>
                     </div>
                     <ThirdPartyAuth className="flex  w-full" />
                 </div>

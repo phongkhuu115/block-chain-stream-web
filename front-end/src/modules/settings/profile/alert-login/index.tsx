@@ -8,9 +8,8 @@ import "./index.scss";
 type Props = {} & React.HTMLAttributes<HTMLDivElement>;
 
 const AlertLogin: React.FC<Props> = ({ className, ...props }: Props) => {
-
     return (
-        <Alert.Alert className="flex flex-1 flex-col center-item rounded-2xl border border-se shadow bg-feldgrau text-white p-3">
+        <Alert.Alert className="flex  flex-1 flex-col  center-item rounded-2xl border border-se shadow-2xl bg-feldgrau text-white p-3">
             <div className="flex gap-2 justify-center items-center pt-3 ">
                 <AlertCircleIcon className="w-8 h-8 " />
                 <Alert.AlertTitle>Attention</Alert.AlertTitle>
@@ -26,8 +25,7 @@ const AlertLogin: React.FC<Props> = ({ className, ...props }: Props) => {
                         button.classList.toggle("potato__button--active");
                     }} className="potato__button">
                         <span>
-                            {/* <Link href='/login'>Login</Link> */}
-                            Login
+                            <Link href='/login'>Login</Link>
                         </span>
                     </button>
                 </div>

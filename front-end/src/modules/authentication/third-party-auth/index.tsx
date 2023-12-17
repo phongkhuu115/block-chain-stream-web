@@ -19,9 +19,6 @@ const ThirdPartyAuth: React.FC<Props> = ({ className, ...props }: Props) => {
         if (!credentialResponse?.credential) return;
         return jwtDecode(credentialResponse.credential);
     }, [credentialResponse]);
-    // console.log('credentialResponse: ', credentialResponse);
-    // console.log('user: ', user);
-
     return (
         <div {...props}>
             <GoogleLogin

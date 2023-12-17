@@ -27,7 +27,7 @@ const ProfilePageTemplate = () => {
     } = user;
 
     return (
-        <main className='profile__page container center-item min-h-[90vh]'>
+        <main className='profile__page container center-item h-[90vh]'>
             {/* <UserSideBar /> */}
             <section>
                 {

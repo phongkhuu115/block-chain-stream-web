@@ -25,7 +25,7 @@ const Login: React.FC<Props> = ({ className, ...props }: Props) => {
   const { handleLogin } = useAuth();
 
   return (
-    <Card className={clsx('border-none', className)}  {...props}>
+    <Card className={clsx('border-none rounded-t-none bg-secondary text-white', className)}  {...props}>
       <Formik
         initialValues={initLogin}
         onSubmit={(values) => handleLogin(values)}
@@ -70,7 +70,7 @@ const Login: React.FC<Props> = ({ className, ...props }: Props) => {
                 </label>
               </div>
             </Form>
-            <Button disabled={isSubmitting ? true : false} className="!bg-primary hover:!bg-primary-100" onClick={submitForm} type='submit'>
+            <Button disabled={isSubmitting ? true : false} className="!bg-primary hover:!bg-primary-100 text-white" onClick={submitForm} type='submit'>
               {isSubmitting ? <Loader2Icon className="animate-spin" /> : 'Login'}
             </Button>
           </CardContent>
@@ -80,11 +80,11 @@ const Login: React.FC<Props> = ({ className, ...props }: Props) => {
       <CardFooter>
         <div className="flex flex-col w-full justify-center items-center">
           <div className='relative flex py-5 items-center w-full'>
-            <div className='flex-grow border-t border-white'></div>
-            <span className='flex-shrink mx-4 text-white'>
+            <div className='flex-grow border-t border-inherit'></div>
+            <span className='flex-shrink mx-4 '>
               Or Login With
             </span>
-            <div className='flex-grow border-t border-white'></div>
+            <div className='flex-grow border-t border-inherit'></div>
           </div>
           <ThirdPartyAuth className="flex  w-full" />
         </div>
