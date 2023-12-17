@@ -27,7 +27,7 @@ const ProfilePageTemplate = () => {
     } = user;
 
     return (
-        <main className='profile__page container center-item text-white min-h-[90vh]'>
+        <main className='profile__page container center-item min-h-[90vh]'>
             {/* <UserSideBar /> */}
             <section>
                 {
@@ -79,7 +79,8 @@ const ProfilePageTemplate = () => {
                                             <Link href={'/preview'}>Create A Stream</Link>
                                         </Button>
                                     </div>
-                                </CardContent>
+                                </CardContent>ư
+
                             </Card>
                         )
                         :

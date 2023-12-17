@@ -61,8 +61,9 @@ module.exports = {
                 "ash-gray": {
                     DEFAULT: "#C6D8D3",
                 },
-
-
+                "feldgrau": {
+                    DEFAULT: "#466060",
+                },
             },
             borderRadius: {
                 lg: "var(--radius)",
