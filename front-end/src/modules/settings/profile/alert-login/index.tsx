@@ -24,8 +24,8 @@ const AlertLogin: React.FC<Props> = ({ className, ...props }: Props) => {
                         const button = e.target as HTMLButtonElement;
                         button.classList.toggle("potato__button--active");
                     }} className="potato__button">
-                        <span>
-                            <Link href='/login'>Login</Link>
+                        <span className="w-full h-full">
+                            <Link className="w-full h-full center-item text-center" href='/login'>Login</Link>
                         </span>
                     </button>
                 </div>

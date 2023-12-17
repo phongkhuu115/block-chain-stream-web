@@ -6,9 +6,16 @@ import Login from "../login"
 import SignUp from "../sign-up"
 import "./index.scss"
 import { useSelector } from "react-redux"
+import { useRouter } from "next/navigation"
 
 const AuthenticationPageTempalate = () => {
     const user = useSelector((state: any) => state.user.user);
+    const router = useRouter();
+    
+    if (user.user_id) {
+        router.push('/')
+        return <></>
+    }
 
     return (
         <main className='container h-[100vh] center-item'>

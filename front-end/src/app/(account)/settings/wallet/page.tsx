@@ -1,7 +1,7 @@
 import { Metadata, NextPage } from 'next';
 
 export const metadata: Metadata = {
-    title: 'Auth Page',
+    title: 'Wallet Page',
     description: 'Auth Page',
     metadataBase: new URL('https://acme.com'),
     alternates: {
@@ -17,7 +17,7 @@ export const metadata: Metadata = {
 }
 
 
-const WalletPage: NextPage = () => {
+const WalletPage: NextPage = async () => {
 
     return <>Wallet Page</>
 }

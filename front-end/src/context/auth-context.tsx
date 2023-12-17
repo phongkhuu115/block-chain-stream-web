@@ -1,9 +1,8 @@
 "use client";
 
+import { getAxiosParam } from '@lib/helpers/api';
 import { notifyError, notifySuccess } from '@modules/common/components/toast-comps';
 import axios from 'axios';
-import { getAxiosParam } from '@lib/helpers/api';
-import { url } from 'inspector';
 import { useRouter } from 'next/navigation';
 import { createContext, useContext } from 'react';
 import { useDispatch } from 'react-redux';
@@ -18,11 +17,6 @@ export type User = {
     user_avatar: string,
     user_role: "3",
 } | undefined;
-
-type AuthContextType = {
-    handleLogin: (values: any) => void;
-    handleSignUp: (values: any) => void;
-};
 
 interface AccountProviderProps {
     children?: React.ReactNode
@@ -43,24 +37,24 @@ export const AuthProvider = ({ children }: AccountProviderProps) => {
     const dispatch = useDispatch();
     const router = useRouter()
 
-
     const handleLogin = async (values: any) => {
-        console.log('values: ', values);
-
         const paramsLogin = getAxiosParam(
             process.env.NEXT_PUBLIC_API_URL + '/login',
-            '',
+            'POST',
             {
                 username: values.username,
                 password: values.user_password,
             },
+            "",
             {
                 withCredentials: true,
             }
         );
         try {
+            console.log('paramsLogin: ', paramsLogin);
             const res = await axios.request(paramsLogin);
             if (res.status === 200) {
+                console.log('res: ', res);
                 notifySuccess("Login success");
                 const userData = res.data.user;
                 if (userData) {
@@ -69,15 +63,15 @@ export const AuthProvider = ({ children }: AccountProviderProps) => {
                 }
             }
         }
-        catch (err) {
-            notifyError("Login failed");
+        catch (err: any) {
+            notifyError(`Login failed ${(err?.message).toLowerCase()}`);
         }
     };
 
     const handleSignUp = async (values: any) => {
         const paramsSignUp = getAxiosParam(
             process.env.NEXT_PUBLIC_API_URL + '/register',
-            '',
+            'POST',
             {
                 username: values.username,
                 password: values.user_password,
@@ -85,6 +79,7 @@ export const AuthProvider = ({ children }: AccountProviderProps) => {
                 user_email: values.user_email,
                 user_fullname: values.user_fullname,
             },
+            '',
             {
                 withCredentials: true,
             }
@@ -106,10 +101,69 @@ export const AuthProvider = ({ children }: AccountProviderProps) => {
         }
     };
 
+    const handleLogout = async () => {
+        const paramsLogout = getAxiosParam(
+            process.env.NEXT_PUBLIC_API_URL + '/logout',
+            'POST',
+            {},
+            '',
+            {
+                withCredentials: true,
+            },
+        );
+        try {
+            const res = await axios.request(paramsLogout);
+            if (res.status === 200) {
+                notifySuccess("Logout success");
+                dispatch(storeUserData(undefined))
+                router.push("/")
+            }
+        }
+        catch (err: any) {
+            notifyError(`Logout failed ${(err?.message).toLowerCase()}`);
+        }
+    }
+
+    const handleUpdateProfile = async (values: any) => {
+        console.log('values: ', values);
+        const paramsUpdateProfile = getAxiosParam(
+            process.env.NEXT_PUBLIC_API_URL + `/user/${values.user_id}`,
+            'PUT',
+            {
+                username: values.username,
+                user_fullname: values.user_fullname,
+                user_email: values.user_email,
+            },
+            '',
+            {
+                withCredentials: true,
+            }
+        );
+        try {
+            const res = await axios.request(paramsUpdateProfile);
+            if (res.status === 204) {
+                notifySuccess("Update profile success");
+                const userData = res.data.user;
+                if (userData) {
+                    dispatch(storeUserData(userData))
+                    router.push("/")
+                }
+            }
+        }
+        catch (err: any) {
+            notifyError(`Update profile failed ${(err?.message).toLowerCase()}`);
+        }
+    }
+
     return (
-        <AuthContext.Provider value={{ handleLogin, handleSignUp }}>
+        <AuthContext.Provider value={{ handleLogin, handleSignUp, handleUpdateProfile }}>
             {children}
         </AuthContext.Provider>
     );
 };
 
+type AuthContextType = {
+    handleLogin: (values: any) => void;
+    handleSignUp: (values: any) => void;
+    handleUpdateProfile: (values: any) => void;
+};

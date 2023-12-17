@@ -1,8 +1,24 @@
-"use client"
-
 import GroupMainTemplate from "@modules/stream-view/group-main";
+import { Metadata, NextPage } from 'next';
 
-const Home = () => {
+export const metadata: Metadata = {
+  title: 'Home Page',
+  description: 'Home Page',
+  metadataBase: new URL('https://acme.com'),
+  alternates: {
+    canonical: '/',
+    languages: {
+      'en-US': '/en-US',
+      'de-DE': '/de-DE',
+    },
+  },
+  openGraph: {
+    images: '/og-image.png',
+  },
+}
+
+
+const Home: NextPage = async () => {
   return (
     <>
       <main className="flex items-center justify-center flex-row w-full h-full p-5">
@@ -13,7 +29,7 @@ const Home = () => {
         </div>
       </main>
     </>
-  );
-};
+  )
+}
 
 export default Home;

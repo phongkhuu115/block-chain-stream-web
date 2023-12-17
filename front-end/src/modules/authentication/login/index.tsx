@@ -1,5 +1,4 @@
 import { LoginSchema } from "@lib/constant/validation";
-import { Label } from "@radix-ui/react-label";
 import clsx from "clsx";
 import { useAuth } from "context/auth-context";
 import { ConnectedFocusError } from 'focus-formik-error';
@@ -10,8 +9,8 @@ import React from "react";
 import { Button } from "../../common/components/ui/button";
 import { Card, CardContent, CardDescription, CardFooter } from "../../common/components/ui/card";
 import { FormikCheckBox, FormikInput } from "../formik-comps";
-import "./index.scss";
 import ThirdPartyAuth from "../third-party-auth";
+import "./index.scss";
 
 type Props = {} & React.HTMLAttributes<HTMLDivElement>;
 
@@ -70,7 +69,7 @@ const Login: React.FC<Props> = ({ className, ...props }: Props) => {
                 </label>
               </div>
             </Form>
-            <Button disabled={isSubmitting ? true : false} className="!bg-primary hover:!bg-primary-100 text-white" onClick={submitForm} type='submit'>
+            <Button disabled={isSubmitting} className="!bg-primary hover:!bg-primary-100 text-white" onClick={submitForm} type='submit'>
               {isSubmitting ? <Loader2Icon className="animate-spin" /> : 'Login'}
             </Button>
           </CardContent>

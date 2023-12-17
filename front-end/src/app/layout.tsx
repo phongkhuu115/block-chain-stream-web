@@ -1,14 +1,12 @@
 import { cn } from '@lib/utils';
-import Footer from '@modules/common/components/footer/footer';
 import Header from '@modules/common/components/header/header';
 import RootWrapper from '@modules/common/components/wrapper/wrapper';
+import ClientLayout from '@modules/layout/client-layout';
 import '@rainbow-me/rainbowkit/styles.css';
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
-import { usePathname } from 'next/navigation';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import ClientLayout from './ClientLayout';
 import './globals.css';
 export const inter = Inter({ subsets: ['latin'] });
 

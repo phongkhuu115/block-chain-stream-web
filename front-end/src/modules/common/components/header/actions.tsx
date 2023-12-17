@@ -26,7 +26,7 @@ const DropDownAction = (props: Props) => {
           <Button key={index}>
             <Link
               href={link.href}
-              className="flex flex-col items-center justify-center gap-[5px] min-w-[150px] hover:bg-secondary group p-3 rounded-[20px] "
+              className="flex flex-col items-center justify-center gap-[5px] h-full min-w-[150px] hover:bg-secondary group p-3 rounded-[20px] "
             >
               <div className="relative font-extrabold flex items-center justify-center w-full ">
                 {link.name}
@@ -105,16 +105,14 @@ const VerticalAction = () => {
             ></CustomRainbowConnectButton>
           ) : (
             <Button
-              variant="link"
-              className="flex justify-center items-center h-fit w-fit hover:bg-[#9b5d5d] rounded-[20px] p-3"
+              className="flex justify-center items-center h-fit w-fit hover:bg-[#9b5d5d] bg-transparent rounded-[20px] p-3"
+              asChild
             >
               <Link href={action.href}>
-                <div className="flex justify-center items-center h-full  ">
-                  <action.icon
-                    className="text-white w-4 h-4 "
-                    strokeWidth={3}
-                  />
-                </div>
+                <action.icon
+                  className="text-white w-4 h-4 "
+                  strokeWidth={3}
+                />
               </Link>
             </Button>
           )}

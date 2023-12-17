@@ -3,10 +3,9 @@
 import FrozenRouter from "@modules/providers/frozen-router-provider";
 import { AnimatePresence, motion } from "framer-motion";
 import {
-    useSelectedLayoutSegment,
-    useSelectedLayoutSegments,
+    usePathname
 } from "next/navigation";
-import { ElementRef, forwardRef, useEffect } from "react";
+import { ElementRef, forwardRef } from "react";
 
 const wrapperVariants = {
     initial: {
@@ -45,21 +44,12 @@ Child.displayName = "Child";
 
 export default function ClientLayout(props: {
     children: React.ReactNode;
-    modal: React.ReactNode;
 }) {
-    const segment = useSelectedLayoutSegment();
-    const segments = useSelectedLayoutSegments("modal");
-
-
-    useEffect(() => {
-        const isShown = segments.join("") !== "__DEFAULT__";
-        document.body.classList.toggle("overflow-hidden", isShown);
-    }, [segments]);
-
+    const path = usePathname();
     return (
         <>
             <AnimatePresence mode="popLayout" initial={false}>
-                <Child key={segment}>{props.children}</Child>
+                <Child key={path}>{props.children}</Child>
             </AnimatePresence>
         </>
     );
