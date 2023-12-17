@@ -43,6 +43,17 @@ module.exports = {
       ),
     ];
   },
+  // CreateVideoValidation: () => {
+  //   return [
+  //     body('video_urls', 'Invalid username')
+  //       .matches(/[A-Za-z0-9\s]+$/)
+  //       .withMessage('Must not contain special characters'),
+  //     body('user_email', 'Must be a correct email format').isEmail(),
+  //     body('user_fullname', 'Must not contain special characters').matches(
+  //       /[A-Za-z0-9\s]+$/
+  //     ),
+  //   ] 
+  // },
   // ! DO NOT MODIFY THIS FUNCTION
   Validation: (req, res, next) => {
     const error = validationResult(req);

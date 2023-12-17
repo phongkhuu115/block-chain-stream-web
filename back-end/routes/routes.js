@@ -1,7 +1,7 @@
 const routes = require('express').Router();
 const UserController = require('../controllers/Users');
 const ChannelController = require('../controllers/Channels');
-const VideoController = require('../controllers/Video')
+const VideoController = require('../controllers/Video');
 const Validation = require('../middleware/Validation');
 const validation = require('../helpers/validation');
 const GeneralAuth = require('../middleware/GeneralAuth');
@@ -37,6 +37,8 @@ routes.post(
   ChannelController.createChannels
 );
 // Videos
-routes.post('/previewUp', VideoController.PreviewUpdate)
+routes.post('/previewUp', VideoController.PreviewUpdate);
+routes.post('/videos', GeneralAuth.VerifyJWT, VideoController.CreateVideo);
+routes.get('/videos/:id', VideoController.GetVideo);
 
 module.exports = routes;

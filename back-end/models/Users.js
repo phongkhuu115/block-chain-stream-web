@@ -21,7 +21,8 @@ module.exports = function(sequelize, DataTypes) {
     },
     user_email: {
       type: DataTypes.STRING(255),
-      allowNull: false
+      allowNull: false,
+      unique: "email_unique"
     },
     user_stream_key: {
       type: DataTypes.STRING(255),
@@ -54,6 +55,14 @@ module.exports = function(sequelize, DataTypes) {
         using: "BTREE",
         fields: [
           { name: "username" },
+        ]
+      },
+      {
+        name: "email_unique",
+        unique: true,
+        using: "BTREE",
+        fields: [
+          { name: "user_email" },
         ]
       },
     ]
