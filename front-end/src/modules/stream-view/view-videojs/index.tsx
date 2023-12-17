@@ -1,6 +1,6 @@
 'use client';
 
-import { STREAM_SERVER } from 'helpers/env-provider';
+import { STREAM_SERVER } from '@lib/helpers/env-provider';
 import { FC, useEffect, useRef, useState } from 'react';
 import videojs from 'video.js';
 import 'videojs-quality-selector-hls';

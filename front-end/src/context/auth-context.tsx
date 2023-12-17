@@ -2,7 +2,7 @@
 
 import { notifyError, notifySuccess } from '@modules/common/components/toast-comps';
 import axios from 'axios';
-import { getAxiosParam } from 'helpers/api';
+import { getAxiosParam } from '@lib/helpers/api';
 import { url } from 'inspector';
 import { useRouter } from 'next/navigation';
 import { createContext, useContext } from 'react';
