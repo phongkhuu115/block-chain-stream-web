@@ -45,7 +45,7 @@ routes.put(
 routes.delete(
   '/channels/:id',
   GeneralAuth.VerifyJWT,
-  ChannelController.updateChannels
+  ChannelController.deleteChannels
 );
 // Videos
 routes.post('/previewUp', VideoController.PreviewUpdate);

@@ -5,7 +5,6 @@ function ValidateEmail(email) {
 }
 
 function ValidatePriviledge(req, key = '') {
-  console.log(req.caller)
   return key === req.caller || req.privilege === 'admin'
 }
 

@@ -100,9 +100,13 @@ module.exports = {
         });
       } catch (err) {
         res.status(500).json({
-          message: err.errors[0].message,
+          message: err,
         });
       }
+    } else {
+      res.status(401).json({
+        message: 'Unauthorized',
+      });
     }
   },
   deleteChannels: async (req, res) => {
@@ -124,6 +128,10 @@ module.exports = {
           message: err.errors[0].message,
         });
       }
+    } else {
+      res.status(401).json({
+        message: 'Unauthorized',
+      });
     }
   },
 };
