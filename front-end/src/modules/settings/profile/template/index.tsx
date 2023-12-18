@@ -1,6 +1,6 @@
 "use client";
 
-import { LoginSchema, UpdateSchema } from '@lib/constant/validation';
+import { UpdateSchema } from '@lib/constant/validation';
 import { FormikInput } from '@modules/authentication/formik-comps';
 import Avatar from '@modules/common/components/ui/avatar';
 import { Button } from '@modules/common/components/ui/button';
@@ -11,80 +11,82 @@ import {
     CardHeader,
     CardTitle
 } from '@modules/common/components/ui/card';
-import { useAuth } from 'context/auth-context';
+import { UpdateUser, useAuth } from 'context/auth-context';
 import { ConnectedFocusError } from 'focus-formik-error';
 import { Field, Form, Formik } from 'formik';
 import { Loader2Icon, RotateCw } from 'lucide-react';
 import Link from 'next/link';
 import React from 'react';
-import { useSelector } from 'react-redux';
 import AlertLogin from '../alert-login';
 
-
-const isDifferent = (obj1: any, obj2: any) => {
-    const smaller = Object.keys(obj1).length < Object.keys(obj2).length ? obj1 : obj2;
-    for (let key in smaller) {
-        if (obj1[key] !== obj2[key]) {
-            return false;
-        }
-    }
-    return true;
-}
-
 const ProfilePageTemplate = () => {
-    const user = useSelector((state: any) => state.user.user);
+    const { user } = useAuth();
     const {
         user_id,
         username,
         user_fullname,
         user_email,
-        user_stream_key,
         user_avatar,
+        user_stream_key,
     } = user;
 
-    const initUpdateProfile = {
+    const initUpdateProfile: UpdateUser = {
         user_id: user_id,
         username: username,
         user_fullname: user_fullname,
         user_email: user_email,
+        user_avatar: user_avatar,
     };
 
     const { handleUpdateProfile } = useAuth();
     const [isChangeable, setIsChangeable] = React.useState(false);
 
     return (
-        <main className='profile__page container center-item h-[90vh]'>
+        <main className='profile__page container center-item min-h-[90vh]'>
             {/* <UserSideBar /> */}
-            <section>
+            <section className='min-w-[40vw]'>
                 {
                     user_id ?
                         (
-                            <Card className='m-4 bg-ash-gray shadow-2xl'>
+                            <Formik
+                                initialValues={initUpdateProfile}
+                                onSubmit={(values) => handleUpdateProfile(values)}
+                                validationSchema={UpdateSchema}
+                            >
+                                {({ submitForm, isSubmitting, dirty, resetForm }) =>
+                                (
 
-                                <CardHeader className='flex flex-row center-item gap-3'>
-                                    <Avatar
-                                        src={user_avatar ? user_avatar : 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png'}
-                                        alt={user_fullname}>
-                                    </Avatar>
+                                    <Card className='m-4 bg-ash-gray shadow-2xl'>
 
-                                    <div>
-                                        <CardTitle>{user_fullname ? user_fullname : 'Unknown'}</CardTitle>
-                                        <CardDescription>
-                                            {user_email ? user_email : 'Unknown'}
-                                        </CardDescription>
-                                        <CardDescription>
-                                            {username ? '@' + username : 'Unknown'}
-                                        </CardDescription>
-                                    </div>
-                                </CardHeader>
+                                        <CardHeader className='flex flex-col center-item gap-3'>
+                                            <Avatar
+                                                className='w-40 h-40'
+                                                src={user_avatar ? user_avatar : 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png'}
+                                                alt={user_fullname}>
+                                            </Avatar>
 
-                                <Formik
-                                    initialValues={initUpdateProfile}
-                                    onSubmit={(values) => handleUpdateProfile(values)}
-                                    validationSchema={UpdateSchema}
-                                >
-                                    {({ submitForm, isSubmitting, dirty, resetForm }) =>
-                                    (
+                                            <div>
+                                                <Field
+                                                    type='file'
+                                                    disabled={!isChangeable}
+                                                    name="user_avatar"
+                                                    className="rounded-2xl"
+                                                    accept=".jpg, .png"
+                                                    component={FormikInput} />
+                                            </div>
+
+                                            <div>
+                                                <CardTitle>{user_fullname ? user_fullname : 'Unknown'}</CardTitle>
+                                                <CardDescription>
+                                                    {user_email ? user_email : 'Unknown'}
+                                                </CardDescription>
+                                                <CardDescription>
+                                                    {username ? '@' + username : 'Unknown'}
+                                                </CardDescription>
+                                            </div>
+                                        </CardHeader>
+
+
                                         <CardContent className='flex flex-col'>
                                             <ConnectedFocusError />
                                             <Form onKeyDown={(e) => { if (e.key === 'Enter') { submitForm(); } }}>
@@ -117,7 +119,7 @@ const ProfilePageTemplate = () => {
                                                         component={FormikInput} />
                                                 </div>
 
-                                                <div className=''>
+                                                <div>
                                                     <Field
                                                         readOnly
                                                         disabled
@@ -129,54 +131,49 @@ const ProfilePageTemplate = () => {
                                                         component={FormikInput}
                                                         value={user_stream_key} />
                                                 </div>
-                                                <div className='flex gap-2 w-full flex-col text-white'>
-
-                                                    <div className='flex gap-2 w-full'>
-                                                        <Button disabled={isSubmitting} className='w-full' onClick={
-                                                            (e) => {
-                                                                e.preventDefault();
-                                                                if (dirty) {
-                                                                    submitForm();
-                                                                    setIsChangeable(false);
-                                                                }
-                                                                else
-                                                                    if (isChangeable) {
-                                                                        setIsChangeable(false);
-                                                                    } else {
-                                                                        setIsChangeable(true);
-                                                                    }
-                                                            }
-
-                                                        }>
-                                                            {
-                                                                isSubmitting
-                                                                    ?
-                                                                    <Loader2Icon className="animate-spin duration-100" />
-                                                                    :
-                                                                    (isChangeable ? (dirty ? 'Update Profile' : 'Cancel') : 'Update')
-                                                            }
-                                                        </Button>
-
-                                                        <Button
-                                                            disabled={!dirty}
-                                                            onClick={() => resetForm()}>
-                                                            <RotateCw />
-                                                        </Button>
-                                                    </div>
-
-
-                                                    <div className='flex gap-2'>
-                                                        <Button>Create Channel</Button>
-                                                        <Button>
-                                                            <Link href={'/preview'}>Create A Stream</Link>
-                                                        </Button>
-                                                    </div>
-                                                </div>
                                             </Form>
+                                            <div className='flex gap-2 w-full flex-col text-white'>
+                                                <div className='flex gap-2 w-full'>
+                                                    <Button disabled={isSubmitting} className='w-full' onClick={
+                                                        (e) => {
+                                                            if (dirty) {
+                                                                submitForm();
+                                                            }
+                                                            else
+                                                                if (isChangeable && !dirty) {
+                                                                    setIsChangeable(false);
+                                                                } else {
+                                                                    setIsChangeable(true);
+                                                                }
+                                                        }
+
+                                                    }>
+                                                        {
+                                                            isSubmitting
+                                                                ?
+                                                                <Loader2Icon className="animate-spin duration-100" />
+                                                                :
+                                                                (isChangeable ? (dirty ? 'Update Profile' : 'Cancel') : 'Update')
+                                                        }
+                                                    </Button>
+
+                                                    <Button
+                                                        disabled={!dirty}
+                                                        onClick={() => resetForm()}>
+                                                        <RotateCw />
+                                                    </Button>
+                                                </div>
+
+
+                                                <div className='flex gap-2 w-full'>
+                                                    <Button className="w-full whitespace-nowrap">Create Channel</Button>
+                                                    <Button className="w-full whitespace-nowrap" asChild><Link href={'/preview'}>Create A Stream</Link></Button>
+                                                </div>
+                                            </div>
                                         </CardContent>
-                                    )}
-                                </Formik>
-                            </Card>
+                                    </Card>
+                                )}
+                            </Formik>
                         )
                         :
                         (

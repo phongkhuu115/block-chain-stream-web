@@ -1,14 +1,16 @@
 'use client';
 
-import { STREAM_SERVER } from '@lib/helpers/env-provider';
 import { FC, useEffect, useRef, useState } from 'react';
 import videojs from 'video.js';
+import Player from 'video.js/dist/types/player';
 import 'videojs-quality-selector-hls';
 import './index.scss';
 
 type Props = {
   url?: string;
 };
+
+type MyPlayer = { qualitySelectorHls: () => void } & Player;
 
 const View: FC<Props> = (props: Props) => {
   const { url } = props;
@@ -42,7 +44,7 @@ const View: FC<Props> = (props: Props) => {
 
     // Check if the videoRef exists before initializing video.js
     if (videoRef.current) {
-      videojs(videoRef.current, { ...videoJsOptions }).qualitySelectorHls();
+      (videojs(videoRef.current, { ...videoJsOptions }) as MyPlayer).qualitySelectorHls();
     }
   }, []);
 

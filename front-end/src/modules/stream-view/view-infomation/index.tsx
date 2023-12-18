@@ -2,15 +2,17 @@ import Avatar from "@modules/common/components/ui/avatar";
 import { StaticImageData } from "next/image";
 import React from "react";
 
-type StreamInfomationProps = {
+export type StreamInfomationProps = {
   imageSrc?: string | StaticImageData;
   username: string;
   bio: string;
   followersCount: number;
-} & React.HTMLProps<HTMLButtonElement>;
+};
+
+type ViewInfomationProps = StreamInfomationProps & React.HTMLAttributes<HTMLElement>;
 
 
-const ViewInfomation: React.FC<StreamInfomationProps> = (
+const ViewInfomation: React.FC<ViewInfomationProps> = (
   {
     className,
     imageSrc = "https://avatars.githubusercontent.com/u/55942632?v=4",
@@ -18,7 +20,7 @@ const ViewInfomation: React.FC<StreamInfomationProps> = (
     bio,
     followersCount,
     ...props
-  }: StreamInfomationProps
+  }: ViewInfomationProps
 ) => {
 
   return (

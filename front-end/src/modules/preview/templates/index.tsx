@@ -16,13 +16,13 @@ import { Input } from '@modules/common/components/ui/input';
 import { Label } from '@modules/common/components/ui/label';
 import { Button } from '@modules/common/components/ui/button';
 import { RTMP_LINK } from '@lib/helpers/env-provider';
+import { useAuth } from 'context/auth-context';
 
 const PreviewPageTempalate = () => {
   const [url, setURL] = useState<string>();
   const socket = io('https://nt208-g4.site');
 
-  const user = useSelector((state: any) => state.user.user);
-  console.log(user);
+  const { user } = useAuth();
 
   socket.on(`preview_${user.user_id}`, (url) => {
     setURL(url);

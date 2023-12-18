@@ -5,18 +5,25 @@ import { notifyError, notifySuccess } from '@modules/common/components/toast-com
 import axios from 'axios';
 import { useRouter } from 'next/navigation';
 import { createContext, useContext } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { storeUserData } from 'redux/slices/userSlices';
 
-export type User = {
-    user_id: string,
+export type UserBase = {
     username: string,
     user_fullname: string,
     user_email: string,
-    user_stream_key: string,
     user_avatar: string,
-    user_role: "3",
-} | undefined;
+}
+
+export type User = {
+    user_id: string,
+    user_role: "1" | "2",
+    user_stream_key: string,
+} & UserBase;
+
+export type UpdateUser = {
+    user_id: string,
+} & UserBase;
 
 interface AccountProviderProps {
     children?: React.ReactNode
@@ -36,6 +43,7 @@ export const useAuth = () => {
 export const AuthProvider = ({ children }: AccountProviderProps) => {
     const dispatch = useDispatch();
     const router = useRouter()
+    const user = useSelector((state: any) => state.data.user) as User;
 
     const handleLogin = async (values: any) => {
         const paramsLogin = getAxiosParam(
@@ -124,7 +132,7 @@ export const AuthProvider = ({ children }: AccountProviderProps) => {
         }
     }
 
-    const handleUpdateProfile = async (values: any) => {
+    const handleUpdateProfile = async (values: UpdateUser) => {
         console.log('values: ', values);
         const paramsUpdateProfile = getAxiosParam(
             process.env.NEXT_PUBLIC_API_URL + `/user/${values.user_id}`,
@@ -133,6 +141,7 @@ export const AuthProvider = ({ children }: AccountProviderProps) => {
                 username: values.username,
                 user_fullname: values.user_fullname,
                 user_email: values.user_email,
+                user_avatar: values.user_avatar,
             },
             '',
             {
@@ -141,13 +150,17 @@ export const AuthProvider = ({ children }: AccountProviderProps) => {
         );
         try {
             const res = await axios.request(paramsUpdateProfile);
-            if (res.status === 204) {
-                notifySuccess("Update profile success");
+
+            if (res.status === 200) {
                 const userData = res.data.user;
+                const newUserData = { ...user, ...userData };
+                console.log('newUserData: ', newUserData);
                 if (userData) {
                     dispatch(storeUserData(userData))
                     router.push("/")
                 }
+                notifySuccess("Update profile success");
+
             }
         }
         catch (err: any) {
@@ -156,14 +169,15 @@ export const AuthProvider = ({ children }: AccountProviderProps) => {
     }
 
     return (
-        <AuthContext.Provider value={{ handleLogin, handleSignUp, handleUpdateProfile }}>
+        <AuthContext.Provider value={{ handleLogin, handleSignUp, handleUpdateProfile, user }}>
             {children}
         </AuthContext.Provider>
     );
 };
 
 type AuthContextType = {
+    user: User,
     handleLogin: (values: any) => void;
     handleSignUp: (values: any) => void;
-    handleUpdateProfile: (values: any) => void;
+    handleUpdateProfile: (values: UpdateUser) => void;
 };

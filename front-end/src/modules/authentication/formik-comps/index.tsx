@@ -5,12 +5,16 @@ import * as Checkbox from '@radix-ui/react-checkbox';
 import { Label } from "@radix-ui/react-label";
 import clsx from "clsx";
 import { ErrorMessage, ErrorMessageProps, FieldInputProps, FieldProps } from 'formik';
-import { Check, Copy, Eye, EyeOff } from "lucide-react";
+import { Check, Copy, Eye, EyeOff, UploadCloud } from "lucide-react";
 import React, { useEffect, useState } from "react";
 
-type FormikInputProps = { label: string, isCopyable: boolean } & InputProps & FieldProps;
+type FormikInputProps = {
+    label: string,
+    isCopyable: boolean,
+    maxFileSize: number,
+} & InputProps & FieldProps;
 
-export const FormikInput: React.FC<FormikInputProps> = ({ field, form, type, label, isCopyable, className, ...props }) => {
+export const FormikInput: React.FC<FormikInputProps> = ({ field, form, type, label, isCopyable, disabled, maxFileSize, accept, className, ...props }) => {
     const [showPassword, setShowPassword] = useState(false)
     const [inputType, setInputType] = useState(type)
     const [hasError, setHasError] = useState(false)
@@ -30,9 +34,30 @@ export const FormikInput: React.FC<FormikInputProps> = ({ field, form, type, lab
 
     return (
         <>
-            <Label htmlFor={field?.name}>{label}</Label>
-            <div className={clsx("flex relative z-0 w-full pt-2 ", { "pb-0": hasError, "pb-2": !hasError, "gap-2 center-item": isCopyable })}>
-                <Input className={clsx({ "!rounded-r-none": type === 'password' }, className)} type={inputType}
+            {type === "file" ? (
+                <div className="relative">
+                    <Label title="Click to upload" htmlFor={field?.name} className={clsx("cursor-pointer flex items-center gap-2 p-4 before:border-gray-400/60  group dark:before:bg-darker  before:bg-gray-100 dark:before:border-gray-600 before:absolute before:inset-0 before:rounded-3xl before:border before:transition-transform before:duration-300 active:duration-75 active:before:scale-95", {
+                        "hover:before:scale-105 dark:hover:before:border-gray-500 hover:before:border-gray-300": !disabled,
+                        "before:border-gray-600 !cursor-not-allowed !active:before:scale-100 ": disabled,
+                    })}>
+                        <div className="w-max relative">
+                            <UploadCloud className={clsx("text-blue-900 dark:text-white ", { "group-hover:text-blue-500": !disabled })} />
+                        </div>
+                        {
+                            label &&
+                            <div className="relative">
+                                <span className={clsx("block text-base font-semibold relative text-blue-900 dark:text-white ", { "": disabled, "group-hover:text-blue-500": !disabled })}>
+                                    {label}
+                                </span>
+                                <span className="mt-0.5 block text-sm text-gray-500 dark:text-gray-400">{maxFileSize}</span>
+                            </div>}
+                    </Label>
+                </div>
+            ) :
+                <Label htmlFor={field?.name}>{label}</Label>
+            }
+            <div className={clsx("flex relative z-0 w-full pt-2 ", { "pb-0": hasError, "pb-2": !hasError, "gap-2 center-item": isCopyable, "hidden": type === 'file' })}>
+                <Input className={clsx({ "!rounded-r-none": type === 'password' }, className)} type={inputType} id={field?.name} accept={accept} disabled={disabled}
                     {...field}
                     {...props}
                 />
@@ -47,8 +72,10 @@ export const FormikInput: React.FC<FormikInputProps> = ({ field, form, type, lab
                         </div>
                     </button>
                 )}
+
                 {isCopyable && (
-                    <Button onClick={() => {
+                    <Button onClick={(e) => {
+                        e.preventDefault();
                         navigator.clipboard.writeText(props.value as string);
                         notifySuccess("Copied to clipboard")
                     }}>

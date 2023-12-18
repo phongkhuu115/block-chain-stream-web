@@ -21,7 +21,6 @@ export const metadata: Metadata = {
 
 export default function Layout(props: {
   children: React.ReactNode;
-  modal: React.ReactNode;
 }) {
   return (
     <html lang='en'>
@@ -32,7 +31,8 @@ export default function Layout(props: {
         )}>
         <RootWrapper>
           <Header />
-          <ClientLayout {...props} />
+          {/* <ClientLayout {...props} /> */}
+          {props.children}
         </RootWrapper>
         <ToastContainer position="bottom-right" newestOnTop />
       </body>
