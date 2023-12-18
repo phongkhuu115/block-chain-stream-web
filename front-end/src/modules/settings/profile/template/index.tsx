@@ -61,7 +61,7 @@ const ProfilePageTemplate = () => {
 
                                         <CardHeader className='flex flex-col center-item gap-3'>
                                             <Avatar
-                                                className='w-40 h-40'
+                                                className='w-full h-full object-center object-cover'
                                                 src={values.user_avatar ? values.user_avatar : 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png'}
                                                 alt={user_fullname}>
                                             </Avatar>

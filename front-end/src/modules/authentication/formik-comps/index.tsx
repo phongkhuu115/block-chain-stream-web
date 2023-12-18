@@ -35,7 +35,6 @@ export const FormikInput: React.FC<FormikInputProps> = ({ field, form, type, lab
             setInputType("password")
         }
     }, [type, showPassword, form])
-    
     return (
         <>
             {type === "file" ? (
@@ -65,12 +64,23 @@ export const FormikInput: React.FC<FormikInputProps> = ({ field, form, type, lab
 
                 <Input className={clsx({ "!rounded-r-none": type === 'password' }, className)} type={inputType} id={field?.name} accept={accept} disabled={disabled}
                     name={field?.name}
-                    value={field?.value}
-                    onChange={field.onChange}
+                    value={type === 'file' ? undefined : field?.value}
+                    onChange={(e) => {
+                        if (type !== 'file') {
+                            field.onChange(e)
+                        }
+                        else {
+                            const files = e.currentTarget.files;
+                            if (files && files.length > 0) {
+                                form.setFieldValue(field.name, URL.createObjectURL(files[0]));
+                            }
+                        }
+                        console.log(form.values)
+                    }}
                     onBlur={field.onBlur}
                     multiple={type === 'file'}
                     checked={field?.value}
-                    {...props}
+                    {...props} D
                 />
                 {type === "password" && (
                     <button
