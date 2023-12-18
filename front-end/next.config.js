@@ -19,17 +19,7 @@ const nextConfig = {
   //   serverActions: true,
   // },
   reactStrictMode: false,
-  images: {
-    domains: [
-      'localhost',
-      'via.placeholder.com',
-      'cdn.builder.io',
-      'i1.sndcdn.com',
-      'i.ytimg.com',
-      'yt3.ggpht.com',
-      'cdn.pixabay.com'
-    ],
-  },
+
   publicRuntimeConfig: {
     public_stream_server: process.env.PUBLIC_STREAM_SERVER,
   },
@@ -51,8 +41,21 @@ const nextConfig = {
         protocol: 'https',
         hostname: 'firebasestorage.googleapis.com',
       },
+      {
+        protocol: 'https',
+        hostname: 'firebasestorage.googleapis.com',
+      },
     ],
-    domains: ['localhost', 'via.placeholder.com', 'cdn.builder.io', 'i1.sndcdn.com', "i.ytimg.com", "yt3.ggpht.com"],
+    domains: [
+      'localhost',
+      'firebasestorage.googleapis.com',
+      'via.placeholder.com',
+      'cdn.builder.io',
+      'i1.sndcdn.com',
+      'i.ytimg.com',
+      'yt3.ggpht.com',
+      'cdn.pixabay.com',
+    ],
   },
 };
 

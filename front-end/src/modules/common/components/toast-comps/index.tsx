@@ -1,8 +1,4 @@
 
-import {
-    Alert,
-    AlertDescription
-} from "@components/ui/alert";
 import { Flip, ToastOptions, toast } from "react-toastify";
 
 const toastOptions: ToastOptions = {
@@ -15,17 +11,7 @@ const toastOptions: ToastOptions = {
     transition: Flip
 }
 
-export const notifyError = (message: string) => toast.error(
-    <Alert className="text-red-500 border-none" variant="destructive">
-        <AlertDescription>
-            {message}
-        </AlertDescription>
-    </Alert>, toastOptions);
+export const notifyError = (message: string) => toast.error(message, toastOptions);
+export const notifySuccess = (message: string) => toast.success(message, toastOptions);
 
-export const notifySuccess = (message: string) => toast.success(
-    <Alert className="text-green-500 border-none" variant="default">
-        <AlertDescription>
-            {message}
-        </AlertDescription>
-    </Alert>, toastOptions);
 

@@ -9,14 +9,6 @@ import SignUp from "../sign-up"
 import "./index.scss"
 
 const AuthenticationPageTempalate = () => {
-    const router = useRouter();
-    const { user } = useAuth();
-
-    if (user.user_id) {
-        router.push('/')
-        return <></>
-    }
-
     return (
         <main className='container h-[100vh] center-item'>
             <video src="/images/shadergradient7.webm" autoPlay loop muted className='absolute top-0 left-0 w-full h-full object-cover z-[-1]' />

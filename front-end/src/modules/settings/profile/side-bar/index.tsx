@@ -1,51 +1,35 @@
-import { Button } from '@modules/common/components/ui/button';
+import { buttons } from '@lib/constant/profile-side-bar-buttons';
+import clsx from 'clsx';
+import { UserCircle } from 'lucide-react';
 import Link from 'next/link';
 import React from 'react';
 
-const UserSideBar = () => {
-  const buttons = [
-    {
-      text: 'My Profile',
-      link: '/profile',
-    },
-    {
-      text: 'My Wallet',
-      link: '/wallet',
-    },
-    {
-      text: 'My History',
-      link: '/history',
-    },
-    {
-      text: 'Gift & Donations',
-      link: '/gift',
-    },
-    {
-      text: 'Securify & Privacy',
-      link: '/privacy',
-    },
-    {
-      text: 'Notification',
-      link: '/notification',
-    },
-    {
-      text: 'Setting',
-      link: '/setting',
-    },
-  ];
+type Props = {} & React.HTMLAttributes<HTMLDivElement>;
+
+const UserSideBar: React.FC<Props> = ({ className, ...props }: Props) => {
 
   return (
-    <section className='flex flex-col'>
-      <h3 className='font-bold text-center'>Account Center</h3>
-      <div className='flex flex-col'>
-        {buttons.map((item, index) => (
-          <Button key={index} className="flex justify-normal">
-            <Link href={item.link}>{item.text}</Link>
-          </Button>
-        ))}
+
+    <section className={clsx("hidden md:flex flex-col w-64 bg-gray-800  h-full", className)}>
+      <div className="flex items-center justify-center h-16 bg-gray-900">
+        <span className="text-white font-bold uppercase">Accout Center</span>
+      </div>
+      <div className="flex flex-col flex-1 overflow-y-auto">
+        <nav className="flex-1 px-2 py-4 bg-gray-800">
+          {
+            buttons.map((button, index) => (
+              <Link key={index} href="#" className="flex items-center px-4 py-2 text-gray-100 hover:bg-gray-700">
+                <button.icon className="w-6 h-6 mr-3" />
+                {button.text}
+              </Link>
+            ))
+          }
+        </nav>
       </div>
     </section>
+
   );
 };
 
 export default UserSideBar;
+

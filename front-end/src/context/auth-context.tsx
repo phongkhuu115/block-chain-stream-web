@@ -6,19 +6,18 @@ import {
   notifySuccess,
 } from '@modules/common/components/toast-comps';
 import axios from 'axios';
-import { useFormikContext } from 'formik';
 import { useRouter } from 'next/navigation';
 import { createContext, useContext } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { storeUserData } from 'redux/slices/userSlices';
 import { storage } from '../lib/helpers/firebase';
-import { ref, getDownloadURL, uploadBytesResumable } from 'firebase/storage';
+import { ref, getDownloadURL, uploadBytesResumable, getStorage } from 'firebase/storage';
 
 export type UserBase = {
   username: string;
   user_fullname: string;
   user_email: string;
-  user_avatar: string | File;
+  user_avatar: Blob;
 };
 
 export type User = {
@@ -62,24 +61,23 @@ export const AuthProvider = ({ children }: AccountProviderProps) => {
         username: values.username,
         password: values.user_password,
       },
-      '',
+      "",
       {
         withCredentials: true,
       }
     );
     try {
-      console.log('paramsLogin: ', paramsLogin);
       const res = await axios.request(paramsLogin);
       if (res.status === 200) {
-        console.log('res: ', res);
-        notifySuccess('Login success');
+        notifySuccess("Login success");
         const userData = res.data.user;
         if (userData) {
-          dispatch(storeUserData(userData));
-          router.push('/');
+          dispatch(storeUserData(userData))
+          router.push("/")
         }
       }
-    } catch (err: any) {
+    }
+    catch (err: any) {
       notifyError(`Login failed ${(err?.message).toLowerCase()}`);
     }
   };
@@ -139,14 +137,14 @@ export const AuthProvider = ({ children }: AccountProviderProps) => {
   };
 
   const handleUpdateProfile = async (values: UpdateUser) => {
-    let file = values.user_avatar as File;
-    if (file) {
-      const storageRef = ref(storage, `files/${file?.name}`);
-      const uploadTask = uploadBytesResumable(storageRef, file);
+    const blob = values.user_avatar;
 
-      uploadTask.on('state_changed', async () => {
-        const downloadURL = await getDownloadURL(uploadTask.snapshot.ref);
-        console.log(downloadURL);
+    if (blob) {
+      const storageRef = ref(storage, `images/${values.user_id}`);
+      const uploadTask = uploadBytesResumable(storageRef, blob);
+      const downloadURL = await getDownloadURL(uploadTask.snapshot.ref);
+
+      if (downloadURL) {
         const paramsUpdateProfile = getAxiosParam(
           process.env.NEXT_PUBLIC_API_URL + `/user/${values.user_id}`,
           'PUT',
@@ -161,13 +159,27 @@ export const AuthProvider = ({ children }: AccountProviderProps) => {
             withCredentials: true,
           }
         );
+
+        // uploadTask.on('state_changed',
+        //   (snapshot) => {
+        //     const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+        //     console.log('Upload is ' + progress + '% done');
+        //   },
+        //   (error) => {
+        //     notifyError(`Upload avatar failed ${(error?.message).toLowerCase()}`);
+        //   },
+        //   () => {
+        //     console.log('Upload avatar success');
+        //   }
+        // );
+
         try {
           const res = await axios.request(paramsUpdateProfile);
           if (res.status === 200) {
-            const userData = res.data.user;
-            const newUserData = { ...user, ...userData };
-            if (!compareObj(user, newUserData)) {
-              dispatch(storeUserData(newUserData));
+            const newData = res.data.user;
+            const newUser = { ...user, ...newData };
+            if (!compareObj(user, newUser)) {
+              dispatch(storeUserData(newUser));
               notifySuccess('Update profile success');
               return true;
             } else {
@@ -175,13 +187,12 @@ export const AuthProvider = ({ children }: AccountProviderProps) => {
               return false;
             }
           }
-          return false;
         } catch (err: any) {
           notifyError(`Update profile failed ${(err?.message).toLowerCase()}`);
-          return false;
         }
-      });
+      }
     }
+    return false;
   };
 
   return (

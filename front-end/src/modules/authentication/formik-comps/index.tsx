@@ -75,12 +75,11 @@ export const FormikInput: React.FC<FormikInputProps> = ({ field, form, type, lab
                                 form.setFieldValue(field.name, files[0]);
                             }
                         }
-                        console.log(form.values)
                     }}
                     onBlur={field.onBlur}
                     multiple={type === 'file'}
                     checked={field?.value}
-                    {...props} D
+                    {...props}
                 />
                 {type === "password" && (
                     <button
