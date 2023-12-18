@@ -105,9 +105,19 @@ module.exports = {
         where: { user_id: id },
       });
 
+      let user = await models.Users.findOne({
+        where: {
+          user_id: id,
+        },
+        attributes: {
+          exclude: ['password', 'user_id', 'user_stream_key', 'user_role'],
+        },
+      });
+
       res.status(200).json({
-        user: req.body,
-      });z
+        user: user,
+      });
+      z;
     } catch (err) {
       res.status(500).json({
         message: err.errors[0].message,
