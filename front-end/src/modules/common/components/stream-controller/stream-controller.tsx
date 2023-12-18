@@ -1,5 +1,5 @@
 import { Button } from "@components/ui/button";
-import LiveIcon from "common/icons/live-icon";
+import LiveIcon from "@modules/common/icons/live-icon";
 import {
   Eye,
   Forward,

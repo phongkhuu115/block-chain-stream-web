@@ -10,6 +10,5 @@ export default function RootWrapper({ children }: { children: React.ReactNode })
       {children}
       {pathName !== '/auth' && <Footer />}
     </Providers>
-
   );
 }

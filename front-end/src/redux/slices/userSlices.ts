@@ -1,14 +1,16 @@
 import { createSlice } from '@reduxjs/toolkit';
+import { User } from 'context/auth-context';
 
 const initialState = {
   user: {
     user_id: '',
     user_email: '',
     user_fullname: '',
-    user_role: '',
+    user_role: '1',
     user_stream_key: '',
     username: '',
-  },
+    user_avatar: '',
+  } as User,
 };
 
 const userSlice = createSlice({
@@ -16,7 +18,7 @@ const userSlice = createSlice({
   initialState,
   reducers: {
     storeUserData: (state, action) => {
-      state.user = { ...action.payload };
+      state.user = { ...action.payload }
     },
   },
 });

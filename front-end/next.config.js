@@ -1,9 +1,23 @@
+
+const builderConfig = {
+  // output: 'export',
+
+  // Optional: Change the output directory `out` -> `dist`
+  distDir: 'dist',
+
+  // Optional: Change links `/me` -> `/me/` and emit `/me.html` -> `/me/index.html`
+  trailingSlash: true,
+
+  // Optional: Prevent automatic `/me` -> `/me/`, instead preserve `href`
+  // skipTrailingSlashRedirect: true,
+}
+
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  experimental: {
-    serverActions: true,
-
-  },
+  ...builderConfig,
+  // experimental: {
+  //   serverActions: true,
+  // },
   reactStrictMode: false,
   images: {
     domains: [
@@ -13,6 +27,7 @@ const nextConfig = {
       'i1.sndcdn.com',
       'i.ytimg.com',
       'yt3.ggpht.com',
+      'cdn.pixabay.com'
     ],
   },
   publicRuntimeConfig: {
@@ -22,6 +37,7 @@ const nextConfig = {
     styledComponents: true,
   },
   images: {
+    // unoptimized: true,
     remotePatterns: [
       {
         protocol: 'https',

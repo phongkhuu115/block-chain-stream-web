@@ -2,10 +2,8 @@
 
 import { actionsLinks } from "@lib/constant/action-links";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
-import { ConnectButtonRenderer } from "@rainbow-me/rainbowkit/dist/components/ConnectButton/ConnectButtonRenderer";
 import { LucideIcon, PanelTopOpen } from "lucide-react";
 import Link from "next/link";
-import React from "react";
 import { Button } from "../ui/button";
 import WagmiComponent from "../wagmiComponent/wagmi";
 

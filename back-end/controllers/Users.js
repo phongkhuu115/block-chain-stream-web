@@ -4,6 +4,7 @@ const crypto = require('crypto');
 const bcrypt = require('bcrypt');
 const models = initModels(sequelize);
 const jwt = require('jsonwebtoken');
+const { ValidatePriviledge } = require('../helpers/validation');
 
 module.exports = {
   getUsers: async function (req, res) {
@@ -100,18 +101,34 @@ module.exports = {
   },
   UpdateUser: async function (req, res) {
     let id = req.params.id;
-    try {
-      const updatedRows = await models.Users.update(req.body, {
-        where: { user_id: id },
-      });
+    if (ValidatePriviledge(req, id)) {
+      try {
+        const updatedRows = await models.Users.update(req.body, {
+          where: { user_id: id },
+        });
 
-      res.status(200).json({
-        user: req.body,
-      });z
-    } catch (err) {
-      res.status(500).json({
-        message: err.errors[0].message,
-      });
+        let user = await models.Users.findOne({
+          where: {
+            user_id: id,
+          },
+          attributes: {
+            exclude: ['password', 'user_id', 'user_stream_key', 'user_role'],
+          },
+        });
+
+        res.status(200).json({
+          user: user,
+        });
+        z;
+      } catch (err) {
+        res.status(500).json({
+          message: err.errors[0].message,
+        });
+      }
+    } else {
+      res.status(401).json({
+        message: "unauthorized"
+      })
     }
   },
   GetUser: async function (req, res) {

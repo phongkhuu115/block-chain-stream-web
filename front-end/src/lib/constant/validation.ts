@@ -19,6 +19,8 @@ const user_fullname = Yup.string()
     .max(70, 'Too Long!')
     .required('Required')
 
+const user_avatar = Yup.string().nullable()
+
 
 export const SignupSchema = Yup.object().shape({
     username: username,
@@ -41,4 +43,5 @@ export const UpdateSchema = Yup.object().shape({
     username: username,
     user_fullname: user_fullname,
     user_email: user_email,
+    user_avatar: user_avatar,
 });

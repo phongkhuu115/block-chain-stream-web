@@ -2,16 +2,16 @@
 
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@radix-ui/react-tabs"
 import clsx from "clsx"
+import { useAuth } from "context/auth-context"
+import { useRouter } from "next/navigation"
 import Login from "../login"
 import SignUp from "../sign-up"
 import "./index.scss"
-import { useSelector } from "react-redux"
-import { useRouter } from "next/navigation"
 
 const AuthenticationPageTempalate = () => {
-    const user = useSelector((state: any) => state.user.user);
     const router = useRouter();
-    
+    const { user } = useAuth();
+
     if (user.user_id) {
         router.push('/')
         return <></>
