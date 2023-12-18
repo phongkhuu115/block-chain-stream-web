@@ -1,6 +1,3 @@
-.vscode/tasks.json
-.vscode/launch.json
-.vscode
 node_modules
-.env
-front-end/.env
+.vscode
+*/.env
