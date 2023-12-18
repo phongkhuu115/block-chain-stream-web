@@ -52,6 +52,7 @@ const ProfilePageTemplate = () => {
                                 initialValues={initUpdateProfile}
                                 onSubmit={(values) => handleUpdateProfile(values)}
                                 validationSchema={UpdateSchema}
+                                enableReinitialize={true}
                             >
                                 {({ submitForm, isSubmitting, dirty, resetForm }) =>
                                 (
@@ -135,16 +136,20 @@ const ProfilePageTemplate = () => {
                                             <div className='flex gap-2 w-full flex-col text-white'>
                                                 <div className='flex gap-2 w-full'>
                                                     <Button disabled={isSubmitting} className='w-full' onClick={
-                                                        (e) => {
+                                                        async (e) => {
                                                             if (dirty) {
-                                                                submitForm();
+                                                                const foo = await submitForm() as unknown as boolean;
+                                                                if (foo) {
+                                                                    setIsChangeable(!isChangeable);
+                                                                }
                                                             }
-                                                            else
+                                                            else {
                                                                 if (isChangeable && !dirty) {
                                                                     setIsChangeable(false);
                                                                 } else {
                                                                     setIsChangeable(true);
                                                                 }
+                                                            }
                                                         }
 
                                                     }>

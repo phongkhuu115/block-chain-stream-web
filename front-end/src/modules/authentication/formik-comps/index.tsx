@@ -35,12 +35,12 @@ export const FormikInput: React.FC<FormikInputProps> = ({ field, form, type, lab
     return (
         <>
             {type === "file" ? (
-                <div className="relative">
-                    <Label title="Click to upload" htmlFor={field?.name} className={clsx("flex items-center w-fit gap-2 p-4 before:border-gray-400/60  group dark:before:bg-darker  before:bg-gray-100 dark:before:border-gray-600 before:absolute before:inset-0 before:rounded-3xl before:border before:transition-transform before:duration-300 active:duration-75 active:before:scale-95", {
-                        "cursor-pointer hover:before:scale-105 dark:hover:before:border-gray-500 hover:before:border-gray-300": !disabled,
-                        "cursor-not-allowed before:border-gray-600  !active:before:scale-100 ": disabled,
+                <div className="relative w-fit">
+                    <Label title="Click to upload" htmlFor={field?.name} className={clsx("flex items-center w-fit gap-2 p-4   group dark:before:bg-darker   dark:before:border-gray-600 before:absolute before:inset-0 before:rounded-3xl before:border before:transition-transform before:duration-300 active:duration-75 active:before:scale-95", {
+                        "cursor-pointer hover:before:scale-105 dark:hover:before:border-gray-500 hover:before:border-gray-300 before:bg-gray-100 before:border-gray-400/60": !disabled,
+                        "cursor-not-allowed before:border-gray-600  !active:before:scale-100 before:bg-gray": disabled,
                     })}>
-                        <div className="relative w-fit">
+                        <div className="relative">
                             <UploadCloud className={clsx("text-blue-900 dark:text-white ", { "group-hover:text-blue-500": !disabled })} />
                         </div>
                         {

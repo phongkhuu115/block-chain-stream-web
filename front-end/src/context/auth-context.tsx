@@ -3,6 +3,7 @@
 import { getAxiosParam } from '@lib/helpers/api';
 import { notifyError, notifySuccess } from '@modules/common/components/toast-comps';
 import axios from 'axios';
+import { useFormikContext } from 'formik';
 import { useRouter } from 'next/navigation';
 import { createContext, useContext } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -38,6 +39,10 @@ export const useAuth = () => {
     }
     return context;
 };
+
+const compareObj = (obj1: any, obj2: any) => {
+    return JSON.stringify(obj1) === JSON.stringify(obj2);
+}
 
 
 export const AuthProvider = ({ children }: AccountProviderProps) => {
@@ -133,7 +138,6 @@ export const AuthProvider = ({ children }: AccountProviderProps) => {
     }
 
     const handleUpdateProfile = async (values: UpdateUser) => {
-        console.log('values: ', values);
         const paramsUpdateProfile = getAxiosParam(
             process.env.NEXT_PUBLIC_API_URL + `/user/${values.user_id}`,
             'PUT',
@@ -141,7 +145,7 @@ export const AuthProvider = ({ children }: AccountProviderProps) => {
                 username: values.username,
                 user_fullname: values.user_fullname,
                 user_email: values.user_email,
-                user_avatar: values.user_avatar,
+                ...(values.user_avatar && { user_avatar: values.user_avatar })
             },
             '',
             {
@@ -150,22 +154,26 @@ export const AuthProvider = ({ children }: AccountProviderProps) => {
         );
         try {
             const res = await axios.request(paramsUpdateProfile);
-
             if (res.status === 200) {
                 const userData = res.data.user;
                 const newUserData = { ...user, ...userData };
-                console.log('newUserData: ', newUserData);
-                if (userData) {
-                    dispatch(storeUserData(userData))
-                    router.push("/")
+                if (!compareObj(user, newUserData)) {
+                    dispatch(storeUserData(newUserData))
+                    notifySuccess("Update profile success");
+                    return true;
                 }
-                notifySuccess("Update profile success");
-
+                else {
+                    notifySuccess("Nothing changed");
+                    return false;
+                }
             }
+            return false;
         }
         catch (err: any) {
             notifyError(`Update profile failed ${(err?.message).toLowerCase()}`);
+            return false;
         }
+
     }
 
     return (
@@ -179,5 +187,5 @@ type AuthContextType = {
     user: User,
     handleLogin: (values: any) => void;
     handleSignUp: (values: any) => void;
-    handleUpdateProfile: (values: UpdateUser) => void;
+    handleUpdateProfile: (values: UpdateUser) => Promise<boolean>;
 };
