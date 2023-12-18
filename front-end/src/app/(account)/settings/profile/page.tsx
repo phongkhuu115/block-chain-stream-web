@@ -17,8 +17,7 @@ export const metadata: Metadata = {
   },
 }
 
-
-const ProfilePage: NextPage = () => {
+const ProfilePage: NextPage = async () => {
   return <ProfilePageTemplate />
 }
 

@@ -1,14 +1,16 @@
+import { notifySuccess } from "@modules/common/components/toast-comps";
+import { Button } from "@modules/common/components/ui/button";
 import { Input, InputProps } from "@modules/common/components/ui/input";
 import * as Checkbox from '@radix-ui/react-checkbox';
 import { Label } from "@radix-ui/react-label";
 import clsx from "clsx";
 import { ErrorMessage, ErrorMessageProps, FieldInputProps, FieldProps } from 'formik';
-import { Check, Eye, EyeOff } from "lucide-react";
+import { Check, Copy, Eye, EyeOff } from "lucide-react";
 import React, { useEffect, useState } from "react";
 
-type FormikInputProps = { label: string } & InputProps & FieldProps;
+type FormikInputProps = { label: string, isCopyable: boolean } & InputProps & FieldProps;
 
-export const FormikInput: React.FC<FormikInputProps> = ({ field, form, type, label, className, ...props }) => {
+export const FormikInput: React.FC<FormikInputProps> = ({ field, form, type, label, isCopyable, className, ...props }) => {
     const [showPassword, setShowPassword] = useState(false)
     const [inputType, setInputType] = useState(type)
     const [hasError, setHasError] = useState(false)
@@ -29,7 +31,7 @@ export const FormikInput: React.FC<FormikInputProps> = ({ field, form, type, lab
     return (
         <>
             <Label htmlFor={field?.name}>{label}</Label>
-            <div className={clsx("flex relative z-0 w-full pt-2 ", { "pb-0": hasError, "pb-2": !hasError })}>
+            <div className={clsx("flex relative z-0 w-full pt-2 ", { "pb-0": hasError, "pb-2": !hasError, "gap-2 center-item": isCopyable })}>
                 <Input className={clsx({ "!rounded-r-none": type === 'password' }, className)} type={inputType}
                     {...field}
                     {...props}
@@ -38,13 +40,66 @@ export const FormikInput: React.FC<FormikInputProps> = ({ field, form, type, lab
                     <button
                         type="button"
                         onClick={() => setShowPassword(!showPassword)}
-                        className="transition-all duration-150 text-primary-100"
+                        className="transition-all duration-150"
                     >
-                        <div className="px-1 bg-white rounded-r-[10px] border border-beta border-l-0 h-full ">
+                        <div className="px-1 bg-white text-black rounded-r-[10px] border border-beta border-l-0 h-full ">
                             {showPassword ? <Eye className="relative object-cover h-full" /> : <EyeOff className="relative object-cover  h-full" />}
                         </div>
                     </button>
                 )}
+                {isCopyable && (
+                    <Button onClick={() => {
+                        navigator.clipboard.writeText(props.value as string);
+                        notifySuccess("Copied to clipboard")
+                    }}>
+                        <Copy className="text-white" />
+                    </Button>
+                )}
+            </div>
+            <FormikErrorMessage name={field?.name} className={clsx("py-2")} />
+        </>
+
+    )
+}
+
+export const FormikInputWithActions: React.FC<FormikInputProps> = ({ field, form, type, label, className, ...props }) => {
+    const [showPassword, setShowPassword] = useState(false)
+    const [inputType, setInputType] = useState(type)
+    const [hasError, setHasError] = useState(false)
+
+    useEffect(() => {
+        const hasError = (form?.errors[field.name] && form?.touched[field.name]) ? true : false
+        setHasError(hasError)
+
+        if (type === "password" && showPassword) {
+            setInputType("text")
+        }
+
+        if (type === "password" && !showPassword) {
+            setInputType("password")
+        }
+    }, [type, showPassword, form])
+
+    return (
+        <>
+            <Label htmlFor={field?.name}>{label}</Label>
+            <div className={clsx("flex relative z-0 w-full h-full pt-2 ", { "pb-0": hasError, "pb-2": !hasError })}>
+                <Input className={clsx({ "!rounded-r-none": type === 'password' }, className)} type={inputType}
+                    {...field}
+                    {...props}
+                />
+                {type === "password" && (
+                    <button
+                        type="button"
+                        onClick={() => setShowPassword(!showPassword)}
+                        className="transition-all duration-150"
+                    >
+                        <div className="px-1 bg-white text-black rounded-r-[10px] border border-beta border-l-0 h-full ">
+                            {showPassword ? <Eye className="relative object-cover h-full" /> : <EyeOff className="relative object-cover  h-full" />}
+                        </div>
+                    </button>
+                )}
+                <Button>Change</Button>
             </div>
             <FormikErrorMessage name={field?.name} className={clsx("py-2")} />
         </>

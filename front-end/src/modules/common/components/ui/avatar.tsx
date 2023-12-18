@@ -2,12 +2,11 @@ import Image, { StaticImageData } from "next/image";
 import React from "react";
 
 type Props = {
-  src: string | StaticImageData;
+  src: StaticImageData;
   alt: string;
-};
+} & React.HTMLAttributes<HTML>;
 
-const Avatar = (props: Props) => {
-  const { src, alt } = props;
+const Avatar: React.FC<Props> = ({ className, src, alt, ...props }: Props) => {
   return (
     <div>
       <Image

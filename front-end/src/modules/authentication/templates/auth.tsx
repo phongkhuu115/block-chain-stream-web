@@ -6,20 +6,27 @@ import Login from "../login"
 import SignUp from "../sign-up"
 import "./index.scss"
 import { useSelector } from "react-redux"
+import { useRouter } from "next/navigation"
 
 const AuthenticationPageTempalate = () => {
     const user = useSelector((state: any) => state.user.user);
+    const router = useRouter();
+    
+    if (user.user_id) {
+        router.push('/')
+        return <></>
+    }
 
     return (
-        <main className='container h-[100vh] center-item text-white'>
+        <main className='container h-[100vh] center-item'>
             <video src="/images/shadergradient7.webm" autoPlay loop muted className='absolute top-0 left-0 w-full h-full object-cover z-[-1]' />
             <Tabs defaultValue='login' className='w-[80vw] shadow-2xl medium:w-[400px] bg-secondary scale-[85%] rounded-3xl transition-all' aria-label="Login/Register your account">
-                <TabsList className='flex justify-between items-center w-full'>
+                <TabsList className='flex justify-between items-center w-full text-white'>
                     <TabsTrigger className={clsx("w-full", "rounded-tl-3xl tab-trigger")} value='login'>Login</TabsTrigger>
                     <TabsTrigger className={clsx("w-full", "rounded-tr-3xl tab-trigger")} value='signup'>Sign Up</TabsTrigger>
                 </TabsList>
 
-                <TabsContent value='login' className='login__tab '>
+                <TabsContent value='login' className='login__tab'>
                     <Login />
                 </TabsContent>
 

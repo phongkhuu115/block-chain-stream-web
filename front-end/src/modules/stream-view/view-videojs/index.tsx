@@ -22,7 +22,7 @@ const View: FC<Props> = (props: Props) => {
       liveui: true,
       liveTracker: true,
 
-      autoplay: true,
+      autoplay: false,
       controls: true,
       sources: [
         {

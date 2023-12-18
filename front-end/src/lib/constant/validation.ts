@@ -10,17 +10,21 @@ const user_password = Yup.string()
     .max(70, 'Too Long! Maximum 70 characters')
     .required('Required')
 
+const user_email = Yup.string()
+    .email('Invalid email')
+    .required('Required')
+
+const user_fullname = Yup.string()
+    .min(2, 'Too Short!')
+    .max(70, 'Too Long!')
+    .required('Required')
+
 
 export const SignupSchema = Yup.object().shape({
     username: username,
     user_password: user_password,
-    user_email: Yup.string()
-        .email('Invalid email')
-        .required('Required'),
-    user_fullname: Yup.string()
-        .min(2, 'Too Short!')
-        .max(70, 'Too Long!')
-        .required('Required'),
+    user_email: user_email,
+    user_fullname: user_fullname,
     user_agree: Yup.boolean()
         .required('Required'),
     confirm_password: Yup.string()
@@ -31,4 +35,10 @@ export const SignupSchema = Yup.object().shape({
 export const LoginSchema = Yup.object().shape({
     username: username,
     user_password: user_password,
+});
+
+export const UpdateSchema = Yup.object().shape({
+    username: username,
+    user_fullname: user_fullname,
+    user_email: user_email,
 });

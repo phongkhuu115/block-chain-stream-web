@@ -5,8 +5,6 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs))
 }
 
-
-// number abbreviate function
 export function abbreviateNumber(value: number) {
   const suffixes = ["", "K", "M", "B", "T"]
   const suffixNum = Math.floor(("" + value).length / 3)

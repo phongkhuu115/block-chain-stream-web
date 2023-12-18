@@ -1,6 +1,5 @@
 import AuthenticationPageTempalate from '@modules/authentication/templates/auth';
 import { Metadata, NextPage } from 'next';
-
 export const metadata: Metadata = {
   title: 'Auth Page',
   description: 'Auth Page',
@@ -18,7 +17,7 @@ export const metadata: Metadata = {
 }
 
 
-const AuthPage: NextPage = () => {
+const AuthPage: NextPage = async () => {
   return <AuthenticationPageTempalate />
 }
 

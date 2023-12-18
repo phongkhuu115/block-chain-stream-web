@@ -1,9 +1,6 @@
 import { notifyError } from "@modules/common/components/toast-comps";
-import { Button } from "@modules/common/components/ui/button";
-import GoogleIcon from "@modules/common/icons/google-icon";
 import { CredentialResponse, GoogleLogin } from "@react-oauth/google";
 import { jwtDecode } from "jwt-decode";
-import { LoaderIcon } from "lucide-react";
 import React, { useMemo, useState } from "react";
 
 
@@ -19,9 +16,6 @@ const ThirdPartyAuth: React.FC<Props> = ({ className, ...props }: Props) => {
         if (!credentialResponse?.credential) return;
         return jwtDecode(credentialResponse.credential);
     }, [credentialResponse]);
-    // console.log('credentialResponse: ', credentialResponse);
-    // console.log('user: ', user);
-
     return (
         <div {...props}>
             <GoogleLogin
