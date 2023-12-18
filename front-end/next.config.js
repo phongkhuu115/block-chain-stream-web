@@ -47,6 +47,10 @@ const nextConfig = {
         protocol: 'https',
         hostname: 'cdn.pixabay.com',
       },
+      {
+        protocol: 'https',
+        hostname: 'firebasestorage.googleapis.com',
+      },
     ],
     domains: ['localhost', 'via.placeholder.com', 'cdn.builder.io', 'i1.sndcdn.com', "i.ytimg.com", "yt3.ggpht.com"],
   },

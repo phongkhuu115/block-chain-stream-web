@@ -72,7 +72,7 @@ export const FormikInput: React.FC<FormikInputProps> = ({ field, form, type, lab
                         else {
                             const files = e.currentTarget.files;
                             if (files && files.length > 0) {
-                                form.setFieldValue(field.name, URL.createObjectURL(files[0]));
+                                form.setFieldValue(field.name, files[0]);
                             }
                         }
                         console.log(form.values)
