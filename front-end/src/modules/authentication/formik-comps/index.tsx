@@ -8,11 +8,15 @@ import { ErrorMessage, ErrorMessageProps, FieldInputProps, FieldProps } from 'fo
 import { Check, Copy, Eye, EyeOff, UploadCloud } from "lucide-react";
 import React, { useEffect, useState } from "react";
 
+
+// remove onChange from InputProps
+type InputPropsWithoutOnChange = Omit<InputProps, 'onChange'>;
+
 type FormikInputProps = {
     label: string,
     isCopyable: boolean,
     maxFileSize: number,
-} & InputProps & FieldProps;
+} & InputPropsWithoutOnChange & FieldProps;
 
 export const FormikInput: React.FC<FormikInputProps> = ({ field, form, type, label, isCopyable, disabled, maxFileSize, accept, className, ...props }) => {
     const [showPassword, setShowPassword] = useState(false)
@@ -31,7 +35,6 @@ export const FormikInput: React.FC<FormikInputProps> = ({ field, form, type, lab
             setInputType("password")
         }
     }, [type, showPassword, form])
-
     return (
         <>
             {type === "file" ? (
@@ -58,9 +61,26 @@ export const FormikInput: React.FC<FormikInputProps> = ({ field, form, type, lab
                 <Label htmlFor={field?.name}>{label}</Label>
             }
             <div className={clsx("flex relative z-0 w-full pt-2 ", { "pb-0": hasError, "pb-2": !hasError, "gap-2 center-item": isCopyable, "hidden": type === 'file' })}>
+
                 <Input className={clsx({ "!rounded-r-none": type === 'password' }, className)} type={inputType} id={field?.name} accept={accept} disabled={disabled}
-                    {...field}
-                    {...props}
+                    name={field?.name}
+                    value={type === 'file' ? undefined : field?.value}
+                    onChange={(e) => {
+                        if (type !== 'file') {
+                            field.onChange(e)
+                        }
+                        else {
+                            const files = e.currentTarget.files;
+                            if (files && files.length > 0) {
+                                form.setFieldValue(field.name, URL.createObjectURL(files[0]));
+                            }
+                        }
+                        console.log(form.values)
+                    }}
+                    onBlur={field.onBlur}
+                    multiple={type === 'file'}
+                    checked={field?.value}
+                    {...props} D
                 />
                 {type === "password" && (
                     <button
