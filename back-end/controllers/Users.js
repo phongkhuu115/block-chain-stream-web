@@ -81,6 +81,8 @@ module.exports = {
           secure: true,
           path: '/',
           sameSite: 'none',
+          // maxAge: new Date(Date.now() + 900000),
+          // expires: new Date(Date.now() + 900000 * 10),
         });
         res.status(200).json({
           user: {
@@ -103,9 +105,9 @@ module.exports = {
         where: { user_id: id },
       });
 
-      res.status(204).json({
-        user: updatedRows,
-      });
+      res.status(200).json({
+        user: req.body,
+      });z
     } catch (err) {
       res.status(500).json({
         message: err.errors[0].message,
