@@ -138,6 +138,7 @@ export const AuthProvider = ({ children }: AccountProviderProps) => {
     }
 
     const handleUpdateProfile = async (values: UpdateUser) => {
+        console.log('values: ', values);
         const paramsUpdateProfile = getAxiosParam(
             process.env.NEXT_PUBLIC_API_URL + `/user/${values.user_id}`,
             'PUT',
