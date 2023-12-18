@@ -36,11 +36,11 @@ export const FormikInput: React.FC<FormikInputProps> = ({ field, form, type, lab
         <>
             {type === "file" ? (
                 <div className="relative">
-                    <Label title="Click to upload" htmlFor={field?.name} className={clsx("cursor-pointer flex items-center gap-2 p-4 before:border-gray-400/60  group dark:before:bg-darker  before:bg-gray-100 dark:before:border-gray-600 before:absolute before:inset-0 before:rounded-3xl before:border before:transition-transform before:duration-300 active:duration-75 active:before:scale-95", {
-                        "hover:before:scale-105 dark:hover:before:border-gray-500 hover:before:border-gray-300": !disabled,
-                        "before:border-gray-600 !cursor-not-allowed !active:before:scale-100 ": disabled,
+                    <Label title="Click to upload" htmlFor={field?.name} className={clsx("flex items-center w-fit gap-2 p-4 before:border-gray-400/60  group dark:before:bg-darker  before:bg-gray-100 dark:before:border-gray-600 before:absolute before:inset-0 before:rounded-3xl before:border before:transition-transform before:duration-300 active:duration-75 active:before:scale-95", {
+                        "cursor-pointer hover:before:scale-105 dark:hover:before:border-gray-500 hover:before:border-gray-300": !disabled,
+                        "cursor-not-allowed before:border-gray-600  !active:before:scale-100 ": disabled,
                     })}>
-                        <div className="w-max relative">
+                        <div className="relative w-fit">
                             <UploadCloud className={clsx("text-blue-900 dark:text-white ", { "group-hover:text-blue-500": !disabled })} />
                         </div>
                         {
@@ -50,7 +50,8 @@ export const FormikInput: React.FC<FormikInputProps> = ({ field, form, type, lab
                                     {label}
                                 </span>
                                 <span className="mt-0.5 block text-sm text-gray-500 dark:text-gray-400">{maxFileSize}</span>
-                            </div>}
+                            </div>
+                        }
                     </Label>
                 </div>
             ) :
