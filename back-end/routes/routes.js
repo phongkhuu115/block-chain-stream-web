@@ -25,6 +25,7 @@ routes.put(
   '/user/:id',
   Validation.UpdateValidation(),
   Validation.Validation,
+  GeneralAuth.VerifyJWT,
   UserController.UpdateUser
 );
 routes.get('/user/:id', UserController.GetUser);
