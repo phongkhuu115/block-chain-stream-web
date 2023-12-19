@@ -1,6 +1,6 @@
 import VideoPreview from "@components/video-preview";
 import "./index.scss";
-import VideoSkeletonList from "@modules/skeletons/template/skeleton-video-list";
+import VideoSkeletonList from "@modules/skeletons/(templates)/skeleton-video-list";
 
 const LiveChannels = ({ videos: contents }: { videos: Content[] }) => {
     return (
