@@ -8,8 +8,16 @@ import { Button } from '@modules/common/components/ui/button';
 import { useAxios } from 'hooks/useAxios';
 import { io } from 'socket.io-client';
 import { Input } from '@modules/common/components/ui/input';
+import { useParams } from 'next/navigation';
+import { Params } from 'next/dist/shared/lib/router/utils/route-matcher';
 
-const StreamPageTempalate = ({ username }: any) => {
+type myParams = {
+  slug: string;
+} & Params;
+
+const StreamPageTempalate = () => {
+  const params: myParams = useParams();
+  const username = params.slug;
   const [stream, setStream] = useState<any>();
   const [message, setMessage] = useState<any>();
   const paramUserID = getAxiosParam(
@@ -37,8 +45,8 @@ const StreamPageTempalate = ({ username }: any) => {
   useEffect(() => {
     const paramStream = getAxiosParam(
       process.env.NEXT_PUBLIC_API_URL +
-        '/streams/' +
-        userData.response?.data.user_id,
+      '/streams/' +
+      userData.response?.data.user_id,
       'GET',
       {},
       '',

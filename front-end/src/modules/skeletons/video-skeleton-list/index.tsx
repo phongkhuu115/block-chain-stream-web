@@ -1,5 +1,5 @@
-import VideoSkeleton from '@modules/skeleton/video-skeleton';
 import React from 'react';
+import VideoSkeleton from '@modules/skeletons/video-skeleton';
 
 const VideoSkeletonList = ({ shortlist }: { shortlist?: boolean }) => {
     return (
