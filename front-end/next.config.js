@@ -1,6 +1,6 @@
 
 const builderConfig = {
-  // output: 'export',
+  output: 'export',
 
   // Optional: Change the output directory `out` -> `dist`
   distDir: 'dist',
@@ -27,7 +27,7 @@ const nextConfig = {
     styledComponents: true,
   },
   images: {
-    // unoptimized: true,
+    unoptimized: true,
     remotePatterns: [
       {
         protocol: 'https',

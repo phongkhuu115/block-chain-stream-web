@@ -1,14 +1,17 @@
 import { cn } from '@lib/utils';
 import Header from '@modules/common/components/header/header';
 import RootWrapper from '@modules/common/components/wrapper/wrapper';
-import ClientLayout from '@modules/layout/client-layout';
+// import ClientLayout from '@modules/layout/client-layout';
 import '@rainbow-me/rainbowkit/styles.css';
 import type { Metadata } from 'next';
-import { Inter } from 'next/font/google';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import './globals.css';
-export const inter = Inter({ subsets: ['latin'] });
+
+
+
+// export const inter = Inter({ subsets: ['latin'] });
+// import { Inter } from 'next/font/google';
 
 export const metadata: Metadata = {
   title: 'BCSW',
@@ -26,9 +29,7 @@ export default function Layout(props: {
     <html lang='en'>
       <body
         className={cn(
-          'min-h-screen bg-background font-sans antialiased relative bg-primary',
-          inter.className
-        )}>
+          'min-h-screen bg-background font-sans antialiased relative bg-primary')}>
         <RootWrapper>
           <Header />
           {/* <ClientLayout {...props} /> */}

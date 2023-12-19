@@ -6,18 +6,18 @@ import {
   notifySuccess,
 } from '@modules/common/components/toast-comps';
 import axios from 'axios';
+import { getDownloadURL, ref, uploadBytesResumable } from 'firebase/storage';
 import { useRouter } from 'next/navigation';
 import { createContext, useContext } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { storeUserData } from 'redux/slices/userSlices';
 import { storage } from '../lib/helpers/firebase';
-import { ref, getDownloadURL, uploadBytesResumable, getStorage } from 'firebase/storage';
 
 export type UserBase = {
   username: string;
   user_fullname: string;
   user_email: string;
-  user_avatar: Blob;
+  user_avatar: string;
 };
 
 export type User = {
@@ -29,6 +29,7 @@ export type User = {
 export type UpdateUser = {
   user_id: string;
 } & UserBase;
+
 
 interface AccountProviderProps {
   children?: React.ReactNode;
@@ -137,7 +138,7 @@ export const AuthProvider = ({ children }: AccountProviderProps) => {
   };
 
   const handleUpdateProfile = async (values: UpdateUser) => {
-    const blob = values.user_avatar;
+    const blob = values.user_avatar as unknown as Blob;
 
     if (blob) {
       const storageRef = ref(storage, `images/${values.user_id}`);
