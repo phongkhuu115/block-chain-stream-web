@@ -1,5 +1,5 @@
-import SkeletonLeftSideBar from "@modules/skeletons/components/skeleton-left-side-bar";
-import SkeletonUserCard from '../../components/skeleton-user-card/index';
+import SkeletonLeftSideBar from "@modules/skeletons/skeleton-left-side-bar";
+import SkeletonUserCard from '../../skeleton-user-card/index';
 
 const SkeletonProfilePage = () => {
     return (
