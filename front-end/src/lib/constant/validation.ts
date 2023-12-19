@@ -19,15 +19,15 @@ const user_fullname = Yup.string()
     .max(70, 'Too Long!')
     .required('Required')
 
-const message = Yup.string()
-    .max(150, 'Too Long!')
-    .required('Required')
-
 const user_avatar = Yup.string().nullable()
 
-export const MessageSchema = Yup.object().shape({
-    username: username,
-    message: message,
+const comments = Yup.object().shape({
+    username: Yup.string(),
+    message: Yup.object().shape({
+        data: Yup.string().required('Data is Required'),
+        sender: Yup.string().required('Sender is Required'),
+        // timestamp: Yup.number().required('Timestamp is Required'),
+    })
 });
 
 export const SignupSchema = Yup.object().shape({
@@ -53,3 +53,5 @@ export const UpdateSchema = Yup.object().shape({
     user_email: user_email,
     user_avatar: user_avatar,
 });
+
+export const CommentSchema = comments;
