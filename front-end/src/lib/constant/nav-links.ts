@@ -1,11 +1,11 @@
 export const navLinks = [
   {
     name: "Home",
-    href: "/home",
+    href: "/",
   },
   {
     name: "Live",
-    href: "/live",
+    href: "/stream/n4t42/",
   },
   {
     name: "Favorite",

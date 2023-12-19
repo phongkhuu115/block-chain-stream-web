@@ -19,11 +19,14 @@
     "jsx": "preserve",
     "incremental": true,
     "types": [
-      "node",
+      "node"
       // "jest"
     ],
     "baseUrl": "./src",
     "paths": {
+      "@public/*": [
+        "public/*"
+      ],
       "@lib/*": [
         "lib/*"
       ],
@@ -34,7 +37,7 @@
         "pages/*"
       ],
       "@components/*": [
-        "components/*"
+        "modules/common/components/*"
       ]
     },
     "plugins": [
@@ -47,10 +50,12 @@
     "next-env.d.ts",
     "**/*.ts",
     "**/*.tsx",
-    ".next/types/**/*.ts"
+    ".next/types/**/*.ts",
+    "dist/types/**/*.ts"
   ],
   "exclude": [
     "node_modules",
+    "node_modules/pino-pretty/**",
     ".next",
     ".nyc_output",
     "coverage",

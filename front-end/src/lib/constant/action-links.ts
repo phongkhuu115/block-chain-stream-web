@@ -1,24 +1,24 @@
-import { TvIcon, BellDotIcon, WalletIcon, UserIcon } from "lucide-react";
+import { TvIcon, BellDotIcon, WalletIcon, UserIcon } from 'lucide-react';
 
 export const actionsLinks = [
   {
-    name: "Live TV",
+    name: 'Live TV',
     icon: TvIcon,
-    href: "/live",
+    href: '/live',
   },
   {
-    name: "Notification",
+    name: 'Notification',
     icon: BellDotIcon,
-    href: "/notification",
+    href: '/notification',
   },
   {
-    name: "Wallet",
+    name: 'Wallet',
     icon: WalletIcon,
-    href: "/wallet",
+    href: '/settings/wallet',
   },
   {
-    name: "Alice",
+    name: 'Alice',
     icon: UserIcon,
-    href: "/user",
+    href: '/settings/profile',
   },
 ];

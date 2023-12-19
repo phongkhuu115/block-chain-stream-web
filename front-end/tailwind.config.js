@@ -1,5 +1,6 @@
-/** @type {import('tailwindcss').Config} */
+const { fontFamily } = require("tailwindcss/defaultTheme")
 
+/** @type {import('tailwindcss').Config} */
 module.exports = {
     darkMode: ["class"],
     content: [
@@ -11,9 +12,15 @@ module.exports = {
     theme: {
         container: {
             center: true,
-            padding: "2rem",
+            padding: "0",
         },
         extend: {
+            transitionProperty: {
+                'height': 'height',
+            },
+            fontFamily: {
+                sans: ["Poppins", ...fontFamily.sans],
+            },
             screens: {
                 "small": "320px",
                 "medium": "768px",
@@ -33,9 +40,15 @@ module.exports = {
             colors: {
                 primary: {
                     DEFAULT: "#232D3F",
+                    100: "#384865",
+                    200: "#4d638b",
+                    foreground: "hsl(var(--primary-foreground))",
+
                 },
                 secondary: {
                     DEFAULT: "#0F0F0F",
+                    foreground: "hsl(var(--secondary-foreground))",
+                    
                 },
                 thirdary: {
                     DEFAULT: "#005B41",
@@ -46,7 +59,41 @@ module.exports = {
                 beta: {
                     DEFAULT: "#D9D9D966",
                 },
-
+                "papaya-whip": {
+                    DEFAULT: "#FFEFD5",
+                },
+                "ash-gray": {
+                    DEFAULT: "#C6D8D3",
+                },
+                "feldgrau": {
+                    DEFAULT: "#466060",
+                },
+                // shadcn
+                border: "hsl(var(--border))",
+                input: "hsl(var(--input))",
+                ring: "hsl(var(--ring))",
+                background: "hsl(var(--background))",
+                foreground: "hsl(var(--foreground))",
+                destructive: {
+                    DEFAULT: "hsl(var(--destructive))",
+                    foreground: "hsl(var(--destructive-foreground))",
+                },
+                muted: {
+                    DEFAULT: "hsl(var(--muted))",
+                    foreground: "hsl(var(--muted-foreground))",
+                },
+                accent: {
+                    DEFAULT: "hsl(var(--accent))",
+                    foreground: "hsl(var(--accent-foreground))",
+                },
+                popover: {
+                    DEFAULT: "hsl(var(--popover))",
+                    foreground: "hsl(var(--popover-foreground))",
+                },
+                card: {
+                    DEFAULT: "hsl(var(--card))",
+                    foreground: "hsl(var(--card-foreground))",
+                },
             },
             borderRadius: {
                 lg: "var(--radius)",
@@ -67,6 +114,10 @@ module.exports = {
                 "accordion-down": "accordion-down 0.2s ease-out",
                 "accordion-up": "accordion-up 0.2s ease-out",
             },
+            variants: {
+                transitionProperty: ['responsive', 'motion-safe', 'motion-reduce']
+            },
+
         },
     },
     plugins: [require("tailwindcss-animate")],
