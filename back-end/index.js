@@ -8,6 +8,7 @@ const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
 const cors = require('cors');
 const fs = require('fs');
+const path = require('path');
 
 // This line is from the Node.js HTTPS documentation.
 const options = {
@@ -28,6 +29,15 @@ app.use(
 );
 // parse application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({ extended: false }));
+app.use(express.static('public'));
+
+app.get('/stream/*', (req, res) => {
+  res.sendFile(path.join(__dirname, './public/preview/index.html'));
+});
+
+app.get('/', (req, res) => {
+  res.sendFile(path.join(__dirname, './public/index.html'));
+});
 
 // parse application/json
 app.use(bodyParser.json());

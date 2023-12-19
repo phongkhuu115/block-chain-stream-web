@@ -5,6 +5,7 @@ const bcrypt = require('bcrypt');
 const models = initModels(sequelize);
 const jwt = require('jsonwebtoken');
 const { ValidatePriviledge } = require('../helpers/validation');
+const res = require('express/lib/response');
 
 module.exports = {
   getUsers: async function (req, res) {
@@ -41,7 +42,7 @@ module.exports = {
         user_fullname: user_fullname,
         password: passwordHashed,
         user_email: user_email,
-        user_stream_key: `rtmp://${process.env.DOMAIN}:1935/live/` + user_id,
+        user_stream_key: `rtmp://${process.env.STREAM_DOMAIN}:1935/live/` + user_id,
         user_role: 1,
       });
 
@@ -77,13 +78,12 @@ module.exports = {
             expiresIn: '10d',
           }
         );
-        res.cookie('accessToken', access_token, {
+        res.cookie('bsc_at', access_token, {
           httpOnly: true,
           secure: true,
           path: '/',
           sameSite: 'none',
-          // maxAge: new Date(Date.now() + 900000),
-          // expires: new Date(Date.now() + 900000 * 10),
+          maxAge: new Date(Date.now() + 900000),
         });
         res.status(200).json({
           user: {
@@ -119,16 +119,15 @@ module.exports = {
         res.status(200).json({
           user: user,
         });
-        z;
       } catch (err) {
         res.status(500).json({
-          message: err.errors[0].message,
+          message: err,
         });
       }
     } else {
       res.status(401).json({
-        message: "unauthorized"
-      })
+        message: 'unauthorized',
+      });
     }
   },
   GetUser: async function (req, res) {
@@ -167,4 +166,34 @@ module.exports = {
       });
     }
   },
+  GetIDFromUsername: async (req, res) => {
+    let username = req.params.username;
+
+    try {
+      let user = await models.Users.findOne({
+        where: {
+          username: username,
+        },
+        attributes: ['user_id'],
+      });
+
+      res.status(200).json({
+        message: 'success',
+        user_id: user.user_id,
+      });
+    } catch (err) {
+      res.status(500).json({
+        message: err,
+      });
+    }
+  },
+  GetUsernames: async (req, res) => {
+    let usernames = await models.Users.findAll({
+      attributes: ['username']
+    })
+
+    res.status(200).json({
+      users: usernames.map(username => username.username)
+    })
+  }
 };

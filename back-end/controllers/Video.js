@@ -22,6 +22,7 @@ module.exports = {
       method: 'get',
       url: `http://${STREAM_DOMAIN}:3333/liveUp/${video_owner}`,
     });
+    console.log(checkStatus.data.status);
     if (ValidatePriviledge(req, video_owner) && checkStatus.data.status) {
       try {
         let video_id = crypto.randomUUID();
@@ -42,7 +43,7 @@ module.exports = {
         });
       } catch (err) {
         res.status(500).json({
-          message: err.errors[0].message,
+          message: err.message,
         });
       }
     } else {
@@ -166,6 +167,60 @@ module.exports = {
           message: err.errors[0].message,
         });
       }
+    }
+  },
+  GetStream: async (req, res) => {
+    let id = req.params.id;
+
+    try {
+      let video = await models.Videos.findOne({
+        where: {
+          video_owner: id,
+          video_type: 'stream',
+        },
+        include: {
+          model: models.Users,
+          as: 'Owners',
+          attributes: {
+            exclude: ['password', 'user_stream_key', 'user_id', 'user_role'],
+          },
+        },
+      });
+
+      res.status(200).json({
+        message: 'success',
+        stream: video,
+      });
+    } catch (err) {
+      console.log(err);
+      res.status(500).json({
+        message: err,
+      });
+    }
+  },
+  GetStreams: async (req, res) => {
+    try {
+      let streams = await models.Videos.findAll({
+        where: {
+          video_type: 'stream',
+        },
+        order: [['video_views', 'DESC']],
+        include: {
+          model: models.Users,
+          as: 'Owners',
+          attributes: {
+            exclude: ['password', 'user_stream_key', 'user_id', 'user_role'],
+          },
+        },
+      });
+
+      res.status(200).json({
+        streams: streams,
+      });
+    } catch (err) {
+      res.status(500).json({
+        message: err,
+      });
     }
   },
 };

@@ -18,7 +18,7 @@ module.exports = function(sequelize, DataTypes) {
       }
     },
     follow_id: {
-      type: DataTypes.INTEGER,
+      type: DataTypes.STRING(255),
       allowNull: false,
       primaryKey: true
     }
