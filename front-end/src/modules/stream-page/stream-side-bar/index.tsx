@@ -12,8 +12,8 @@ type Props = {
     data: Content[];
 } & React.HTMLAttributes<HTMLDivElement>;
 
-const StreamSideBar: React.FC<Props> = ({ className, data, ...props }: Props) => {
 
+const StreamSideBar: React.FC<Props> = ({ className, data, ...props }: Props) => {
     const isLive = useStreamDetector("https://stream.mux.com/v69RSHhFelSm4701snP22dYz2jICy4E4FUyk02rW4gxRM.m3u8");
     return (
         <section className={clsx("hidden large:flex flex-col w-64 dark:bg-gray-800  bg-[#f2f2f2] h-full rounded-lg  border-4  ", className)}>
@@ -49,7 +49,6 @@ const StreamSideBar: React.FC<Props> = ({ className, data, ...props }: Props) =>
                 </ul>
             </div>
         </section>
-
     );
 };
 

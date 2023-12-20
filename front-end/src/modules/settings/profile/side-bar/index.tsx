@@ -1,6 +1,5 @@
 import { buttons } from '@lib/constant/profile-side-bar-buttons';
 import clsx from 'clsx';
-import { UserCircle } from 'lucide-react';
 import Link from 'next/link';
 import React from 'react';
 

@@ -4,8 +4,9 @@ import { navLinks } from "@lib/constant/nav-links";
 import PageIcon from "@modules/common/icons/page-icon";
 import Link from "next/link";
 import { Button } from "../ui/button";
+import clsx from "clsx";
 
-type Props = {};
+type Props = {} & React.HTMLAttributes<HTMLDivElement>;;
 
 const DropDownMenu = () => {
   return (
@@ -52,9 +53,9 @@ const VerticalMenu = () => {
   );
 };
 
-const NavigatorLinks = (props: Props) => {
+const NavigatorLinks = ({ className, ...props }: Props) => {
   return (
-    <div className="flex flex-row items-center justify-center gap-[20px]">
+    <div className={clsx("items-center justify-center gap-[20px]", className)}>
       {/* <DropDownMenu /> */}
       <VerticalMenu />
     </div>

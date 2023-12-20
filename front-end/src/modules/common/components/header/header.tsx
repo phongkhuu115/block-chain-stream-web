@@ -12,10 +12,10 @@ const Header = () => {
         <div className="flex h-full justify-center items-center">
           <Banner />
         </div>
-        <NavigatorLinks />
+        <NavigatorLinks className="hidden medium:flex" />
       </div>
       <InputSearch className="max-w-[300px]" placeholder="Search your favorite content" />
-      <Actions />
+      <Actions className="hidden medium:flex" />
     </div>
   );
 };

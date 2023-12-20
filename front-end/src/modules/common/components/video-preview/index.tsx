@@ -1,7 +1,7 @@
 
 "use client";
 import './index.scss';
-import { Loader2, LoaderIcon } from 'lucide-react';
+import { Car, Loader2, LoaderIcon } from 'lucide-react';
 import Link from 'next/link';
 import { useEffect, useRef, useState } from 'react';
 import HoverVideoPlayer from 'react-hover-video-player';
@@ -9,6 +9,8 @@ import videojs from 'video.js';
 import { CustomImage } from '@components/ui/image';
 import { abbreviateNumber } from '@lib/utils';
 import useStreamDetector from '../../../../lib/hook/use-stream-detector';
+import { Card, CardContent, CardFooter, CardHeader } from '@modules/common/components/ui/card';
+import VideoSkeleton from '@modules/skeletons/skeleton-video';
 
 type Props = {
     id: string;
@@ -48,12 +50,11 @@ const VideoPreview = ({
             lowLatency: true,
             playbackRates: [0.5, 1, 1.5, 2],
             backBufferLength: 90,
-
             lowLatencyMode: true,
         };
         // Check if the videoRef exists before initializing video.js
         if (videoRef.current) {
-            videojs(videoRef.current, { ...videoJsOptions }).addClass("video-js");
+            videojs(videoRef.current, { ...videoJsOptions }).addClass("video-js !bg-transparent");
             const playerInstance = videojs.getPlayer(videoRef.current);
             playerInstance.on("ready", () => {
                 console.log("ready");
@@ -62,42 +63,53 @@ const VideoPreview = ({
     }, []);
 
     return (
-        <div className="relative p-2 ">
-            <div >
-                <div className='max-w-[300px]'>
-                    {videoRef && (
-                        <HoverVideoPlayer
-                            videoRef={videoRef}
-                            videoClassName='videopreview'
-                            videoSrc={props.image}
-                            pausedOverlay={
-                                <CustomImage
-                                    src={props.image}
-                                    alt="/"
-                                    width={300}
-                                    height={200}
-                                    className="object-cover w-full h-full "
-                                />
+        <Card className="relative p-2 transition-all hover:scale-105 hover:shadow-2xl hover:cursor-pointer">
+            <div className='w-full'>
 
-                            }
-                            loadingOverlay={
-                                <div className="loading-overlay flex w-full h-full justify-center items-center opacity-60 bg-black ">
-                                    <Loader2 className="animate-spin text-white opacity-100" />
-                                </div>
-                            }
-                        />
-                    )}
+                {isLive && (
+                    <div className="absolute text-xs px-1 py-0.5 font-semibold bg-red-600 rounded top-4 text-white left-4 z-50">
+                        <p className="uppercase"> Live</p>
+                    </div>
+                )}
 
+                <CardContent className="p-0">
+                    {
+                        videoRef ? (
+                            <HoverVideoPlayer
+                                className='w-full h-full relative '
+                                videoRef={videoRef}
+                                videoClassName='videopreview'
+                                videoSrc={props.image}
+                                pausedOverlay={
+                                    <CustomImage
+                                        src={props.image}
+                                        alt="/"
+                                        width={300}
+                                        height={200}
+                                        className="object-cover w-full h-full rounded-2xl"
+                                    />
 
-                    {isLive && (
-                        <div className="absolute text-xs px-1 py-0.5 font-semibold bg-red-600 rounded top-4 text-white left-4 z-50">
-                            <p className="uppercase"> Live</p>
-                        </div>
-                    )}
+                                }
+                                loadingOverlay={
+                                    <div className="loading-overlay flex w-full h-full justify-center items-center opacity-60 bg-black ">
+                                        <Loader2 className="animate-spin text-white opacity-100" />
+                                    </div>
+                                }
+                            />
+                        ) :
+                            (
+                                <VideoSkeleton className='w-full h-full relative' />
+                            )
 
+                    }
+                </CardContent>
+
+                <CardFooter className="flex flex-col items-start p-2">
                     <Link href={`/video/${props.id}`}>
                         <p className="font-bold truncate">{props.title}</p>
                     </Link>
+
+
                     <p className="text-sm text-gray-500 py-[2px]">{abbreviateNumber(props.viewers)} viewers</p>
                     <div className="flex">
                         <div>
@@ -106,8 +118,8 @@ const VideoPreview = ({
                                     <CustomImage
                                         src={props.channelImage}
                                         alt="/"
-                                        width={20}
-                                        height={20}
+                                        width={36}
+                                        height={36}
                                         className="object-cover rounded-[50%]"
                                     />
                                 )}
@@ -126,9 +138,10 @@ const VideoPreview = ({
                             )}
                         </div>
                     </div>
-                </div>
+                </CardFooter>
+
             </div>
-        </div>
+        </Card>
     );
 };
 

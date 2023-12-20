@@ -7,7 +7,7 @@ interface CustomImageProps extends ImageProps {
     src: string
 }
 
-export const CustomImage = ({ src, ...rest }: CustomImageProps) => {
+export const CustomImage = ({ src,...rest }: CustomImageProps) => {
     const [imgSrc, setImgSrc] = useState(src)
 
     useEffect(() => {

@@ -6,6 +6,7 @@ import { LucideIcon, PanelTopOpen } from "lucide-react";
 import Link from "next/link";
 import { Button } from "../ui/button";
 import WagmiComponent from "../wagmiComponent/wagmi";
+import clsx from "clsx";
 
 type Props = {
   className?: string;
@@ -124,9 +125,9 @@ const VerticalAction = () => {
   );
 };
 
-const Actions = (props: Props) => {
+const Actions = ({ className, ...props }: Props) => {
   return (
-    <div className="flex flex-row items-center justify-center gap-[20px]">
+    <div className={clsx("items-center justify-center gap-[20px]", className)}>
       {/* <DropDownAction className="" /> */}
       <VerticalAction />
     </div>

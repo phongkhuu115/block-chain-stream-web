@@ -32,7 +32,6 @@ export default function Layout(props: {
           'min-h-screen bg-background font-sans antialiased relative bg-primary')}>
         <RootWrapper>
           <Header />
-          {/* <ClientLayout {...props} /> */}
           {props.children}
         </RootWrapper>
         <ToastContainer position="bottom-right" newestOnTop />

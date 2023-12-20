@@ -1,29 +1,52 @@
 import VideoPreview from "@components/video-preview";
 import "./index.scss";
 import VideoSkeletonList from "@modules/skeletons/(templates)/skeleton-video-list";
+import clsx from "clsx";
 
-const LiveChannels = ({ videos: contents }: { videos: Content[] }) => {
+type Video = {
+    video_id: string;
+    video_name: string;
+    video_type: string;
+    video_label?: any;
+    video_owner: string;
+    video_views: number;
+    video_status: string;
+    video_thumbnail: string;
+    video_urls: string;
+    Owners: Owners;
+}
+type Owners = {
+    username: string;
+    user_fullname: string;
+    user_email: string;
+    user_avatar: string;
+}
+
+type Props = {
+    videos: Video[];
+} & React.HTMLAttributes<HTMLDivElement>;
+
+const LiveChannels = ({ videos, className, ...props }: Props) => {
     return (
-        <div className="px-4">
-            <h2 className="text-base font-bold text-gray-200 md:text-xl">
+        <div className={clsx("px-4 py-2", className)}>
+            <h2 className="text-base font-bold  md:text-xl">
                 Live Channels we think you&apos;ll like
             </h2>
 
             <div className="grid grid-cols-1 gap-3 pt-3 medium:grid-cols-3 large:grid-cols-4">
-                {contents?.length === 0 ? (<VideoSkeletonList shortlist />)
+                {videos?.length === 0 ? (<VideoSkeletonList shortlist />)
                     : (
                         <>
                             {
-                                contents &&
-                                contents.map((content, index: number) => (
+                                videos && videos.map((video) => (
                                     <VideoPreview
-                                        id={content.video?.videoId}
-                                        image={content.video?.thumbnails[0]?.url}
-                                        title={content.video?.title}
-                                        viewers={content.video.stats.viewers}
-                                        channelImage={content.video?.author?.avatar[0].url}
-                                        channelName={content.video?.author?.title}
-                                        key={index}
+                                        id={video.video_id}
+                                        image={video.video_thumbnail}
+                                        title={video.video_name}
+                                        viewers={video.video_views}
+                                        channelImage={video.Owners.user_avatar}
+                                        channelName={video.Owners.username}
+                                        key={video.video_id}
                                         tags={[]}
                                     />
                                 ))
