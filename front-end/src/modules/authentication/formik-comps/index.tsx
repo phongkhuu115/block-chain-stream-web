@@ -57,8 +57,8 @@ export const FormikInput: React.FC<FormikInputProps> = ({ field, form, type, lab
                         }
                         <div className="relative">
                             <div
-                                className="potato__button__rounded basis-1/4">
-                                <label title="Click to upload" htmlFor={field?.name} className={clsx("relative w-full h-full p-3", { "cursor-pointer": !disabled, "cursor-not-allowed": disabled })}>
+                                className={clsx("potato__button__rounded basis-1/4", { "!bg-slate-500": disabled })}>
+                                <label title="Click to upload" htmlFor={field?.name} className={clsx("relative w-full h-full p-3", { "cursor-pointer ": !disabled, "cursor-not-allowed !bg-slate-500": disabled })}>
                                     <UploadCloud />
                                 </label>
                             </div>

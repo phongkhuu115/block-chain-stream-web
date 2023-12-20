@@ -34,6 +34,27 @@ import { storeUserData } from 'redux/slices/userSlices';
 import { Skeleton } from '@modules/common/components/ui/skeleton';
 import Image from 'next/image';
 import { processImageBlob } from '@modules/settings/profile/profile-update';
+import clsx from 'clsx';
+
+type Stream = {
+  video_id: string;
+  video_name: string;
+  video_type: string;
+  video_label?: any;
+  video_owner: string;
+  video_views: number;
+  video_status: string;
+  video_thumbnail: string;
+  video_urls: string;
+  Owners: Owners;
+}
+
+type Owners = {
+  username: string;
+  user_fullname: string;
+  user_email: string;
+  user_avatar: string;
+}
 
 type GoLiveVideoProps = {
   video_owner: string;
@@ -46,15 +67,17 @@ type GoLiveVideoProps = {
 
 const GoLivePageTempalate = () => {
   const [url, setURL] = useState<string>();
+  const [streamData, setStreamData] = useState<Stream>();
+  console.log('streamData: ', streamData);
   const currentPath = usePathname();
   const { user } = useAuth();
 
   const initMessage = {
     video_owner: user.user_id,
-    video_name: '',
-    video_type: 'stream',
-    video_status: 'live',
-    video_thumbnail: '',
+    video_name: streamData?.video_name || '',
+    video_type: streamData?.video_type || 'stream',
+    video_status: streamData?.video_status || 'live',
+    video_thumbnail: streamData?.video_thumbnail || '',
   } as GoLiveVideoProps;
 
   const handleGoLive = async (values: GoLiveVideoProps, helper: FormikHelpers<GoLiveVideoProps>) => {
@@ -84,7 +107,7 @@ const GoLivePageTempalate = () => {
 
         try {
           const res = await axios.request(paramsCreateStream);
-          if (res.status === 200) {
+          if (res.status === 201) {
             notifySuccess('Create stream success');
             helper.resetForm();
           }
@@ -110,11 +133,28 @@ const GoLivePageTempalate = () => {
   };
 
   useEffect(() => {
-    const socket = io('https://nt208-g4.site');
-    socket.on(`preview_${user.user_id}`, (url) => {
-      setURL(url);
-    });
-  }, []);
+    if (user?.user_id) {
+      const paramStream = getAxiosParam(`${process.env.NEXT_PUBLIC_API_URL}/streams/${user?.user_id}`, 'GET', {}, '', { withCredentials: true, });
+      axios.request(paramStream).then((res) => {
+        console.log('res: ', res);
+        if (res?.data?.stream) {
+          setStreamData(res.data.stream);
+        }
+      });
+    }
+  }, [user?.user_id, url]);
+
+  useEffect(() => {
+    if (streamData?.video_urls) {
+      setURL(streamData?.video_urls);
+    }
+    else {
+      const socket = io('https://nt208-g4.site');
+      socket.on(`preview_${user.user_id}`, (url) => {
+        setURL(url);
+      });
+    }
+  }, [streamData]);
 
   return (
     <main className='container center-item h-screen'>
@@ -122,7 +162,7 @@ const GoLivePageTempalate = () => {
         user.user_id ?
           (
             <div className='flex gap-2'>
-              <Card className='basis-1/5'>
+              <Card className='basis-2/5'>
                 <CardHeader>
                   <CardTitle>Preview</CardTitle>
                   <CardDescription>
@@ -132,7 +172,7 @@ const GoLivePageTempalate = () => {
                 <CardContent>{url && <View url={url}></View>}</CardContent>
               </Card>
 
-              <Card className='basis-3/5'>
+              <Card className='basis-2/5'>
 
                 <CardHeader>
                   <CardTitle>Set up your live streaming software</CardTitle>
@@ -160,6 +200,7 @@ const GoLivePageTempalate = () => {
                       initialValues={initMessage}
                       onSubmit={(values, helper) => handleGoLive(values, helper)}
                       validationSchema={VideoSchema}
+                      enableReinitialize={true}
                     >
                       {({ submitForm, isSubmitting, isValid, values }) => {
                         const thumnail = processImageBlob(values?.video_thumbnail)
@@ -172,6 +213,7 @@ const GoLivePageTempalate = () => {
                           }}>
                             <div className='flex flex-col h-full gap-2'>
                               <Field
+                                disabled={isSubmitting || streamData?.video_urls}
                                 name="video_name"
                                 label="Video Title"
                                 component={FormikInput}
@@ -187,7 +229,9 @@ const GoLivePageTempalate = () => {
                                         src={thumnail ? thumnail : ''}
                                         alt="Picture of the thumbnail"
                                         width={300}
-                                        height={200} />
+                                        height={200}
+                                        className={clsx({ "opacity-60": isSubmitting || streamData?.video_urls })}
+                                      />
                                     )
                                     :
                                     (
@@ -197,6 +241,7 @@ const GoLivePageTempalate = () => {
                               </div>
 
                               <Field
+                                disabled={isSubmitting || streamData?.video_urls}
                                 type="file"
                                 name="video_thumbnail"
                                 label="Video Thumbnail 👆"
@@ -229,9 +274,6 @@ const GoLivePageTempalate = () => {
                                     </span>
                                   </button>
                                 </div>
-
-
-
                               </div>
                             </div>
                           </Form>

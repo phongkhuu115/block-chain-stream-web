@@ -26,8 +26,6 @@ type Props = {} & React.HTMLAttributes<HTMLDivElement>;
 type user_avartar_display = Blob | string;
 
 export const processImageBlob = (data: user_avartar_display) => {
-    console.log('data: ', data);
-
     if (data === null) {
         return 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png';
     }
@@ -85,7 +83,7 @@ const ProfileUpdate: React.FC<Props> = ({ className, ...props }: Props) => {
                                     <CardHeader className='flex flex-col center-item gap-3'>
                                         <Avatar
                                             className='object-center object-cover w-24 h-24'
-                                            src={processImageBlob(values.user_avatar)}
+                                            src={processImageBlob(values.user_avatar) || ''}
                                             alt={user_fullname ? user_fullname : 'Unknown'}
                                         >
                                         </Avatar>
