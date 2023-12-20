@@ -1,16 +1,15 @@
 import { CommentSchema } from "@lib/constant/validation";
 import { getAxiosParam } from "@lib/helpers/api";
-import { FormikInput } from "@modules/authentication/formik-comps";
-import { Button } from "@modules/common/components/ui/button";
+import { FormikInputWithAction } from "@modules/authentication/formik-comps";
+import { notifyError } from "@modules/common/components/toast-comps";
 import axios from "axios";
 import clsx from "clsx";
 import { useAuth } from "context/auth-context";
 import { Field, Form, Formik, FormikHelpers } from "formik";
-import { Loader2, SendHorizontalIcon } from "lucide-react";
-import React, { useEffect } from "react";
+import React, { useEffect, useRef } from "react";
 import { io } from 'socket.io-client';
+import { SendHorizonal } from "lucide-react";
 import "./index.scss";
-import { notifyError } from "@modules/common/components/toast-comps";
 
 type Props = {
     username: string;
@@ -30,8 +29,9 @@ type Message = {
 const ChatBox: React.FC<Props> = ({ className, username, ...props }: Props) => {
     const channelOwner = username;
     const { user } = useAuth();
-    const [history, setHistory] = React.useState<MessagePayload[]>([]);
-    console.log('history: ', history);
+    const history = useRef<MessagePayload[]>([]).current;
+    const [displayHistory, setDisplayHistory] = React.useState<MessagePayload[]>(history);
+    console.log('history: ', displayHistory);
 
     const sender = user?.username || 'anonymous';
 
@@ -75,16 +75,15 @@ const ChatBox: React.FC<Props> = ({ className, username, ...props }: Props) => {
 
     useEffect(() => {
         const socket = io('https://nt208-g4.site');
-        console.log('comment_${channelOwner}: ', `comment_${channelOwner}`);
         socket.on(`comment_${channelOwner}`, (args: MessagePayload) => {
             const incomingMessage = {
                 sender: args.sender || '',
                 timestamp: args.timestamp || '',
                 data: args.data || '',
             } as MessagePayload;
-            console.log('incomingMessage: ', incomingMessage);
             incomingMessage.timestamp = new Date(parseInt(incomingMessage.timestamp)).toLocaleString();
-            setHistory([...history, incomingMessage]);
+            displayHistory.push(incomingMessage);
+            setDisplayHistory([...displayHistory])
         });
     }, []);
 
@@ -100,36 +99,37 @@ const ChatBox: React.FC<Props> = ({ className, username, ...props }: Props) => {
                 // console.log('values: ', values);
 
                 return (
-                    <Form onKeyDown={(e) => {
-                        if (e.key === 'Enter' && !isSubmitting && isValid) {
-                            e.preventDefault();
-                            submitForm();
-                        }
-                    }}>
-                        <div className={clsx("chat__card w-full", className)}>
-                            <div className="chat__header">
-                                <div className="w-full text-center">Stream Chat</div>
-                            </div>
-                            <div className="chat__body h-full">
-                                {
-                                    history.map((message) => {
-                                        return (
-                                            <div key={message.timestamp} className={clsx("message", { "incoming": message.sender !== sender, "outgoing": message.sender === sender })}>
-                                                <p>{message.data}</p>
-                                            </div>
-                                        );
-                                    })
-                                }
-                            </div>
 
-                            <div className="chat__footer flex gap-2 w-full h-full center-item">
-                                <div className="basis-3/4 w-full h-full">
-                                    <Field
-                                        name="message.data"
-                                        component={FormikInput}
-                                        placeholder="Type your message here..."
-                                        autoComplete="off"
-                                    />
+                    <div className={clsx("chat__card w-full hidden large:flex h-full overflow-hidden", className)}>
+                        <div className="chat__header">
+                            <div className="w-full text-center">Stream Chat</div>
+                        </div>
+                        <div className="chat__body h-full">
+                            {
+                                displayHistory.map((message) => {
+                                    return (
+                                        <div key={message.timestamp} className={clsx("message", { "incoming": message.sender !== sender, "outgoing": message.sender === sender })}>
+                                            <p>{message.data}</p>
+                                        </div>
+                                    );
+                                })
+                            }
+                        </div>
+                        <Form onKeyDown={(e) => {
+                            if (e.key === 'Enter' && !isSubmitting && isValid) {
+                                e.preventDefault();
+                                submitForm();
+                            }
+                        }}>
+                            <div className="chat__footer flex gap-2 w-full h-fit center-item">
+                                <Field
+                                    name="message.data"
+                                    component={FormikInputWithAction}
+                                    icon={<SendHorizonal />}
+                                    placeholder="Message..."
+                                    autoComplete="off"
+                                />
+                                {/* <div className="basis-3/4 w-full h-full">
                                 </div>
                                 <div className="basis-1/4 w-full h-full">
                                     <Button disabled={isSubmitting} type="submit" className="w-full h-full" onClick={(e) => {
@@ -138,10 +138,11 @@ const ChatBox: React.FC<Props> = ({ className, username, ...props }: Props) => {
                                     }}>
                                         {isSubmitting ? <Loader2 className="animate-spin" size={24} /> : <SendHorizontalIcon size={24} />}
                                     </Button>
-                                </div>
+                                </div> */}
                             </div>
-                        </div>
-                    </Form>
+                        </Form>
+
+                    </div>
                 )
             }}
         </Formik >

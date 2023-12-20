@@ -1,4 +1,4 @@
-import StreamPageTempalate from '@modules/stream/templates';
+import StreamPageTempalate from '@modules/stream-page/templates';
 import { Metadata } from 'next';
 import { API_URL } from '../../../lib/helpers/env-provider';
 
@@ -20,19 +20,16 @@ export const metadata: Metadata = {
 };
 
 export async function generateStaticParams() {
-
-    const rawData = await fetch(`${API_URL}/users/usernames`);
-
+    const rawData = await fetch(`${API_URL}/users/usernames`, { cache: "no-store" });
     const streams: { users: string[] } = await rawData.json();
+    console.log('streams: ', streams);
 
     const paths = streams.users.map((username) => (
         {
             slug: username,
         }
     ));
-
     return paths;
-
 }
 
 const StreamPage = ({ params }: { params: { slug: string } }) => {

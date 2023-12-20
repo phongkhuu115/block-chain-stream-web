@@ -1,5 +1,4 @@
 .chat__card {
-  display: flex;
   flex-direction: column;
   background-color: #fff;
   border-radius: 5px;
@@ -59,7 +58,6 @@
 }
 
 .chat__footer button {
-  padding: 5px 10px;
   border: none;
   background-color: #4285f4;
   color: #fff;

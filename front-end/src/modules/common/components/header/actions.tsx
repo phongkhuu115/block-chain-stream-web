@@ -54,6 +54,10 @@ const CustomRainbowConnectButton = (props: CustomRainbowConnectButtonProps) => {
           authenticationStatus,
           mounted,
         }) => {
+          console.log('account: ', account);
+          console.log('chain: ', chain);
+          console.log('authenticationStatus: ', authenticationStatus);
+
           type AuthenticationStatus =
             | "connected"
             | "connecting"
@@ -71,7 +75,7 @@ const CustomRainbowConnectButton = (props: CustomRainbowConnectButtonProps) => {
             if (isWalletDisconnected) {
               openConnectModal();
             } else if (isWalletConnecting) {
-              return;
+              openChainModal();
             } else if (isWalletConnected) {
               openAccountModal();
             }

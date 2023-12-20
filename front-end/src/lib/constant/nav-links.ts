@@ -4,8 +4,8 @@ export const navLinks = [
     href: "/",
   },
   {
-    name: "Live",
-    href: "/stream/n4t42/",
+    name: "Go Live",
+    href: "/go-live",
   },
   {
     name: "Favorite",

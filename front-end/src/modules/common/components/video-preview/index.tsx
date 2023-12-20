@@ -1,7 +1,7 @@
 
 "use client";
 import './index.scss';
-import { LoaderIcon } from 'lucide-react';
+import { Loader2, LoaderIcon } from 'lucide-react';
 import Link from 'next/link';
 import { useEffect, useRef, useState } from 'react';
 import HoverVideoPlayer from 'react-hover-video-player';
@@ -32,7 +32,6 @@ const VideoPreview = ({
 
     const isLive = useStreamDetector(video_src);
     const videoRef = useRef<HTMLVideoElement>(null);
-    console.log('isLive: ', isLive);
 
     useEffect(() => {
         const videoJsOptions = {
@@ -82,8 +81,8 @@ const VideoPreview = ({
 
                             }
                             loadingOverlay={
-                                <div className="loading-overlay flex w-full h-full justify-center items-center">
-                                    <LoaderIcon className="animate-spin" />
+                                <div className="loading-overlay flex w-full h-full justify-center items-center opacity-60 bg-black ">
+                                    <Loader2 className="animate-spin text-white opacity-100" />
                                 </div>
                             }
                         />

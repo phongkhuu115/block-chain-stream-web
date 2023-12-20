@@ -19,6 +19,7 @@ import Link from 'next/link';
 import React, { use } from 'react';
 import AlertLogin from '../alert-login';
 import clsx from 'clsx';
+import { usePathname } from 'next/navigation';
 
 type Props = {} & React.HTMLAttributes<HTMLDivElement>;
 
@@ -26,8 +27,10 @@ type user_avartar_display = Blob | string;
 
 
 const ProfileUpdate: React.FC<Props> = ({ className, ...props }: Props) => {
+
     const { handleUpdateProfile } = useAuth();
     const [isChangeable, setIsChangeable] = React.useState(false);
+    const currentPath = usePathname();
 
     const { user } = useAuth();
     const {
@@ -49,14 +52,16 @@ const ProfileUpdate: React.FC<Props> = ({ className, ...props }: Props) => {
 
     // process avatar url 
     const processAvatar = (avatar: user_avartar_display) => {
-        if (typeof avatar === 'string') {
+        console.log('avatar: ', avatar);
+
+        if (avatar === null) {
+            return 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png';
+        }
+        else if (typeof avatar === 'string') {
             return avatar;
         }
         else if (typeof avatar === 'object') {
             return URL.createObjectURL(avatar);
-        }
-        else {
-            return 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png';
         }
     }
 
@@ -203,7 +208,7 @@ const ProfileUpdate: React.FC<Props> = ({ className, ...props }: Props) => {
                     )
                     :
                     (
-                        <AlertLogin />
+                        <AlertLogin fallbackPath={currentPath} />
                     )
             }
         </section>

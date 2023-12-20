@@ -1,5 +1,5 @@
 import { Metadata, NextPage } from 'next';
-import PreviewPageTempalate from '@modules/preview/templates';
+import GoLivePageTempalate from '@modules/go-live/templates';
 
 export const metadata: Metadata = {
   title: 'Preview Page',
@@ -17,8 +17,8 @@ export const metadata: Metadata = {
   },
 };
 
-const PreviewPage: NextPage = () => {
-  return <PreviewPageTempalate />;
+const GoLivePage: NextPage = () => {
+  return <GoLivePageTempalate />;
 };
 
-export default PreviewPage;
+export default GoLivePage;

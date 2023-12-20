@@ -30,6 +30,11 @@ const comments = Yup.object().shape({
     })
 });
 
+const video = Yup.object().shape({
+    video_name: Yup.string().required('Title is Required'),
+    video_thumbnail: Yup.string().required('Thumbnail is Required'),
+});
+
 export const SignupSchema = Yup.object().shape({
     username: username,
     user_password: user_password,
@@ -55,3 +60,4 @@ export const UpdateSchema = Yup.object().shape({
 });
 
 export const CommentSchema = comments;
+export const VideoSchema = video;

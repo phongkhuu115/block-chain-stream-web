@@ -2,8 +2,7 @@
 
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@radix-ui/react-tabs"
 import clsx from "clsx"
-import { useAuth } from "context/auth-context"
-import { useRouter } from "next/navigation"
+import { useSearchParams } from "next/navigation"
 import Login from "../login"
 import SignUp from "../sign-up"
 import "./index.scss"

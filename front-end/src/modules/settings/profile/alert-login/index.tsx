@@ -5,9 +5,13 @@ import Link from "next/link";
 import React from "react";
 import "./index.scss";
 
-type Props = {} & React.HTMLAttributes<HTMLDivElement>;
+type Props = {
+    fallbackPath?: string;
+} & React.HTMLAttributes<HTMLDivElement>;
 
-const AlertLogin: React.FC<Props> = ({ className, ...props }: Props) => {
+const AlertLogin: React.FC<Props> = ({ className, fallbackPath, ...props }: Props) => {
+    //remove first slash
+    const processFallbackPath = fallbackPath?.replace(/^\//, "");
     return (
         <Alert.Alert className="flex  flex-1 flex-col  center-item rounded-2xl border border-se shadow-2xl bg-feldgrau text-white p-3">
             <div className="flex gap-2 justify-center items-center pt-3 ">
@@ -20,17 +24,16 @@ const AlertLogin: React.FC<Props> = ({ className, ...props }: Props) => {
                 </Alert.AlertDescription>
                 <div className="flex mt-1 center-item">
                     <button onClick={(e) => {
-                        // add toggle class to button
                         const button = e.target as HTMLButtonElement;
                         button.classList.toggle("potato__button--active");
                     }} className="potato__button">
                         <span className="w-full h-full">
-                            <Link className="w-full h-full center-item text-center" href='/login'>Login</Link>
+                            <Link className="w-full h-full center-item text-center" href={`/login?fallback=${processFallbackPath}`}>Login</Link>
                         </span>
                     </button>
                 </div>
             </div>
-        </Alert.Alert>
+        </Alert.Alert >
     );
 };
 

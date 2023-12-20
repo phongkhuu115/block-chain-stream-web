@@ -54,7 +54,7 @@ export const AuthProvider = ({ children }: AccountProviderProps) => {
   const router = useRouter();
   const user = useSelector((state: any) => state.data.user) as User;
 
-  const handleLogin = async (values: any) => {
+  const handleLogin = async (values: any, fallback: string) => {
     const paramsLogin = getAxiosParam(
       process.env.NEXT_PUBLIC_API_URL + '/login',
       'POST',
@@ -70,20 +70,28 @@ export const AuthProvider = ({ children }: AccountProviderProps) => {
     try {
       const res = await axios.request(paramsLogin);
       if (res.status === 200) {
-        notifySuccess("Login success");
         const userData = res.data.user;
         if (userData) {
           dispatch(storeUserData(userData))
-          router.push("/")
+          notifySuccess("Login success");
+          console.log('fallback: ', fallback);
+          if (fallback)
+            router.push(`/${fallback}`);
+          else
+            router.push('/');
         }
       }
     }
     catch (err: any) {
-      notifyError(`Login failed ${(err?.message).toLowerCase()}`);
+      if (err.code === "ERR_NETWORK")
+        notifyError(`Login failed ERR_NETWORK`);
+      else
+        notifyError(`Login failed ${(err?.response?.data?.message)?.toLowerCase()}`);
+
     }
   };
 
-  const handleSignUp = async (values: any) => {
+  const handleSignUp = async (values: any, fallback: any) => {
     const paramsSignUp = getAxiosParam(
       process.env.NEXT_PUBLIC_API_URL + '/register',
       'POST',
@@ -102,16 +110,15 @@ export const AuthProvider = ({ children }: AccountProviderProps) => {
     try {
       const res = await axios.request(paramsSignUp);
       if (res.status === 201) {
-        notifySuccess(`Welcome to the club!}`);
-        const userData = res.data.user;
-        if (userData) {
-          dispatch(storeUserData(userData));
-          router.push('/');
-        }
+        notifySuccess(`Welcome to the club!`);
+        if (fallback)
+          router.push(`/${fallback}`);
+        else
+          router.push('/settings/profile');
       }
     } catch (err: any) {
       console.log('err: ', err);
-      notifyError(`Sign up failed \n ${err?.response.data.message.name}`);
+      notifyError(`Sign up failed \n ${err?.response.data.message}`);
     }
   };
 
@@ -139,6 +146,7 @@ export const AuthProvider = ({ children }: AccountProviderProps) => {
 
   const handleUpdateProfile = async (values: UpdateUser) => {
     const blob = values.user_avatar as unknown as Blob;
+    console.log('blob: ', blob);
 
     if (blob) {
       const storageRef = ref(storage, `images/${values.user_id}`);
@@ -206,7 +214,7 @@ export const AuthProvider = ({ children }: AccountProviderProps) => {
 
 type AuthContextType = {
   user: User;
-  handleLogin: (values: any) => void;
-  handleSignUp: (values: any) => void;
+  handleLogin: (values: any, fallback: any) => void;
+  handleSignUp: (values: any, fallback: any) => void;
   handleUpdateProfile: (values: UpdateUser) => Promise<boolean>;
 };

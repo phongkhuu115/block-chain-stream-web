@@ -5,6 +5,7 @@ import { ConnectedFocusError } from 'focus-formik-error';
 import { Field, Form, Formik } from "formik";
 import { Loader2Icon } from "lucide-react";
 import Link from "next/link";
+import { useSearchParams } from "next/navigation";
 import React from "react";
 import { Button } from "../../common/components/ui/button";
 import { Card, CardContent, CardDescription, CardFooter } from "../../common/components/ui/card";
@@ -22,12 +23,13 @@ const initLogin = {
 
 const Login: React.FC<Props> = ({ className, ...props }: Props) => {
   const { handleLogin } = useAuth();
+  const fallback = useSearchParams().get('fallback')
 
   return (
     <Card className={clsx('border-none rounded-t-none bg-secondary text-white', className)}  {...props}>
       <Formik
         initialValues={initLogin}
-        onSubmit={(values) => handleLogin(values)}
+        onSubmit={(values) => handleLogin(values, fallback)}
         validationSchema={LoginSchema}
       >
         {({ submitForm, isSubmitting }) => (
