@@ -12,38 +12,25 @@ import {
 
 type Props = {};
 
-const StreamData = {
-  user: {
-    username: 'Domixoooooo',
-    bio: "I'm a streamer",
-    followersCount: 10,
-    imageSrc: favicon,
-  },
-  stream: {
-    title: 'ChessTV - 24/7 Streaming Of Chess Tournaments',
-    viewersCount: 12,
-  },
-};
-
-const GroupMainTemplate = (props: Props) => {
+const GroupMainTemplate = ({ title, username, avatar, followersCount, viewersCount, url, control} : any) => {
   return (
-    <Card className='flex text-white flex-col rounded-xl shadow-xl bg-secondary border-none'>
+    <Card className='flex text-white flex-col rounded-xl shadow-xl bg-secondary border-none w-full h-full'>
       <CardContent className='flex w-full h-full items-center justify-center p-2'>
-        <View url='https://stream.mux.com/v69RSHhFelSm4701snP22dYz2jICy4E4FUyk02rW4gxRM.m3u8' />
+        { url && <View url={url}></View> }
       </CardContent>
       <CardFooter className='mt-[2.5em] flex flex-col justify-start items-start'>
         <h2 className='stream-watch-metadata font-bold text-[20px] text-left'>
-          {StreamData.stream.title}
+          {title}
         </h2>
 
         <div className='flex flex-row items-center w-full pt-2'>
           <div className='flex flex-row  items-center w-full h-full justify-center '>
             <ViewInfomation
               className='flex items-center w-full h-full justify-center'
-              username={StreamData.user.username}
+              username={username}
               bio="I'm a streamer"
-              imageSrc={favicon}
-              followersCount={StreamData.user.followersCount}
+              imageSrc={avatar}
+              followersCount={followersCount}
             />
             <Button
               variant={'outline'}
@@ -53,7 +40,7 @@ const GroupMainTemplate = (props: Props) => {
           </div>
 
           <div className='flex flex-row justify-end gap-4 w-full'>
-            <ViewersCount viewerCount={StreamData.stream.viewersCount} />
+            <ViewersCount viewerCount={viewersCount} />
             <Share2 size={25} />
             <MoreHorizontal size={25} strokeWidth={3} />
           </div>
