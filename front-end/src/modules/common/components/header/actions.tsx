@@ -54,9 +54,9 @@ const CustomRainbowConnectButton = (props: CustomRainbowConnectButtonProps) => {
           authenticationStatus,
           mounted,
         }) => {
-          console.log('account: ', account);
-          console.log('chain: ', chain);
-          console.log('authenticationStatus: ', authenticationStatus);
+          // console.log('account: ', account);
+          // console.log('chain: ', chain);
+          // console.log('authenticationStatus: ', authenticationStatus);
 
           type AuthenticationStatus =
             | "connected"

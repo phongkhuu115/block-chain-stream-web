@@ -3,7 +3,6 @@ import { Button } from "@modules/common/components/ui/button";
 import { AlertCircleIcon } from "lucide-react";
 import Link from "next/link";
 import React from "react";
-import "./index.scss";
 
 type Props = {
     fallbackPath?: string;

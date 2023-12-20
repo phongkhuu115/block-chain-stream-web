@@ -49,6 +49,7 @@ type Owners = {
 }
 
 const StreamPageTempalate = () => {
+
   const params: myParams = useParams();
   const streamerUsername = params.slug;
 
@@ -57,8 +58,8 @@ const StreamPageTempalate = () => {
   const [followersCount, setFollowersCount] = useState<number>(0);
   const [mockContents, setMockContents] = useState<any>();
 
-  console.log('streamerID: ', streamerID);
-  console.log('streamData: ', streamData);
+  // console.log('streamerID: ', streamerID);
+  // console.log('streamData: ', streamData);
 
   useEffect(() => {
     getMockContents().then((res: { contents: any; }) => {

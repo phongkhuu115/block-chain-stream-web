@@ -48,7 +48,7 @@ export const FormikInput: React.FC<FormikInputProps> = ({ field, form, type, lab
                     }>
                         {
                             label &&
-                            <div className="relative">
+                            <div className="relative pb-2">
                                 <span className={clsx("block text-base font-bold relative text-blue-900 dark:text-white ", { "": disabled, "group-hover:text-blue-500": !disabled })}>
                                     {label}
                                 </span>
@@ -56,13 +56,12 @@ export const FormikInput: React.FC<FormikInputProps> = ({ field, form, type, lab
                             </div>
                         }
                         <div className="relative">
-                            <button
-                                onClick={(e) => { const button = e.target as HTMLButtonElement; button.classList.toggle("potato__button__rounded--active"); }}
+                            <div
                                 className="potato__button__rounded basis-1/4">
-                                <label title="Click to upload" htmlFor={field?.name} className="relative w-full h-full p-3">
+                                <label title="Click to upload" htmlFor={field?.name} className={clsx("relative w-full h-full p-3", { "cursor-pointer": !disabled, "cursor-not-allowed": disabled })}>
                                     <UploadCloud />
                                 </label>
-                            </button>
+                            </div>
                         </div>
 
                     </div>
@@ -113,7 +112,7 @@ export const FormikInput: React.FC<FormikInputProps> = ({ field, form, type, lab
                     </Button>
                 )}
             </div>
-            <FormikErrorMessage name={field?.name} className={clsx("py-2")} />
+            <FormikErrorMessage name={field?.name} className={clsx({ "py-0": type === 'file', "py-2": type !== 'file' })} />
         </>
 
     )

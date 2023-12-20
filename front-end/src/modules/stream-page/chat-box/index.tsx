@@ -75,6 +75,7 @@ const ChatBox: React.FC<Props> = ({ className, username, ...props }: Props) => {
 
     useEffect(() => {
         const socket = io('https://nt208-g4.site');
+        console.log('socket: ', socket);
         socket.on(`comment_${channelOwner}`, (args: MessagePayload) => {
             const incomingMessage = {
                 sender: args.sender || '',

@@ -9,7 +9,7 @@ import {
   CardHeader,
   CardTitle,
 } from '@components/ui/card';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { io } from 'socket.io-client';
 import { useSelector } from 'react-redux';
 import { Input } from '@modules/common/components/ui/input';
@@ -23,7 +23,17 @@ import { Formik, Form, Field, FormikHelpers } from 'formik';
 import AlertLogin from '@modules/settings/profile/alert-login';
 import { usePathname } from 'next/navigation';
 import Link from 'next/link';
-import { Play } from 'lucide-react';
+import { DivideSquare, Loader2, Play } from 'lucide-react';
+import { getAxiosParam } from '@lib/helpers/api';
+import { storage } from '@lib/helpers/firebase';
+import { uploadBytesResumable, getDownloadURL, ref } from 'firebase/storage';
+import axios, { AxiosError } from 'axios';
+import { notifySuccess, notifyError, notifyWarning } from '@modules/common/components/toast-comps';
+import router from 'next/router';
+import { storeUserData } from 'redux/slices/userSlices';
+import { Skeleton } from '@modules/common/components/ui/skeleton';
+import Image from 'next/image';
+import { processImageBlob } from '@modules/settings/profile/profile-update';
 
 type GoLiveVideoProps = {
   video_owner: string;
@@ -36,7 +46,6 @@ type GoLiveVideoProps = {
 
 const GoLivePageTempalate = () => {
   const [url, setURL] = useState<string>();
-  const socket = io('https://nt208-g4.site');
   const currentPath = usePathname();
   const { user } = useAuth();
 
@@ -48,14 +57,64 @@ const GoLivePageTempalate = () => {
     video_thumbnail: '',
   } as GoLiveVideoProps;
 
-  const handleGoLive = async (data: GoLiveVideoProps, helper: FormikHelpers<GoLiveVideoProps>) => {
-    console.log('data: ', data);
-    
+  const handleGoLive = async (values: GoLiveVideoProps, helper: FormikHelpers<GoLiveVideoProps>) => {
+
+    const blob = values.video_thumbnail as unknown as Blob;
+
+    if (blob) {
+      const storageRef = ref(storage, `thumbnails/${values.video_owner}/${values.video_name}/${blob.name}`);
+      const uploadTask = uploadBytesResumable(storageRef, blob);
+      const downloadURL = await getDownloadURL(uploadTask.snapshot.ref);
+      if (downloadURL) {
+        const paramsCreateStream = getAxiosParam(
+          process.env.NEXT_PUBLIC_API_URL + `/videos`,
+          'POST',
+          {
+            video_owner: user.user_id,
+            video_name: values.video_name,
+            video_type: values.video_type,
+            video_status: values.video_status,
+            video_thumbnail: downloadURL,
+          },
+          '',
+          {
+            withCredentials: true,
+          }
+        );
+
+        try {
+          const res = await axios.request(paramsCreateStream);
+          if (res.status === 200) {
+            notifySuccess('Create stream success');
+            helper.resetForm();
+          }
+
+        } catch (err: any) {
+          console.log('err: ', err?.response?.status);
+
+          if (err?.response?.status === 403) {
+            notifyWarning(err?.response?.data?.message);
+          }
+          if (err?.response?.status === 500) {
+            notifyWarning(err?.response?.data?.message);
+          }
+          else {
+            notifyError(`Go live fail ${(err?.message).toLowerCase()}`);
+          }
+        }
+      }
+      else {
+        notifyError('Upload thumbnail failed');
+      }
+    }
   };
 
-  socket.on(`preview_${user.user_id}`, (url) => {
-    setURL(url);
-  });
+  useEffect(() => {
+    const socket = io('https://nt208-g4.site');
+    socket.on(`preview_${user.user_id}`, (url) => {
+      setURL(url);
+    });
+  }, []);
 
   return (
     <main className='container center-item h-screen'>
@@ -102,10 +161,8 @@ const GoLivePageTempalate = () => {
                       onSubmit={(values, helper) => handleGoLive(values, helper)}
                       validationSchema={VideoSchema}
                     >
-                      {({ submitForm, isSubmitting, isValid }) => {
-                        // console.log('errors: ', errors);
-                        // console.log('values: ', values);
-
+                      {({ submitForm, isSubmitting, isValid, values }) => {
+                        const thumnail = processImageBlob(values?.video_thumbnail)
                         return (
                           <Form onKeyDown={(e) => {
                             if (e.key === 'Enter' && !isSubmitting && isValid) {
@@ -121,38 +178,62 @@ const GoLivePageTempalate = () => {
                                 placeholder="Video title"
                                 autoComplete="off"
                               />
+
+                              <div>
+                                {
+                                  values?.video_thumbnail ?
+                                    (
+                                      <Image
+                                        src={thumnail ? thumnail : ''}
+                                        alt="Picture of the thumbnail"
+                                        width={300}
+                                        height={200} />
+                                    )
+                                    :
+                                    (
+                                      <Skeleton className="h-32 w-full" />
+                                    )
+                                }
+                              </div>
+
                               <Field
                                 type="file"
                                 name="video_thumbnail"
-                                label="Thumbnail"
+                                label="Video Thumbnail 👆"
                                 component={FormikInput}
-                                placeholder="Thumbnail link"
                                 autoComplete="off"
                                 className="w-full"
                               />
-                              <div className='w-full flex gap-2'>
-                                <button onClick={(e) => {
-                                  const button = e.target as HTMLButtonElement;
-                                  button.classList.toggle("potato__button--active");
-                                }} className="potato__button">
-                                  <span className="w-full h-full">
-                                    <Play className="w-6 h-6" />
+
+                              <div>
+                                <div className='relative flex py-5 items-center w-full'>
+                                  <div className='flex-grow border-t border-current'></div>
+                                  <span className='flex-shrink mx-4 '>
+                                    Go Live
                                   </span>
-                                </button>
+                                  <div className='flex-grow border-t border-current'></div>
+                                </div>
+
+                                <div className='w-full'>
+                                  <button disabled={isSubmitting} onClick={(e) => {
+                                    const button = e.target as HTMLButtonElement;
+                                    button.classList.toggle("potato__button--active");
+                                  }} className="potato__button w-full">
+                                    <span className="w-full h-full">
+                                      {
+                                        isSubmitting ?
+                                          <Loader2 className="w-6 h-6 animate-spin" />
+                                          :
+                                          <Play className="w-6 h-6" />
+                                      }
+                                    </span>
+                                  </button>
+                                </div>
+
+
+
                               </div>
                             </div>
-
-
-                            {/* <div>
-                      <Label htmlFor='name'>Title</Label>
-                      <Input id='name' />
-                    </div>
-                    <div>
-                      <Label htmlFor='thumbnail'>Thumbnail</Label>
-                      <Input id='thumbnail' />
-                    </div>
-                 */}
-
                           </Form>
                         )
                       }}

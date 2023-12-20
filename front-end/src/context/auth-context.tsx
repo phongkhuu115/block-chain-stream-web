@@ -146,8 +146,6 @@ export const AuthProvider = ({ children }: AccountProviderProps) => {
 
   const handleUpdateProfile = async (values: UpdateUser) => {
     const blob = values.user_avatar as unknown as Blob;
-    console.log('blob: ', blob);
-
     if (blob) {
       const storageRef = ref(storage, `images/${values.user_id}`);
       const uploadTask = uploadBytesResumable(storageRef, blob);
