@@ -11,15 +11,15 @@ import {
     CardHeader,
     CardTitle
 } from '@modules/common/components/ui/card';
+import clsx from 'clsx';
 import { UpdateUser, useAuth } from 'context/auth-context';
 import { ConnectedFocusError } from 'focus-formik-error';
 import { Field, Form, Formik } from 'formik';
 import { Loader2Icon, RotateCw } from 'lucide-react';
 import Link from 'next/link';
-import React, { use } from 'react';
-import AlertLogin from '../alert-login';
-import clsx from 'clsx';
 import { usePathname } from 'next/navigation';
+import React from 'react';
+import AlertLogin from '../alert-login';
 
 type Props = {} & React.HTMLAttributes<HTMLDivElement>;
 
@@ -39,7 +39,7 @@ export const processImageBlob = (data: user_avartar_display) => {
 
 const ProfileUpdate: React.FC<Props> = ({ className, ...props }: Props) => {
 
-    const { handleUpdateProfile } = useAuth();
+    const { handleUpdateProfile, handleLogout } = useAuth();
     const [isChangeable, setIsChangeable] = React.useState(false);
     const currentPath = usePathname();
 
@@ -192,12 +192,16 @@ const ProfileUpdate: React.FC<Props> = ({ className, ...props }: Props) => {
                                                     onClick={() => resetForm()}>
                                                     <RotateCw />
                                                 </Button>
+
                                             </div>
 
 
                                             <div className='flex gap-2 w-full'>
                                                 <Button className="w-full whitespace-nowrap">Create Channel</Button>
                                                 <Button className="w-full whitespace-nowrap" asChild><Link href={'/preview'}>Create A Stream</Link></Button>
+                                            </div>
+                                            <div className='flex gap-2 w-full'>
+                                                <Button className="w-full whitespace-nowrap bg-red-700  hover:bg-red-400" onClick={(e) => { e.preventDefault; handleLogout(); }} >Logout</Button>
                                             </div>
                                         </div>
                                     </CardContent>

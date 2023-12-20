@@ -123,32 +123,40 @@ export const AuthProvider = ({ children }: AccountProviderProps) => {
   };
 
   const handleLogout = async () => {
-    const paramsLogout = getAxiosParam(
-      process.env.NEXT_PUBLIC_API_URL + '/logout',
-      'POST',
-      {},
-      '',
-      {
-        withCredentials: true,
-      }
-    );
-    try {
-      const res = await axios.request(paramsLogout);
-      if (res.status === 200) {
-        notifySuccess('Logout success');
-        dispatch(storeUserData(undefined));
-        router.push('/');
-      }
-    } catch (err: any) {
-      notifyError(`Logout failed ${(err?.message).toLowerCase()}`);
-    }
+    dispatch(storeUserData(undefined));
+    router.push('/login');
+    // const paramsLogout = getAxiosParam(
+    //   process.env.NEXT_PUBLIC_API_URL + '/logout',
+    //   'POST',
+    //   {},
+    //   '',
+    //   {
+    //     withCredentials: true,
+    //   }
+    // );
+    // try {
+    //   const res = await axios.request(paramsLogout);
+    //   if (res.status === 200) {
+    //     notifySuccess('Logout success');
+    //     router.push('/');
+    //   }
+    // } catch (err: any) {
+    //   notifyError(`Logout failed ${(err?.message).toLowerCase()}`);
+    // }
   };
 
   const handleUpdateProfile = async (values: UpdateUser) => {
     const blob = values.user_avatar as unknown as Blob;
     if (blob) {
-      const storageRef = ref(storage, `images/${values.user_id}`);
+      const storageRef = ref(storage, `avatar/${values.username}/${values.user_id}`);
       const uploadTask = uploadBytesResumable(storageRef, blob);
+      try {
+        await uploadTask;
+      }
+      catch (err: any) {
+        notifyError(`Upload avatar failed ${(err?.message).toLowerCase()}`);
+      }
+      
       const downloadURL = await getDownloadURL(uploadTask.snapshot.ref);
 
       if (downloadURL) {
@@ -204,7 +212,7 @@ export const AuthProvider = ({ children }: AccountProviderProps) => {
 
   return (
     <AuthContext.Provider
-      value={{ handleLogin, handleSignUp, handleUpdateProfile, user }}>
+      value={{ handleLogin, handleSignUp, handleUpdateProfile, user, handleLogout }}>
       {children}
     </AuthContext.Provider>
   );
@@ -215,4 +223,5 @@ type AuthContextType = {
   handleLogin: (values: any, fallback: any) => void;
   handleSignUp: (values: any, fallback: any) => void;
   handleUpdateProfile: (values: UpdateUser) => Promise<boolean>;
+  handleLogout: () => void;
 };
