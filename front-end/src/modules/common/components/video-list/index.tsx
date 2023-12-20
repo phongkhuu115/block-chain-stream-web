@@ -40,14 +40,8 @@ const LiveChannels = ({ videos, className, ...props }: Props) => {
                             {
                                 videos && videos.map((video) => (
                                     <VideoPreview
-                                        id={video.video_id}
-                                        image={video.video_thumbnail}
-                                        title={video.video_name}
-                                        viewers={video.video_views}
-                                        channelImage={video.Owners.user_avatar}
-                                        channelName={video.Owners.username}
                                         key={video.video_id}
-                                        tags={[]}
+                                        data={video}
                                     />
                                 ))
                             }

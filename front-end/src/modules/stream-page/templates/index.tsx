@@ -23,6 +23,7 @@ import { usePrepareContractWrite } from 'wagmi';
 import donateABI from './Donate.json'
 
 import { ethers } from 'ethers';
+import { API_URL } from '@lib/helpers/env-provider';
 
 
 type myParams = {
@@ -60,13 +61,14 @@ const StreamPageTempalate = () => {
 
   // console.log('streamerID: ', streamerID);
   // console.log('streamData: ', streamData);
-
   useEffect(() => {
-    getMockContents().then((res: { contents: any; }) => {
-      setMockContents(res.contents);
+    let paramStream = getAxiosParam(`${API_URL}/streams`, 'GET', {}, '', {
+      withCredentials: true,
+    });
+    axios.request(paramStream).then((res) => {
+      setMockContents([...res.data.streams.slice()]);
     });
   }, []);
-
   useEffect(() => {
     axios.request(getAxiosParam(`${process.env.NEXT_PUBLIC_API_URL}/users/${streamerUsername}`, 'GET', {}, '', { withCredentials: true })).then((res) => {
       if (res?.data?.user_id) {
@@ -147,9 +149,12 @@ const StreamPageTempalate = () => {
                     <div className="mx-auto">
                       <div className="card md:flex ">
                         <div className="flex center-item">
-                          <Avatar className="object-cover rounded-full w-24 h-24 m-3"
-                            src={streamData.Owners.user_avatar ? streamData.Owners.user_avatar : "https://tailwindflex.com/public/images/user.png"}
-                            alt={streamData.Owners.username} />
+                          <div className='m-3'>
+                            <Avatar className="object-cover rounded-full w-20 h-20"
+                              src={streamData.Owners.user_avatar ? streamData.Owners.user_avatar : "https://tailwindflex.com/public/images/user.png"}
+                              alt={streamData.Owners.username} />
+                          </div>
+
                         </div>
                         <div className="flex-grow text-center md:text-left">
                           <div className='flex gap-4'>

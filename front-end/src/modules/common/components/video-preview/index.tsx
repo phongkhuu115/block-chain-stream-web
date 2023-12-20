@@ -12,15 +12,28 @@ import useStreamDetector from '../../../../lib/hook/use-stream-detector';
 import { Card, CardContent, CardFooter, CardHeader } from '@modules/common/components/ui/card';
 import VideoSkeleton from '@modules/skeletons/skeleton-video';
 
+
+type Video = {
+    video_id: string;
+    video_name: string;
+    video_type: string;
+    video_label?: any;
+    video_owner: string;
+    video_views: number;
+    video_status: string;
+    video_thumbnail: string;
+    video_urls: string;
+    Owners: Owners;
+}
+type Owners = {
+    username: string;
+    user_fullname: string;
+    user_email: string;
+    user_avatar: string;
+}
+
 type Props = {
-    id: string;
-    image: string;
-    title: string;
-    viewers: number;
-    tags: string[];
-    channelImage: string;
-    channelName: string;
-    isLiveNow?: boolean;
+    data: Video;
 } & React.HTMLAttributes<HTMLDivElement>;
 
 // const video_src = "https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8";
@@ -28,7 +41,8 @@ const video_src = "https://stream.mux.com/v69RSHhFelSm4701snP22dYz2jICy4E4FUyk02
 
 
 const VideoPreview = ({
-    tags = ["game", "music"],
+    // tags = ["game", "music"],
+    data,
     ...props
 }: Props) => {
 
@@ -64,7 +78,7 @@ const VideoPreview = ({
 
     return (
         <Card className="relative p-2 transition-all hover:scale-105 hover:shadow-2xl hover:cursor-pointer">
-            <div className='w-full'>
+            <Link href={`/stream/${data.Owners.username}`} className='w-full'>
 
                 {isLive && (
                     <div className="absolute text-xs px-1 py-0.5 font-semibold bg-red-600 rounded top-4 text-white left-4 z-50">
@@ -72,17 +86,18 @@ const VideoPreview = ({
                     </div>
                 )}
 
-                <CardContent className="p-0">
+                <CardContent className="p-0 h-[30vh]">
                     {
                         videoRef ? (
                             <HoverVideoPlayer
                                 className='w-full h-full relative '
                                 videoRef={videoRef}
                                 videoClassName='videopreview'
-                                videoSrc={props.image}
+                                videoSrc={data.video_thumbnail}
+                                // videoSrc={video_src}
                                 pausedOverlay={
                                     <CustomImage
-                                        src={props.image}
+                                        src={data.video_thumbnail}
                                         alt="/"
                                         width={300}
                                         height={200}
@@ -104,28 +119,28 @@ const VideoPreview = ({
                     }
                 </CardContent>
 
-                <CardFooter className="flex flex-col items-start p-2">
-                    <Link href={`/video/${props.id}`}>
-                        <p className="font-bold truncate">{props.title}</p>
+                <CardFooter className="flex flex-col items-start p-2 gap-1">
+                    <Link href={`/stream/${data.id}`}>
+                        <p className="font-bold truncate">{data.video_name}</p>
                     </Link>
 
 
-                    <p className="text-sm text-gray-500 py-[2px]">{abbreviateNumber(props.viewers)} viewers</p>
+                    <p className="text-sm text-gray-500 py-[2px]">{abbreviateNumber(data.video_views)} viewers</p>
                     <div className="flex">
                         <div>
                             <div className="flex items-center space-x-2">
-                                {props.channelImage && (
+                                {data.Owners.user_avatar && (
                                     <CustomImage
-                                        src={props.channelImage}
+                                        src={data.Owners.user_avatar}
                                         alt="/"
                                         width={36}
                                         height={36}
                                         className="object-cover rounded-[50%]"
                                     />
                                 )}
-                                <p className="text-xs">{props.channelName}</p>
+                                <p className="text-xs">@{data.Owners.username}</p>
                             </div>
-                            {tags?.length !== 0 && (
+                            {/* {tags?.length !== 0 && (
                                 <div className='flex gap-2 mt-1'>
                                     {
                                         tags.map((tag) => (
@@ -135,12 +150,12 @@ const VideoPreview = ({
                                         ))
                                     }
                                 </div>
-                            )}
+                            )} */}
                         </div>
                     </div>
                 </CardFooter>
 
-            </div>
+            </Link>
         </Card>
     );
 };

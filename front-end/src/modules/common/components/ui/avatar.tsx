@@ -9,7 +9,7 @@ type Props = {
 
 const Avatar: React.FC<Props> = ({ className, src, alt, ...props }: Props) => {
   return (
-    <div>
+    <div className={clsx("", className)}>
       <Image
         className={clsx("rounded-full border border-white", className)}
         loading="lazy"
