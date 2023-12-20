@@ -1,4 +1,4 @@
-import SkeletonProfilePage from "@modules/skeletons/template/skeleton-profile";
+import SkeletonProfilePage from "@modules/skeletons/(templates)/skeleton-profile";
 
 export default function Loading() {
     return <SkeletonProfilePage />

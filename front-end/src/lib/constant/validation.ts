@@ -21,6 +21,14 @@ const user_fullname = Yup.string()
 
 const user_avatar = Yup.string().nullable()
 
+const comments = Yup.object().shape({
+    username: Yup.string(),
+    message: Yup.object().shape({
+        data: Yup.string().required('Data is Required'),
+        sender: Yup.string().required('Sender is Required'),
+        // timestamp: Yup.number().required('Timestamp is Required'),
+    })
+});
 
 export const SignupSchema = Yup.object().shape({
     username: username,
@@ -45,3 +53,5 @@ export const UpdateSchema = Yup.object().shape({
     user_email: user_email,
     user_avatar: user_avatar,
 });
+
+export const CommentSchema = comments;
