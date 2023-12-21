@@ -29,7 +29,7 @@ import { storage } from '@lib/helpers/firebase';
 import { uploadBytesResumable, getDownloadURL, ref } from 'firebase/storage';
 import axios, { AxiosError } from 'axios';
 import { notifySuccess, notifyError, notifyWarning } from '@modules/common/components/toast-comps';
-import router from 'next/router';
+import { useRouter } from 'next/navigation';
 import { storeUserData } from 'redux/slices/userSlices';
 import { Skeleton } from '@modules/common/components/ui/skeleton';
 import Image from 'next/image';
@@ -72,6 +72,7 @@ const GoLivePageTempalate = () => {
   console.log('streamData: ', streamData);
   const currentPath = usePathname();
   const { user } = useAuth();
+  const router = useRouter()
 
   const initMessage = {
     video_owner: user.user_id,
@@ -117,6 +118,7 @@ const GoLivePageTempalate = () => {
           if (res.status === 201) {
             notifySuccess('Create stream success');
             helper.resetForm();
+            router.push('/stream/' + user.username)
           }
 
         } catch (err: any) {
