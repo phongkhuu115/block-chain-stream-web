@@ -13,7 +13,7 @@ const ProfilePageTemplate = () => {
             {
                 user.user_id && (
                     <div className='basis-1/4 h-screen'>
-                        <UserSideBar/>
+                        <UserSideBar />
                     </div>
                 )
             }

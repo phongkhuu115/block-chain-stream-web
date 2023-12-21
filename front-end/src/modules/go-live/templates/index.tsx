@@ -35,6 +35,7 @@ import { Skeleton } from '@modules/common/components/ui/skeleton';
 import Image from 'next/image';
 import { processImageBlob } from '@modules/settings/profile/profile-update';
 import clsx from 'clsx';
+import VideoSkeleton from '@modules/skeletons/skeleton-video';
 
 type Stream = {
   video_id: string;
@@ -87,6 +88,12 @@ const GoLivePageTempalate = () => {
     if (blob) {
       const storageRef = ref(storage, `thumbnails/${values.video_owner}/${values.video_name}/${blob.name}`);
       const uploadTask = uploadBytesResumable(storageRef, blob);
+      try {
+        await uploadTask;
+      }
+      catch (err: any) {
+        notifyError(`Upload thumnaail failed ${(err?.message).toLowerCase()}`);
+      }
       const downloadURL = await getDownloadURL(uploadTask.snapshot.ref);
       if (downloadURL) {
         const paramsCreateStream = getAxiosParam(
@@ -162,14 +169,20 @@ const GoLivePageTempalate = () => {
         user.user_id ?
           (
             <div className='flex gap-2'>
-              <Card className='basis-2/5'>
+              <Card className='basis-2/5 flex flex-col'>
+
                 <CardHeader>
                   <CardTitle>Preview</CardTitle>
                   <CardDescription>
                     Connect your stream application with stream key below to start
                   </CardDescription>
                 </CardHeader>
-                <CardContent>{url && <View url={url}></View>}</CardContent>
+
+                <CardContent className='w-full m-0 h-full'>
+                  {
+                    url ? <View url={url} /> : <VideoSkeleton className="h-full w-full" />
+                  }
+                </CardContent>
               </Card>
 
               <Card className='basis-2/5'>

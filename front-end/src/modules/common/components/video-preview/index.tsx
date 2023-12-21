@@ -120,7 +120,7 @@ const VideoPreview = ({
                 </CardContent>
 
                 <CardFooter className="flex flex-col items-start p-2 gap-1">
-                    <Link href={`/stream/${data.id}`}>
+                    <Link href={`/stream/${data.video_id}`}>
                         <p className="font-bold truncate">{data.video_name}</p>
                     </Link>
 

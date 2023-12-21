@@ -32,7 +32,7 @@ type Props = {
     data: Video[];
 } & React.HTMLAttributes<HTMLDivElement>;
 
-const StreamSideBar: React.FC<SideBarProps> = ({ className, data, ...props }: Props) => {
+const StreamSideBar: React.FC<Props> = ({ className, data, ...props }: Props) => {
     console.log('data: ', data);
 
     const isLive = useStreamDetector("https://stream.mux.com/v69RSHhFelSm4701snP22dYz2jICy4E4FUyk02rW4gxRM.m3u8");
