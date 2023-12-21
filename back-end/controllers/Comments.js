@@ -55,7 +55,6 @@ module.exports = {
   RealtimeComment: (req, res) => {
     let { username, message } = req.body;
     global.io.emit(`comment_${username}`, message);
-
-    res.status(200);
+    res.status(200).json({});
   },
 };

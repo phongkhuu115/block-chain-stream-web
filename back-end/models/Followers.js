@@ -25,6 +25,7 @@ module.exports = function(sequelize, DataTypes) {
   }, {
     sequelize,
     tableName: 'Followers',
+    hasTrigger: true,
     timestamps: false,
     indexes: [
       {

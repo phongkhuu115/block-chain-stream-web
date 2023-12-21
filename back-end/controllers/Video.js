@@ -10,40 +10,42 @@ dotenv.config();
 
 module.exports = {
   CreateVideo: async (req, res) => {
-    let {
-      video_urls,
-      video_name,
-      video_type,
-      video_owner,
-      video_status,
-      video_thumbnail,
-    } = req.body;
+    let { video_name, video_type, video_owner, video_status, video_thumbnail } =
+      req.body;
     let checkStatus = await axios({
       method: 'get',
       url: `http://${STREAM_DOMAIN}:3333/liveUp/${video_owner}`,
     });
     console.log(checkStatus.data.status);
-    if (ValidatePriviledge(req, video_owner) && checkStatus.data.status) {
-      try {
-        let video_id = crypto.randomUUID();
-        await models.Videos.create({
-          video_id: video_id,
-          video_name: video_name,
-          video_urls: video_urls,
-          video_type: video_type,
-          video_status: video_status,
-          video_views: 0,
-          video_thumbnail: video_thumbnail,
-          video_owner: video_owner,
-        });
+    if (ValidatePriviledge(req, video_owner)) {
+      if (checkStatus.data.status) {
+        try {
+          let video_id = crypto.randomUUID();
+          await models.Videos.create({
+            video_id: video_id,
+            video_name: video_name,
+            video_urls: `https://${process.env.STREAM_DOMAIN}/live/${video_owner}.m3u8`,
+            video_type: video_type,
+            video_status: video_status,
+            video_views: 0,
+            video_thumbnail: video_thumbnail
+              ? video_thumbnail
+              : 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ1rta2lwSUnj0OiSS7Ist-MFgmmfoYQ1i71Lq0_J1HfFdSTLNPyBgh_EeQYPteIVI3qbE&usqp=CAU',
+            video_owner: video_owner,
+          });
 
-        res.status(201).json({
-          message: 'stream created',
-          video_id: video_id,
-        });
-      } catch (err) {
-        res.status(500).json({
-          message: err.message,
+          res.status(201).json({
+            message: 'stream created',
+            video_id: video_id,
+          });
+        } catch (err) {
+          res.status(500).json({
+            message: err.message,
+          });
+        }
+      } else {
+        res.status(403).json({
+          message: 'Please wait for the preview to up first',
         });
       }
     } else {
@@ -111,6 +113,23 @@ module.exports = {
       });
     }
   },
+  DecreaseView: async (req, res) => {
+    let id = req.params.id;
+    try {
+      const updatedRows = await models.Videos.increment('video_views', {
+        where: { video_id: id },
+        by: -1,
+      });
+
+      res.status(204).json({
+        user: updatedRows,
+      });
+    } catch (err) {
+      res.status(500).json({
+        message: err.errors[0].message,
+      });
+    }
+  },
   UpdateVideo: async (req, res) => {
     let id = req.params.id;
     let { video_owner } = req.body;
@@ -134,7 +153,7 @@ module.exports = {
     let id = req.params.id;
     try {
       await models.Videos.destroy({
-        where: { video_id: id },
+        where: { video_owner: id },
       });
 
       res.status(200).json({
@@ -182,7 +201,7 @@ module.exports = {
           model: models.Users,
           as: 'Owners',
           attributes: {
-            exclude: ['password', 'user_stream_key', 'user_id', 'user_role'],
+            exclude: ['password'],
           },
         },
       });

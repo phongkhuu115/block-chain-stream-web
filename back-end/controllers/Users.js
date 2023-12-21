@@ -5,6 +5,7 @@ const bcrypt = require('bcrypt');
 const models = initModels(sequelize);
 const jwt = require('jsonwebtoken');
 const { ValidatePriviledge } = require('../helpers/validation');
+const uniqueNamesGenerator = require('unique-names-generator');
 const res = require('express/lib/response');
 
 module.exports = {
@@ -42,8 +43,10 @@ module.exports = {
         user_fullname: user_fullname,
         password: passwordHashed,
         user_email: user_email,
-        user_stream_key: `rtmp://${process.env.STREAM_DOMAIN}:1935/live/` + user_id,
+        user_stream_key:
+          `rtmp://${process.env.STREAM_DOMAIN}:1935/live/` + user_id,
         user_role: 1,
+        user_wallet_address: '0xFAD8e802b189d935A0C0F5fE18c2Ec22DA9B8587',
       });
 
       res.status(201).json({ message: 'user created' });
@@ -96,7 +99,15 @@ module.exports = {
             user_avatar: user_avatar,
           },
         });
+      } else {
+        res.status(403).json({
+          message: 'wrong password',
+        });
       }
+    } else {
+      res.status(404).json({
+        message: 'no user found',
+      });
     }
   },
   UpdateUser: async function (req, res) {
@@ -189,11 +200,43 @@ module.exports = {
   },
   GetUsernames: async (req, res) => {
     let usernames = await models.Users.findAll({
-      attributes: ['username']
-    })
+      attributes: ['username'],
+    });
 
     res.status(200).json({
-      users: usernames.map(username => username.username)
-    })
-  }
+      users: usernames.map((username) => username.username),
+    });
+  },
+  Logout: async (req, res) => {
+    res.clearCookie('bsc_at');
+  },
+  BulkCreateUser: async (req, res) => {
+    for (let i = 0; i < 200; i++) {
+      const salt = await bcrypt.genSalt(10);
+      const passwordHashed = await bcrypt.hash('12345678', salt);
+
+      let user_id = crypto.randomUUID();
+
+      await models.Users.create({
+        user_id: user_id,
+        username: `pk20${i}`,
+        user_fullname:
+          uniqueNamesGenerator.uniqueNamesGenerator({
+            dictionaries: [uniqueNamesGenerator.names],
+          }) +
+          ' ' +
+          uniqueNamesGenerator.uniqueNamesGenerator({
+            dictionaries: [uniqueNamesGenerator.names],
+          }),
+        password: passwordHashed,
+        user_email: `pk20${i}@gmail.com`,
+        user_stream_key:
+          `rtmp://${process.env.STREAM_DOMAIN}:1935/live/` + user_id,
+        user_role: 1,
+        user_avatar:
+          'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png',
+      });
+    }
+    res.status(201).json({ message: 'users created' });
+  },
 };

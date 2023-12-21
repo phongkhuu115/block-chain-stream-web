@@ -25,6 +25,7 @@ module.exports = function(sequelize, DataTypes) {
   }, {
     sequelize,
     tableName: 'Likes',
+    hasTrigger: true,
     timestamps: false,
     indexes: [
       {
