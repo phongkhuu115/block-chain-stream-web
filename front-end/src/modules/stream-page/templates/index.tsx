@@ -30,6 +30,9 @@ import { usePrepareContractWrite } from 'wagmi';
 import { BrowserProvider, parseUnits, parseEther } from 'ethers';
 import { API_URL } from '@lib/helpers/env-provider';
 import { useAuth } from 'context/auth-context';
+import { notifyError } from '@modules/common/components/toast-comps';
+
+declare var window: any
 
 type myParams = {
   slug: string;
@@ -188,14 +191,18 @@ const StreamPageTempalate = () => {
 
   const handleDonate = async () => {
     console.log(streamData);
-    let provider = new BrowserProvider(window.ethereum);
-    await provider.send('eth_requestAccounts', []);
-    const signer = provider.getSigner();
-
-    const tx = (await signer).sendTransaction({
-      to: streamData?.Owners.user_wallet_address,
-      value: parseEther('0.02'),
-    });
+    try {
+      let provider = new BrowserProvider(window.ethereum);
+      await provider.send('eth_requestAccounts', []);
+      const signer = provider.getSigner();
+      const tx = (await signer).sendTransaction({
+        to: streamData?.Owners.user_wallet_address,
+        value: parseEther('0.02'),
+      });
+    }
+    catch {
+      notifyError("Donate fail")
+    }
   };
 
   return (
@@ -246,62 +253,62 @@ const StreamPageTempalate = () => {
                               <p className="mt-2 mb-3">{followersCount ? abbreviateNumber(followersCount) : "I have no follower yet"} </p>
                             </div>
                             <div className='flex center-item'>
-                              <Button className="button" onClick={handleFollow}>
+                              <Button className="button text-white" onClick={handleFollow}>
                                 <UserPlus /> Follow
                               </Button>
-                              <Button className="button" onClick={handleDonate}>
+                              <Button className="button text-white" onClick={handleDonate}>
                                 <Gift /> Donate
                               </Button>
                             </div>
                           </div>
 
-                      <div className='flex gap-2'>
-                        <span className='bg-gray-200 border px-3 py-1.5 rounded-lg text-sm'>
-                          Discrete Math
-                        </span>
-                        <span className='bg-gray-200 border px-3 py-1.5 rounded-lg text-sm'>
-                          Topology
-                        </span>
-                        <span className='bg-gray-200 border px-3 py-1.5 rounded-lg text-sm'>
-                          Neural Nets
-                        </span>
+                          <div className='flex gap-2'>
+                            <span className='bg-gray-200 border px-3 py-1.5 rounded-lg text-sm'>
+                              Discrete Math
+                            </span>
+                            <span className='bg-gray-200 border px-3 py-1.5 rounded-lg text-sm'>
+                              Topology
+                            </span>
+                            <span className='bg-gray-200 border px-3 py-1.5 rounded-lg text-sm'>
+                              Neural Nets
+                            </span>
+                          </div>
+                        </div>
                       </div>
                     </div>
-                  </div>
-                </div>
-              </Card>
-            ) : (
-              <Skeleton className='border p-4 rounded-lg max-w-full'>
-                <Skeleton className='mx-auto'>
-                  <Skeleton className='card md:flex w-[90%]'>
-                    <Skeleton className='w-20 h-20mx-auto mb-6 md:mr-6 object-cover rounded-full  bg-gray-300 '></Skeleton>
-                    <Skeleton className='flex flex-col  w-full gap-2 flex-grow text-center md:text-left'>
-                      <Skeleton className='text-gray-300 bg-gray-300 w-full'>
-                        Senior Developer
-                      </Skeleton>
-                      <Skeleton className='text-xl heading text-gray-300 bg-gray-300  w-full'>
-                        John Doe
-                      </Skeleton>
-                      <Skeleton className='mt-2 mb-3 text-gray-300 bg-gray-300  w-full'>
-                        John is a Senior Developer, mainly works in backend
-                        technologies.
-                      </Skeleton>
-                      <Skeleton className='flex gap-2'>
-                        <Skeleton className='border px-3 py-1.5 rounded-lg text-sm text-gray-300 bg-gray-300'>
-                          Discrete Math
-                        </Skeleton>
-                        <Skeleton className='border px-3 py-1.5 rounded-lg text-sm text-gray-300 bg-gray-300'>
-                          Topology
-                        </Skeleton>
-                        <Skeleton className='border px-3 py-1.5 rounded-lg text-sm text-gray-300 bg-gray-300'>
-                          Neural Nets
+                  </Card>
+                ) : (
+                  <Skeleton className='border p-4 rounded-lg max-w-full'>
+                    <Skeleton className='mx-auto'>
+                      <Skeleton className='card md:flex w-[90%]'>
+                        <Skeleton className='w-20 h-20mx-auto mb-6 md:mr-6 object-cover rounded-full  bg-gray-300 '></Skeleton>
+                        <Skeleton className='flex flex-col  w-full gap-2 flex-grow text-center md:text-left'>
+                          <Skeleton className='text-gray-300 bg-gray-300 w-full'>
+                            Senior Developer
+                          </Skeleton>
+                          <Skeleton className='text-xl heading text-gray-300 bg-gray-300  w-full'>
+                            John Doe
+                          </Skeleton>
+                          <Skeleton className='mt-2 mb-3 text-gray-300 bg-gray-300  w-full'>
+                            John is a Senior Developer, mainly works in backend
+                            technologies.
+                          </Skeleton>
+                          <Skeleton className='flex gap-2'>
+                            <Skeleton className='border px-3 py-1.5 rounded-lg text-sm text-gray-300 bg-gray-300'>
+                              Discrete Math
+                            </Skeleton>
+                            <Skeleton className='border px-3 py-1.5 rounded-lg text-sm text-gray-300 bg-gray-300'>
+                              Topology
+                            </Skeleton>
+                            <Skeleton className='border px-3 py-1.5 rounded-lg text-sm text-gray-300 bg-gray-300'>
+                              Neural Nets
+                            </Skeleton>
+                          </Skeleton>
                         </Skeleton>
                       </Skeleton>
                     </Skeleton>
                   </Skeleton>
-                </Skeleton>
-              </Skeleton>
-            )}
+                )}
           </section>
         }
       </div>
