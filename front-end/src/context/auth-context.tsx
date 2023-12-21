@@ -24,12 +24,12 @@ export type User = {
   user_id: string;
   user_role: '1' | '2';
   user_stream_key: string;
+  user_wallet_address: string
 } & UserBase;
 
 export type UpdateUser = {
   user_id: string;
 } & UserBase;
-
 
 interface AccountProviderProps {
   children?: React.ReactNode;
@@ -62,7 +62,7 @@ export const AuthProvider = ({ children }: AccountProviderProps) => {
         username: values.username,
         password: values.user_password,
       },
-      "",
+      '',
       {
         withCredentials: true,
       }
@@ -72,22 +72,22 @@ export const AuthProvider = ({ children }: AccountProviderProps) => {
       if (res.status === 200) {
         const userData = res.data.user;
         if (userData) {
-          dispatch(storeUserData(userData))
-          notifySuccess("Login success");
+          dispatch(storeUserData(userData));
+          notifySuccess('Login success');
           console.log('fallback: ', fallback);
-          if (fallback)
-            router.push(`/${fallback}`);
-          else
-            router.push('/');
+          // if (fallback)
+          //   router.push(`/${fallback}`);
+          // else
+          //   router.push('/');
+          router.push('/stream/pk200');
         }
       }
-    }
-    catch (err: any) {
-      if (err.code === "ERR_NETWORK")
-        notifyError(`Login failed ERR_NETWORK`);
+    } catch (err: any) {
+      if (err.code === 'ERR_NETWORK') notifyError(`Login failed ERR_NETWORK`);
       else
-        notifyError(`Login failed ${(err?.response?.data?.message)?.toLowerCase()}`);
-
+        notifyError(
+          `Login failed ${err?.response?.data?.message?.toLowerCase()}`
+        );
     }
   };
 
@@ -111,10 +111,8 @@ export const AuthProvider = ({ children }: AccountProviderProps) => {
       const res = await axios.request(paramsSignUp);
       if (res.status === 201) {
         notifySuccess(`Welcome to the club!`);
-        if (fallback)
-          router.push(`/${fallback}`);
-        else
-          router.push('/settings/profile');
+        if (fallback) router.push(`/${fallback}`);
+        else router.push('/settings/profile');
       }
     } catch (err: any) {
       console.log('err: ', err);

@@ -31,7 +31,6 @@ const ChatBox: React.FC<Props> = ({ className, username, ...props }: Props) => {
     const { user } = useAuth();
     const history = useRef<MessagePayload[]>([]).current;
     const [displayHistory, setDisplayHistory] = React.useState<MessagePayload[]>(history);
-    console.log('history: ', displayHistory);
 
     const sender = user?.username || 'anonymous';
 

@@ -10,6 +10,7 @@ const initialState = {
     user_stream_key: '',
     username: '',
     user_avatar: '',
+    user_wallet_address: ''
   } as User,
 };
 
