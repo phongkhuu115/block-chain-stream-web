@@ -188,9 +188,10 @@ const StreamPageTempalate = () => {
       }
     });
   };
+  
+  console.log('streamData: ', streamData);
 
   const handleDonate = async () => {
-    console.log(streamData);
     try {
       let provider = new BrowserProvider(window.ethereum);
       await provider.send('eth_requestAccounts', []);
@@ -206,7 +207,7 @@ const StreamPageTempalate = () => {
   };
 
   return (
-    <main className='container h-screen center-item  flex relative overflow-hidden p-3 gap-2'>
+    <main className='container h-screen center-item flex flex-col medium:flex-row relative overflow-hidden p-3 gap-2'>
       <div className='basis-1/5 h-full'>
         {mockContents ? (
           <StreamSideBar className='h-full w-full' data={mockContents} />
@@ -313,7 +314,7 @@ const StreamPageTempalate = () => {
         }
       </div>
 
-      <div className='basis-1/5 h-full'>
+      <div className='basis-3/5 medium:basis-1/5 w-full h-full'>
         <ChatBox username={streamerUsername} />
       </div>
     </main>

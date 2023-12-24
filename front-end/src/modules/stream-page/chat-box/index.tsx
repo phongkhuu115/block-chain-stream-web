@@ -100,7 +100,7 @@ const ChatBox: React.FC<Props> = ({ className, username, ...props }: Props) => {
 
                 return (
 
-                    <div className={clsx("chat__card w-full hidden large:flex h-full overflow-hidden", className)}>
+                    <div className={clsx("chat__card w-full large:flex h-full overflow-hidden", className)}>
                         <div className="chat__header">
                             <div className="w-full text-center">Stream Chat</div>
                         </div>

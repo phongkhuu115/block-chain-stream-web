@@ -39,7 +39,7 @@ const SignUp: React.FC<Props> = ({ className, ...props }: Props) => {
         <Card className={clsx(className, "border-none rounded-t-none bg-secondary text-white")}  {...props}>
             <Formik
                 initialValues={initSignUp}
-                onSubmit={(values) => handleSignUp(values, '/settings/profile' )}
+                onSubmit={(values) => handleSignUp(values, 'login' )}
                 validationSchema={SignupSchema}
             >
                 {({ submitForm, isSubmitting }) => (

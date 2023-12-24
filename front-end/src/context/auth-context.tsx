@@ -8,7 +8,7 @@ import {
 import axios from 'axios';
 import { getDownloadURL, ref, uploadBytesResumable } from 'firebase/storage';
 import { useRouter } from 'next/navigation';
-import { createContext, useContext } from 'react';
+import { createContext, use, useContext, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { storeUserData } from 'redux/slices/userSlices';
 import { storage } from '../lib/helpers/firebase';
@@ -53,6 +53,9 @@ export const AuthProvider = ({ children }: AccountProviderProps) => {
   const dispatch = useDispatch();
   const router = useRouter();
   const user = useSelector((state: any) => state.data.user) as User;
+  
+  // get cookie from document
+  const cookie = document.cookie;
 
   const handleLogin = async (values: any, fallback: string) => {
     const paramsLogin = getAxiosParam(
@@ -75,11 +78,11 @@ export const AuthProvider = ({ children }: AccountProviderProps) => {
           dispatch(storeUserData(userData));
           notifySuccess('Login success');
           console.log('fallback: ', fallback);
-          // if (fallback)
-          //   router.push(`/${fallback}`);
-          // else
-          //   router.push('/');
-          router.push('/stream/pk200');
+          if (fallback)
+            router.push(`/${fallback}`);
+          else
+            router.push('/');
+          // router.push('/stream/pk200');
         }
       }
     } catch (err: any) {
