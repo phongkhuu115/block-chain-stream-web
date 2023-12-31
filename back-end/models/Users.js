@@ -35,6 +35,10 @@ module.exports = function(sequelize, DataTypes) {
     user_avatar: {
       type: DataTypes.STRING(255),
       allowNull: true
+    },
+    user_wallet_address: {
+      type: DataTypes.STRING(255),
+      allowNull: false
     }
   }, {
     sequelize,

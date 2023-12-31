@@ -4,7 +4,7 @@ dotenv.config();
 
 module.exports = {
   VerifyJWT: (req, res, next) => {
-    const token = req.cookies.accessToken;
+    const token = req.cookies.bsc_at;
     if (token) {
       jwt.verify(token, process.env.JWT_SECRET_KEY, (err, data) => {
         if (err) {

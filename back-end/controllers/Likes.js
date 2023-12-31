@@ -7,7 +7,7 @@ const crypto = require('crypto');
 module.exports = {
   AddLike: async (req, res) => {
     let { like_user, like_video } = req.body;
-    if (ValidatePriviledge(like_user, req)) {
+    if (ValidatePriviledge(req, like_user)) {
       try {
         let like_id = crypto.randomUUID();
         await models.Likes.create({
@@ -16,13 +16,21 @@ module.exports = {
           like_video: like_video,
         });
 
+        let user = await models.Users.findOne({
+          where: {
+            user_id: like_user,
+          },
+        });
+
+        global.io.emit(`like_${user.username}`, () => {});
+
         res.status(201).json({
           message: `user ${like_user} liked ${like_video}`,
           like_id: like_id,
         });
       } catch (err) {
         res.status(500).json({
-          message: err.errors.message,
+          message: err.message,
         });
       }
     } else {
@@ -33,7 +41,14 @@ module.exports = {
   },
   RemoveLike: async (req, res) => {
     let id = req.params.id;
-    if (ValidatePriviledge(id, req)) {
+    console.log(id)
+    let like = await models.Likes.findOne({
+      where: {
+        like_id: id,
+      },
+    });
+    console.log(like);
+    if (ValidatePriviledge(req, like.like_user)) {
       try {
         await models.Likes.destroy({
           where: {
@@ -48,6 +63,25 @@ module.exports = {
     } else {
       res.status(401).json({
         message: 'Unauthorized',
+      });
+    }
+  },
+  GetLikeCount: async (req, res) => {
+    let id = req.params.id;
+    console.log(id);
+    try {
+      let likes = await models.Likes.count({
+        where: {
+          like_video: id,
+        },
+      });
+
+      res.status(200).json({
+        likes: likes,
+      });
+    } catch (error) {
+      res.status(500).json({
+        message: error,
       });
     }
   },
